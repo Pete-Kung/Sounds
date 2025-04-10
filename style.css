@@ -6,13 +6,15 @@ body {
   padding: 2rem;
   background: #2c3e50;
   color: white;
-  height: 100vh;
   margin: 0;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 h1 {
   margin-bottom: 1rem;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  text-align: center;
 }
 
 #padsContainer {
@@ -20,7 +22,9 @@ h1 {
   flex-direction: column;
   gap: 2rem;
   width: 100%;
-  max-width: 900px;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 .category {
@@ -32,21 +36,25 @@ h1 {
 
 .padContainer {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 1rem;
   width: 100%;
   max-width: 600px;
 }
 
 .pad {
-  padding: 1rem;
   background-color: #34495e;
-  border-radius: 12px;
+  border-radius: 50%;
   text-align: center;
   cursor: pointer;
   transition: 0.2s;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   user-select: none;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pad.active {
@@ -55,14 +63,16 @@ h1 {
 }
 
 .category h2 {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
   color: #ecf0f1;
   margin-bottom: 0.5rem;
 }
+
 #beatIndicator {
   display: flex;
   justify-content: center;
   gap: 20px;
+  flex-wrap: wrap;
   margin: 30px auto;
 }
 
@@ -85,6 +95,7 @@ h1 {
   background-color: #ffd700;
   box-shadow: 0 0 10px #ffd700;
 }
+
 #stopAllBtn {
   padding: 10px 20px;
   font-size: 16px;
@@ -102,14 +113,25 @@ h1 {
 #stopAllBtn:hover {
   background-color: #cc0000;
 }
+
 .bpm-control {
   text-align: center;
   margin: 20px auto;
   color: white;
+  font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 #bpmSlider {
-  width: 300px;
+  width: 80%;
+  max-width: 300px;
   margin-top: 10px;
 }
 
+/* Responsive tweaks */
+@media (max-height: 600px) {
+  body {
+    padding: 1rem;
+    height: auto;
+    overflow-y: auto;
+  }
+}
