@@ -2,15 +2,16 @@ let bpm = 124;
 let beatsPerBar = 4;
 let beatDuration = 60 / bpm;
 let barDuration = beatDuration * beatsPerBar;
+let currentBeat = 0;
 const bpmSlider = document.getElementById("bpmSlider");
 const bpmValueLabel = document.getElementById("bpmValue");
+const beatEls = document.querySelectorAll(".beat");
 
 bpmSlider.addEventListener("input", () => {
   bpm = parseInt(bpmSlider.value);
   bpmValueLabel.textContent = bpm;
   beatDuration = 60 / bpm;
   barDuration = beatDuration * beatsPerBar;
-
   // Update playbackRate ของ pad ที่กำลังเล่น
   const pads = document.querySelectorAll(".pad");
   pads.forEach(pad => {
@@ -34,7 +35,7 @@ const sounds = [
   { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
   { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
   { name: "FX 3", file: "US_DTH_FX_Report.wav", container: "fxContainer" },
-  { name: "FX 4", file: "US_DTH_FX_Mode.wav", container: "fxContainer" },
+  { name: "FX 4", file: "US_DTH_FX_National.wav", container: "fxContainer" },
 
   { name: "Pad 1", file: "US_DTH_Pad_124_Future.wav", container: "padContainer" },
   { name: "Pad 2", file: "US_DTH_Pad_124_Gazzelle.wav", container: "padContainer" },
@@ -47,7 +48,6 @@ const sounds = [
   { name: "Synth 4", file: "US_DTH_Synth_124_Brother_Fm.wav", container: "synthContainer" },
 
 ];
-
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 // Load audio buffer from file
 function loadBuffer(url) {
@@ -55,8 +55,6 @@ function loadBuffer(url) {
     .then(res => res.arrayBuffer())
     .then(buf => audioContext.decodeAudioData(buf));
 }
-
-// Create pad elements and set event listeners for playback
 function createPad(sound) {
   const pad = document.createElement("div");
   pad.classList.add("pad");
@@ -64,14 +62,12 @@ function createPad(sound) {
   pad.dataset.playing = "false";
   pad.buffer = null;
   pad.source = null;
-
   loadBuffer(`./sounds/${sound.file}`).then(buffer => {
     pad.buffer = buffer;
   });
   pad.addEventListener("click", () => {
     const container = document.getElementById(sound.container);
     const currentlyPlayingPad = container.querySelector(".pad[data-playing='true']");
-
     if (currentlyPlayingPad && currentlyPlayingPad !== pad) {
       stopPad(currentlyPlayingPad);  // หยุดเสียงเก่าที่กำลังเล่นอยู่
     }
@@ -87,9 +83,6 @@ function createPad(sound) {
   // ฟังก์ชันเพื่อเริ่มเสียงใหม่ที่จังหวะถัดไ
   document.getElementById(sound.container).appendChild(pad);
 }
-// Queue the sound to start at the next available bar
-// Queue the sound to start at the next available beat
-// Stop the pad audio if it's currently playing
 function stopPad(pad) {
   if (pad.source && pad.gainNode) {
     const stopTime = Math.ceil(audioContext.currentTime / barDuration) * barDuration;
@@ -110,8 +103,6 @@ function stopPad(pad) {
 }
 // Initialize all the pads
 sounds.forEach(createPad);
-const beatEls = document.querySelectorAll(".beat");
-let currentBeat = 0;
 setInterval(() => {
   beatEls.forEach((el, i) => {
     el.classList.toggle("active", i === currentBeat);
