@@ -6,18 +6,49 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🎶 Music Pad with Sync</h1>
   <div id="beatIndicator">
     <div class="beat" data-index="0"></div>
     <div class="beat" data-index="1"></div>
     <div class="beat" data-index="2"></div>
     <div class="beat" data-index="3"></div>
   </div>
-  <button id="stopAllBtn">🛑 Stop All</button>
   <div class="bpm-control">
-    <label for="bpmSlider">BPM: <span id="bpmValue">124</span></label>
-    <input type="range" id="bpmSlider" min="60" max="200" value="124">
+ <!-- เปลี่ยนจาก <input type="range"> เป็น number input -->
+<input type="number" id="bpmSlider" value="124" min="60" max="200">
+<span id="bpmValue">124</span> BPM
   </div>
+   <!-- เ<button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
+  <div>
+    <button onclick="savePreset()">Save Preset</button>
+    <select id="presetSelector">
+      <option value="">-- เลือก Preset --</option>
+    </select>
+    <button id="loadPresetBtn">Load Preset</button>
+
+  </div>
+  <br>
+
+  <div>
+    <button onclick="clearPreset()">Clear  All Preset</button>
+
+    <select id="deletePresetSelector">
+      <option value="">-- เลือก Preset ที่จะลบ --</option>
+    </select>
+    <button onclick="deleteSelectedPreset()">ลบ Preset ที่เลือก</button>
+
+  </div>
+  <div style="height: 20px;"></div>
+  <div style="display: flex;gap: 10px;">
+    
+
+
+    <button id="stopAllBtn">🛑 Stop All</button>
+
+
+  </div>
+
+
+  
 
   
   <div id="padsContainer">

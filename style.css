@@ -39,7 +39,6 @@ h1 {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 1rem;
   width: 100%;
-  max-width: 600px;
 }
 
 .pad {
@@ -73,7 +72,6 @@ h1 {
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
-  margin: 30px auto;
 }
 
 .beat {
@@ -122,9 +120,11 @@ h1 {
 }
 
 #bpmSlider {
-  width: 80%;
+  width: 272px;
+  height: 65px;
   max-width: 300px;
   margin-top: 10px;
+  font-size: 45px;
 }
 
 /* Responsive tweaks */
@@ -135,3 +135,97 @@ h1 {
     overflow-y: auto;
   }
 }
+/* General Styling */
+
+
+.bpm-control {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bpm-control input[type="number"] {
+  width: 80px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.bpm-control #bpmValue {
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 5px;
+  color: #333;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+
+/* Styling for buttons section */
+div {
+  margin-bottom: 15px;
+}
+
+select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+#stopAllBtn {
+  background-color: #f44336;
+}
+
+#stopAllBtn:hover {
+  background-color: #e53935;
+}
+
+#loadPresetBtn, #deletePresetSelector, #savePreset {
+}
+
+
+
+#clearPreset {
+  background-color: #9E9E9E;
+  color: white;
+}
+
+#clearPreset:hover {
+  background-color: #757575;
+}
+
+/* Styling for the "Stop All" button */
+#stopAllBtn {
+  background-color: #f44336;
+}
+
+#stopAllBtn:hover {
+  background-color: #e53935;
+}
+
+#stopAllBtn:active {
+  background-color: #c62828;
+}
+
+/* Layout styling */
+div.style-flex {
+  display: flex;
+  gap: 15px;
+}
+
+div.style-flex button {
+  flex-grow: 1;
+  width: auto;
+}
+
