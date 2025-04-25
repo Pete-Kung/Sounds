@@ -1,74 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Music Pad with Sync</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <div id="beatIndicator">
-    <div class="beat" data-index="0"></div>
-    <div class="beat" data-index="1"></div>
-    <div class="beat" data-index="2"></div>
-    <div class="beat" data-index="3"></div>
-  </div>
+
   <div class="bpm-control">
- <!-- เปลี่ยนจาก <input type="range"> เป็น number input -->
-<input type="number" id="bpmSlider" value="124" min="60" max="200">
-<span id="bpmValue">124</span> BPM
+    <!-- เปลี่ยนจาก <input type="range"> เป็น number input -->
+    <input type="number" id="bpmSlider" value="124" min="60" max="200">
+    <span id="bpmValue">124</span> BPM
   </div>
-   <!-- เ<button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
+  <!-- เ<button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
   <div>
     <button onclick="savePreset()">Save Preset</button>
     <select id="presetSelector">
       <option value="">-- เลือก Preset --</option>
     </select>
-    <button id="loadPresetBtn">Load Preset</button>
+    <button id="loadPresetBtn">Play Preset</button>
 
   </div>
   <br>
 
   <div>
-    <button onclick="clearPreset()">Clear  All Preset</button>
-
+    <button onclick="clearPreset()">Clear All Preset</button>
     <select id="deletePresetSelector">
       <option value="">-- เลือก Preset ที่จะลบ --</option>
     </select>
     <button onclick="deleteSelectedPreset()">ลบ Preset ที่เลือก</button>
 
   </div>
+  <br>
+
+  <div>
+ 
+    <button onclick="exportSelectedPreset()">Export Preset</button>
+        <label for="importPresetFile" style="cursor:pointer;">
+          <select id="exportPresetSelect">
+            <option value="" disabled selected>-- เลือก Preset ที่จะ Export --</option>
+          </select>
+  <input type="file" id="importPresetFile" accept=".json" onchange="importPreset(event)" style="display: none;" />
+ <button onclick="document.getElementById('importPresetFile').click()">Import Preset</button>
+          
+
+  </div>
   <div style="height: 20px;"></div>
   <div style="display: flex;gap: 10px;">
-    
+
 
 
     <button id="stopAllBtn">🛑 Stop All</button>
 
 
   </div>
+  <div id="beatIndicator">
+    <div class="beat" data-index="0"></div>
+    <div class="beat" data-index="1"></div>
+    <div class="beat" data-index="2"></div>
+    <div class="beat" data-index="3"></div>
+  </div>
 
 
-  
 
-  
+
   <div id="padsContainer">
     <div class="category">
+      <h2>🎵 Drum <input type="range" min="0" max="1" step="0.01" value="1" data-category="drumContainer"
+          class="volumeSlider"></h2>
       <h2>🎵 Drum</h2>
       <div class="padContainer" id="drumContainer"></div>
     </div>
     <div class="category">
+      <h2>🎸 Bass <input type="range" min="0" max="1" step="0.01" value="1" data-category="bassContainer"
+          class="volumeSlider"></h2>
       <h2>🎸 Bass</h2>
       <div class="padContainer" id="bassContainer"></div>
     </div>
     <div class="category">
+      <h2>🎛 FX <input type="range" min="0" max="1" step="0.01" value="1" data-category="fxContainer"
+          class="volumeSlider"></h2>
+
       <h2>🎛 FX</h2>
       <div class="padContainer" id="fxContainer"></div>
     </div>
     <div class="category">
+      <h2>🎹 Pad <input type="range" min="0" max="1" step="0.01" value="1" data-category="padContainer"
+          class="volumeSlider"></h2>
+
       <h2>🎹 Pad</h2>
       <div class="padContainer" id="padContainer"></div>
     </div>
     <div class="category">
+      <h2>🎤 Synth <input type="range" min="0" max="1" step="0.01" value="1" data-category="synthContainer"
+          class="volumeSlider"></h2>
+
       <h2>🎤 Synth</h2>
       <div class="padContainer" id="synthContainer"></div>
     </div>
@@ -76,4 +104,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>

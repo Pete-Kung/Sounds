@@ -21,6 +21,26 @@ function updateBPM() {
     }
   });
 }
+// ฟังก์ชันเพื่อปรับเสียงหมวดหมู่
+// ฟังก์ชันปรับ volume
+function updateVolume(e) {
+  const category = e.target.dataset.category;
+  const volume = parseFloat(e.target.value);
+
+  const container = document.getElementById(category);
+  const pads = container.querySelectorAll(".pad");
+
+  pads.forEach(pad => {
+    if (pad.dataset.playing === "true" && pad.gainNode) {
+      pad.gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+    }
+  });
+}
+
+// ผูก event ให้ sliders แค่ครั้งเดียวหลังจากโหลดหน้า
+document.querySelectorAll(".volumeSlider").forEach(slider => {
+  slider.addEventListener("input", updateVolume);
+});
 
 // เมื่อผู้ใช้พิมพ์ค่า BPM ใหม่
 bpmSlider.addEventListener("input", updateBPM);
@@ -100,6 +120,7 @@ function createPad(sound) {
       // เริ่มเสียงใหม่ที่จังหวะถัดไป
       //queueStartPadAtNextBeat(pad); 
     }
+
   });
   // ฟังก์ชันเพื่อเริ่มเสียงใหม่ที่จังหวะถัดไ
   document.getElementById(sound.container).appendChild(pad);
@@ -223,18 +244,92 @@ function savePreset() {
 
 function updatePresetDropdown() {
   const selector = document.getElementById("presetSelector");
+  const select = document.getElementById("exportPresetSelect");
   const allPresets = JSON.parse(localStorage.getItem("allPresets") || "{}");
 
   // ล้าง option เดิม
   selector.innerHTML = `<option value="">-- เลือก Preset --</option>`;
+  select.innerHTML = `<option value="">-- เลือก Preset --</option>`;
 
   Object.keys(allPresets).forEach(name => {
     const option = document.createElement("option");
     option.value = name;
     option.textContent = name;
     selector.appendChild(option);
+    select.appendChild(option);
+
   });
 }
+function exportSelectedPreset() {
+  const selectedName = document.getElementById("exportPresetSelect").value;
+  if (!selectedName) {
+    alert("กรุณาเลือก Preset ที่จะ Export");
+    return;
+  }
+
+  const allPresets = JSON.parse(localStorage.getItem("allPresets") || "{}");
+  const preset = allPresets[selectedName];
+
+  if (!preset) {
+    alert("ไม่พบ Preset ที่เลือก");
+    return;
+  }
+
+  const blob = new Blob(
+    [JSON.stringify({ [selectedName]: preset }, null, 2)],
+    { type: "application/json" }
+  );
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${selectedName}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function importPreset(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    try {
+      const importedData = JSON.parse(e.target.result);
+
+      if (typeof importedData !== "object" || Array.isArray(importedData)) {
+        throw new Error("Invalid format");
+      }
+
+      const currentPresets = JSON.parse(localStorage.getItem("allPresets") || "{}");
+
+      // ตรวจสอบแต่ละ Preset ที่นำเข้า
+      Object.entries(importedData).forEach(([name, preset]) => {
+        if (!Array.isArray(preset)) {
+          throw new Error(`Preset "${name}" format is invalid`);
+        }
+
+        // ถ้าชื่อซ้ำ ให้แจ้งเตือน (หรือจะเปลี่ยนชื่ออัตโนมัติ / เขียนทับก็ได้)
+        if (currentPresets[name]) {
+          const overwrite = confirm(`มี Preset ชื่อ "${name}" อยู่แล้ว ต้องการเขียนทับหรือไม่?`);
+          if (!overwrite) return;
+        }
+
+        currentPresets[name] = preset;
+      });
+
+      localStorage.setItem("allPresets", JSON.stringify(currentPresets));
+      alert("นำเข้า Preset สำเร็จแล้ว!");
+      updatePresetDropdown();
+      updateDeletePreset();
+
+    } catch (err) {
+      alert("ไฟล์ Preset ไม่ถูกต้อง หรืออ่านไม่สำเร็จ");
+      console.error(err);
+    }
+  };
+
+  reader.readAsText(file);
+}
+
 function loadPresetFromDropdown() {
   const selector = document.getElementById("presetSelector");
   const selectedName = selector.value;
@@ -314,6 +409,7 @@ function deleteSelectedPreset() {
   alert(`ลบ Preset "${selectedName}" แล้วเรียบร้อย`);
 
   updateDeletePreset(); // อัปเดต dropdown ใหม่
+  updatePresetDropdown()
 }
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
