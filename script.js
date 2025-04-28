@@ -6,7 +6,6 @@ let currentBeat = 0;
 const bpmSlider = document.getElementById("bpmSlider");
 const bpmValueLabel = document.getElementById("bpmValue");
 const beatEls = document.querySelectorAll(".beat");
-
 // ฟังก์ชันอัปเดต BPM และ playbackRate
 function updateBPM() {
   bpm = parseInt(bpmSlider.value) || 124; // fallback ถ้าค่าไม่ valid
@@ -36,21 +35,16 @@ function updateVolume(e) {
     }
   });
 }
-
 // ผูก event ให้ sliders แค่ครั้งเดียวหลังจากโหลดหน้า
 document.querySelectorAll(".volumeSlider").forEach(slider => {
   slider.addEventListener("input", updateVolume);
 });
-
 // เมื่อผู้ใช้พิมพ์ค่า BPM ใหม่
 bpmSlider.addEventListener("input", updateBPM);
-
 // เมื่อคลิกที่ category
 document.querySelectorAll(".category").forEach(category => {
   category.addEventListener("click", updateBPM);
 });
-
-
 const sounds = [
   { name: "Drum 1", file: "US_DTH_Drum_124_Bong_STRIPPED.wav", container: "drumContainer" },
   { name: "Drum 2", file: "US_DTH_Drum_124_Block_TOP.wav", container: "drumContainer" },
@@ -168,11 +162,9 @@ function queueStartPad(pad) {
     actuallyQueuePad(pad);
   }
 }
-
 function actuallyQueuePad(pad) {
   const nextBarTime = Math.ceil(audioContext.currentTime / barDuration) * barDuration;
   const currentBeat = Math.floor((nextBarTime % barDuration) / beatDuration);
-
   const source = audioContext.createBufferSource();
   const gainNode = audioContext.createGain();
 
@@ -194,7 +186,6 @@ function actuallyQueuePad(pad) {
 }
 function stopAllPads() {
   const pads = document.querySelectorAll(".pad");
-
   pads.forEach(pad => {
     if (pad.dataset.playing === "true") {
       stopPad(pad);
@@ -241,7 +232,6 @@ function savePreset() {
   updatePresetDropdown();
   updateDeletePreset();
 }
-
 function updatePresetDropdown() {
   const selector = document.getElementById("presetSelector");
   const select = document.getElementById("exportPresetSelect");
