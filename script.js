@@ -1,25 +1,55 @@
 let bpm = 124;
 let beatsPerBar = 4;
 let beatDuration = 60 / bpm;
-let barDuration = beatDuration * beatsPerBar  ;
+let barDuration = beatDuration * beatsPerBar;
 let currentBeat = 0;
+
+const beatEls = document.querySelectorAll(".beat");
 const bpmSlider = document.getElementById("bpmSlider");
 const bpmValueLabel = document.getElementById("bpmValue");
-const beatEls = document.querySelectorAll(".beat");
-// ฟังก์ชันอัปเดต BPM และ playbackRate
-function updateBPM() {
-  bpm = parseInt(bpmSlider.value) || 124; // fallback ถ้าค่าไม่ valid
-  bpmValueLabel.textContent = bpm;
-  beatDuration = 60 / bpm;
-  barDuration = beatDuration * beatsPerBar;
+const confirmButton = document.getElementById("confirmBPM");
 
-  const pads = document.querySelectorAll(".pad");
-  pads.forEach(pad => {
-    if (pad.dataset.playing === "true" && pad.source) {
-      pad.source.playbackRate.value = bpm / 124;
-    }
+let beatLoopTimeoutId;
+
+function beatLoop() {
+  beatEls.forEach((el, i) => {
+    el.classList.toggle("active", i === currentBeat);
   });
+  currentBeat = (currentBeat + 1) % beatsPerBar;
+
+  beatLoopTimeoutId = setTimeout(beatLoop, beatDuration * 1000); // อัปเดตตาม bpm
 }
+
+function updateBPM() {
+  const newBpm = parseInt(bpmSlider.value);
+  console.log(newBpm, 'bpm');
+
+  if (!newBpm || isNaN(newBpm)) {
+    stopAllPads();
+  } else {
+    bpm = newBpm;
+    bpmValueLabel.textContent = bpm;
+    beatDuration = 60 / bpm;
+    barDuration = beatDuration * beatsPerBar;
+
+    const pads = document.querySelectorAll(".pad");
+    pads.forEach(pad => {
+      if (pad.dataset.playing === "true" && pad.source) {
+        pad.source.playbackRate.value = bpm / 124;
+      }
+    });
+
+    // รีสตาร์ท loop ด้วย timeout ใหม่ตาม bpm
+    clearTimeout(beatLoopTimeoutId);
+    beatLoop();
+  }
+}
+
+confirmButton.addEventListener("click", updateBPM);
+
+// เริ่ม loop ตอนแรก
+beatLoop();
+
 // ฟังก์ชันเพื่อปรับเสียงหมวดหมู่
 // ฟังก์ชันปรับ volume
 function updateVolume(e) {
@@ -40,7 +70,6 @@ document.querySelectorAll(".volumeSlider").forEach(slider => {
   slider.addEventListener("input", updateVolume);
 });
 // เมื่อผู้ใช้พิมพ์ค่า BPM ใหม่
-bpmSlider.addEventListener("input", updateBPM);
 // เมื่อคลิกที่ category
 document.querySelectorAll(".category").forEach(category => {
   category.addEventListener("click", updateBPM);
@@ -139,12 +168,7 @@ function stopPad(pad) {
 }
 // Initialize all the pads
 sounds.forEach(createPad);
-setInterval(() => {
-  beatEls.forEach((el, i) => {
-    el.classList.toggle("active", i === currentBeat);
-  });
-  currentBeat = (currentBeat + 1) % beatsPerBar; // 0 -> 1 -> 2 -> 3 -> 0 -> ...
-}, beatDuration * 1000); // หนึ่ง beat กี่มิลลิวินาที
+
 
 function queueStartPad(pad) {
   const container = document.getElementById(pad.parentElement.id);
