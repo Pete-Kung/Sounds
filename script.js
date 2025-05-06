@@ -62,7 +62,7 @@ const sounds = [
 
   { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
   { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
-  { name: "FX 3", file: "US_DTH_FX_Report.wav", container: "fxContainer" },
+  { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "fxContainer" },
   { name: "FX 4", file: "US_DTH_FX_National.wav", container: "fxContainer" },
   { name: "FX 5", file: "US_DTH_FX_Near.wav", container: "fxContainer" },
   { name: "FX 6", file: "US_DTH_FX_Republic.wav", container: "fxContainer" },
