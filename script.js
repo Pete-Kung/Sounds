@@ -1,4 +1,4 @@
-let bpm = 124;
+let bpm = 120;
 let beatsPerBar = 4;
 let beatDuration = 60 / bpm;
 let barDuration = beatDuration * beatsPerBar;
