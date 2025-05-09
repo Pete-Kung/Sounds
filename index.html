@@ -5,6 +5,8 @@
   <meta charset="UTF-8" />
   <title>Music Pad with Sync</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="./slider.js"></script>
+  <script src="./encoder.js" ></script>
 </head>
 
 <body>
@@ -14,6 +16,9 @@
     <button id="confirmBPM">confirmBPM</button>
     <span id="bpmValue">124</span> BPM
   </div>
+
+
+
   
   <!-- เ<button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
   <div>
@@ -69,8 +74,18 @@
 
   <div id="padsContainer">
     <div class="category">
-      <h2>🎵 Drum <input type="range" min="0" max="1" step="0.01" value="1" data-category="drumContainer"
-          class="volumeSlider"></h2>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <!-- <input type="range" min="0" max="1" step="0.01" value="1" data-category="drumContainer"
+          class="volumeSlider"> -->
+          <span>🎵 Drum </span>
+           <div style="height: 200px; width: 100%; display: flex; gap: 10px;">
+          <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="drumContainer" init="100"></midi-slider>
+          <midi-slider label="Drum #" colour="#2BA8E8" type="horizontal" data-id="slider2" data-category="drumContainer" init="100"></midi-slider>
+          <midi-encoder label="Drum #" colour="#E82B2B" data-category="drumContainer" init="100"></midi-encoder>
+
+        </div>
+        </div>
+       
       <h2>🎵 Drum</h2>
       <div class="padContainer" id="drumContainer"></div>
     </div>
@@ -103,7 +118,13 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js">
+  
+
+  </script>
+ <!-- <script>
+ 
+</script> -->
 </body>
 
 </html>

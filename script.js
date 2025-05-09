@@ -22,7 +22,7 @@ function beatLoop() {
 
 function updateBPM() {
   const newBpm = parseInt(bpmSlider.value);
-  console.log(newBpm, 'bpm');
+  console.log(newBpm, "bpm");
 
   if (!newBpm || isNaN(newBpm)) {
     stopAllPads();
@@ -33,7 +33,7 @@ function updateBPM() {
     barDuration = beatDuration * beatsPerBar;
 
     const pads = document.querySelectorAll(".pad");
-    pads.forEach(pad => {
+    pads.forEach((pad) => {
       if (pad.dataset.playing === "true" && pad.source) {
         pad.source.playbackRate.value = bpm / 124;
       }
@@ -59,35 +59,126 @@ function updateVolume(e) {
   const container = document.getElementById(category);
   const pads = container.querySelectorAll(".pad");
 
-  pads.forEach(pad => {
+  pads.forEach((pad) => {
     if (pad.dataset.playing === "true" && pad.gainNode) {
       pad.gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
     }
   });
 }
 // ผูก event ให้ sliders แค่ครั้งเดียวหลังจากโหลดหน้า
-document.querySelectorAll(".volumeSlider").forEach(slider => {
+document.querySelectorAll(".volumeSlider").forEach((slider) => {
   slider.addEventListener("input", updateVolume);
 });
+
+// slieder.js
+function onSliderChange(e) {
+  const slider = e.currentTarget; // ดึง element จาก event นี้ชัวร์สุด
+  const sliderId = slider.getAttribute("data-id") || "unknown";
+  const label = slider.getAttribute("label") || "Slider";
+  const category = slider.getAttribute("data-category");
+  const volume = parseFloat(e.detail.value)/100;
+
+  console.log(`[${sliderId}] ${label} changed:`, volume);
+
+  // === Update volume container ===
+  if (category) {
+    const container = document.getElementById(category);
+    if (container) {
+      const pads = container.querySelectorAll(".pad");
+
+      pads.forEach((pad) => {
+        if (pad.dataset.playing === "true" && pad.gainNode) {
+          pad.gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+        }
+      });
+    }
+  }
+}
+
+
+
+
+// === ผูก event แค่ครั้งเดียว ไม่ซ้ำ ===
+const sliders = document.querySelectorAll("midi-slider");
+sliders.forEach((slider) => {
+  slider.removeEventListener("slider-change", onSliderChange);
+  slider.addEventListener("slider-change", onSliderChange);
+});
+
+//  decode.js
+const decodeSlider = document.querySelectorAll("midi-encoder");
+decodeSlider.forEach((slider) => {
+  slider.removeEventListener("encoder-change", onSliderChange);
+  slider.addEventListener("encoder-change", onSliderChange);
+});
+
 // เมื่อผู้ใช้พิมพ์ค่า BPM ใหม่
 // เมื่อคลิกที่ category
-document.querySelectorAll(".category").forEach(category => {
+document.querySelectorAll(".category").forEach((category) => {
   category.addEventListener("click", updateBPM);
 });
 const sounds = [
-  { name: "Drum 1", file: "US_DTH_Drum_124_Bong_STRIPPED.wav", container: "drumContainer" },
-  { name: "Drum 2", file: "US_DTH_Drum_124_Block_TOP.wav", container: "drumContainer" },
-  { name: "Drum 3", file: "US_DTH_Drum_124_Bull_FULL.wav", container: "drumContainer" },
-  { name: "Drum 4", file: "US_DTH_Drum_124_Hotel_FULL.wav", container: "drumContainer" },
-  { name: "Drum 5", file: "US_DTH_Drum_124_Bell_STRIPPED.wav", container: "drumContainer" },
-  { name: "Drum 6", file: "US_DTH_Drum_124_Road_FULL.wav", container: "drumContainer" },
+  {
+    name: "Drum 1",
+    file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
+    container: "drumContainer",
+  },
+  {
+    name: "Drum 2",
+    file: "US_DTH_Drum_124_Block_TOP.wav",
+    container: "drumContainer",
+  },
+  {
+    name: "Drum 3",
+    file: "US_DTH_Drum_124_Bull_FULL.wav",
+    container: "drumContainer",
+  },
+  {
+    name: "Drum 4",
+    file: "US_DTH_Drum_124_Hotel_FULL.wav",
+    container: "drumContainer",
+  },
+  {
+    name: "Drum 5",
+    file: "US_DTH_Drum_124_Bell_STRIPPED.wav",
+    container: "drumContainer",
+  },
+  {
+    name: "Drum 6",
+    file: "US_DTH_Drum_124_Road_FULL.wav",
+    container: "drumContainer",
+  },
 
-  { name: "Bass 1", file: "US_DTH_Bass_124_May_Fm.wav", container: "bassContainer" },
-  { name: "Bass 2", file: "US_DTH_Bass_124_Dark_Dm.wav", container: "bassContainer" },
-  { name: "Bass 3", file: "US_DTH_Bass_124_Great_Em.wav", container: "bassContainer" },
-  { name: "Bass 4", file: "US_DTH_Bass_124_Marriage_Am.wav", container: "bassContainer" },
-  { name: "Bass 5", file: "US_DTH_Bass_124_Meeting_Fm.wav", container: "bassContainer" },
-  { name: "Bass 6", file: "US_DTH_Bass_124_sixty_Gm.wav", container: "bassContainer" },
+  {
+    name: "Bass 1",
+    file: "US_DTH_Bass_124_May_Fm.wav",
+    container: "bassContainer",
+  },
+  {
+    name: "Bass 2",
+    file: "US_DTH_Bass_124_Dark_Dm.wav",
+    container: "bassContainer",
+  },
+  {
+    name: "Bass 3",
+    file: "US_DTH_Bass_124_Great_Em.wav",
+    container: "bassContainer",
+  },
+  {
+    name: "Bass 4",
+    file: "US_DTH_Bass_124_Marriage_Am.wav",
+    container: "bassContainer",
+  },
+  {
+    name: "Bass 5",
+    file: "US_DTH_Bass_124_Meeting_Fm.wav",
+    container: "bassContainer",
+  },
+  {
+    name: "Bass 6",
+    file: "US_DTH_Bass_124_sixty_Gm.wav",
+    container: "bassContainer",
+  },
 
   { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
   { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
@@ -96,28 +187,70 @@ const sounds = [
   { name: "FX 5", file: "US_DTH_FX_Near.wav", container: "fxContainer" },
   { name: "FX 6", file: "US_DTH_FX_Republic.wav", container: "fxContainer" },
 
-  { name: "Pad 1", file: "US_DTH_Pad_124_Future.wav", container: "padContainer" },
-  { name: "Pad 2", file: "US_DTH_Pad_124_Gazzelle.wav", container: "padContainer" },
+  {
+    name: "Pad 1",
+    file: "US_DTH_Pad_124_Future.wav",
+    container: "padContainer",
+  },
+  {
+    name: "Pad 2",
+    file: "US_DTH_Pad_124_Gazzelle.wav",
+    container: "padContainer",
+  },
   { name: "Pad 3", file: "US_DTH_Pad_124_Pray.wav", container: "padContainer" },
-  { name: "Pad 4", file: "US_DTH_Pad_124_Remesh.wav", container: "padContainer" },
-  { name: "Pad 5", file: "US_DTH_Pad_124_Sound_Em.wav", container: "padContainer" },
-  { name: "Pad 6", file: "US_DTH_Pad_124_Cold_Cm.wav", container: "padContainer" },
+  {
+    name: "Pad 4",
+    file: "US_DTH_Pad_124_Remesh.wav",
+    container: "padContainer",
+  },
+  {
+    name: "Pad 5",
+    file: "US_DTH_Pad_124_Sound_Em.wav",
+    container: "padContainer",
+  },
+  {
+    name: "Pad 6",
+    file: "US_DTH_Pad_124_Cold_Cm.wav",
+    container: "padContainer",
+  },
 
-  { name: "Synth 1", file: "US_DTH_Synth_124_Again.wav", container: "synthContainer" },
-  { name: "Synth 2", file: "US_DTH_Synth_124_Agree_G.wav", container: "synthContainer" },
-  { name: "Synth 3", file: "US_DTH_Synth_124_Begin.wav", container: "synthContainer" },
-  { name: "Synth 4", file: "US_DTH_Synth_124_Brother_Fm.wav", container: "synthContainer" },
-  { name: "Synth 5", file: "US_DTH_Synth_124_Large_Cm.wav", container: "synthContainer" },
-  { name: "Synth 6", file: "US_DTH_Synth_124_Machine_Em.wav", container: "synthContainer" },
-
-
+  {
+    name: "Synth 1",
+    file: "US_DTH_Synth_124_Again.wav",
+    container: "synthContainer",
+  },
+  {
+    name: "Synth 2",
+    file: "US_DTH_Synth_124_Agree_G.wav",
+    container: "synthContainer",
+  },
+  {
+    name: "Synth 3",
+    file: "US_DTH_Synth_124_Begin.wav",
+    container: "synthContainer",
+  },
+  {
+    name: "Synth 4",
+    file: "US_DTH_Synth_124_Brother_Fm.wav",
+    container: "synthContainer",
+  },
+  {
+    name: "Synth 5",
+    file: "US_DTH_Synth_124_Large_Cm.wav",
+    container: "synthContainer",
+  },
+  {
+    name: "Synth 6",
+    file: "US_DTH_Synth_124_Machine_Em.wav",
+    container: "synthContainer",
+  },
 ];
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 // Load audio buffer from file
 function loadBuffer(url) {
   return fetch(url)
-    .then(res => res.arrayBuffer())
-    .then(buf => audioContext.decodeAudioData(buf));
+    .then((res) => res.arrayBuffer())
+    .then((buf) => audioContext.decodeAudioData(buf));
 }
 function createPad(sound) {
   const pad = document.createElement("div");
@@ -126,32 +259,37 @@ function createPad(sound) {
   pad.dataset.playing = "false";
   pad.buffer = null;
   pad.source = null;
-  loadBuffer(`./sounds/${sound.file}`).then(buffer => {
+  loadBuffer(`./sounds/${sound.file}`).then((buffer) => {
     pad.buffer = buffer;
   });
   pad.addEventListener("click", () => {
     const container = document.getElementById(sound.container);
-    const currentlyPlayingPad = container.querySelector(".pad[data-playing='true']");
+    const currentlyPlayingPad = container.querySelector(
+      ".pad[data-playing='true']"
+    );
     if (currentlyPlayingPad && currentlyPlayingPad !== pad) {
-      stopPad(currentlyPlayingPad);  // หยุดเสียงเก่าที่กำลังเล่นอยู่
+      stopPad(currentlyPlayingPad); // หยุดเสียงเก่าที่กำลังเล่นอยู่
     }
     // รอให้เสียงใหม่เริ่มเล่นที่จังหวะถัดไป
     if (pad.dataset.playing === "true") {
-      stopPad(pad);  // หยุดเสียงเดิมถ้าเล่นอยู่
+      stopPad(pad); // หยุดเสียงเดิมถ้าเล่นอยู่
     } else {
       queueStartPad(pad); // Wait for the beat to sync before starting
       // เริ่มเสียงใหม่ที่จังหวะถัดไป
-      //queueStartPadAtNextBeat(pad); 
+      //queueStartPadAtNextBeat(pad);
     }
-
   });
   // ฟังก์ชันเพื่อเริ่มเสียงใหม่ที่จังหวะถัดไ
   document.getElementById(sound.container).appendChild(pad);
 }
 function stopPad(pad) {
   if (pad.source && pad.gainNode) {
-    const stopTime = Math.ceil(audioContext.currentTime / barDuration) * barDuration;
-    pad.gainNode.gain.setValueAtTime(pad.gainNode.gain.value, audioContext.currentTime);
+    const stopTime =
+      Math.ceil(audioContext.currentTime / barDuration) * barDuration;
+    pad.gainNode.gain.setValueAtTime(
+      pad.gainNode.gain.value,
+      audioContext.currentTime
+    );
     pad.gainNode.gain.linearRampToValueAtTime(0, stopTime);
     pad.source.stop(stopTime);
     pad.pendingStopTime = stopTime; // 👈 เก็บเวลาไว้
@@ -169,15 +307,18 @@ function stopPad(pad) {
 // Initialize all the pads
 sounds.forEach(createPad);
 
-
 function queueStartPad(pad) {
   const container = document.getElementById(pad.parentElement.id);
-  const currentlyPlayingPad = container.querySelector(".pad[data-playing='true']");
+  const currentlyPlayingPad = container.querySelector(
+    ".pad[data-playing='true']"
+  );
 
   if (currentlyPlayingPad && currentlyPlayingPad !== pad) {
     stopPad(currentlyPlayingPad);
     // รอจนกว่า pad เดิมจะหยุดก่อนค่อยเริ่มใหม่
-    const waitTime = (currentlyPlayingPad.pendingStopTime || audioContext.currentTime) - audioContext.currentTime;
+    const waitTime =
+      (currentlyPlayingPad.pendingStopTime || audioContext.currentTime) -
+      audioContext.currentTime;
 
     setTimeout(() => {
       actuallyQueuePad(pad);
@@ -187,7 +328,8 @@ function queueStartPad(pad) {
   }
 }
 function actuallyQueuePad(pad) {
-  const nextBarTime = Math.ceil(audioContext.currentTime / barDuration) * barDuration;
+  const nextBarTime =
+    Math.ceil(audioContext.currentTime / barDuration) * barDuration;
   const currentBeat = Math.floor((nextBarTime % barDuration) / beatDuration);
   const source = audioContext.createBufferSource();
   const gainNode = audioContext.createGain();
@@ -210,7 +352,7 @@ function actuallyQueuePad(pad) {
 }
 function stopAllPads() {
   const pads = document.querySelectorAll(".pad");
-  pads.forEach(pad => {
+  pads.forEach((pad) => {
     if (pad.dataset.playing === "true") {
       stopPad(pad);
     }
@@ -237,7 +379,7 @@ function savePreset() {
   const pads = document.querySelectorAll(".pad");
   const preset = [];
 
-  pads.forEach(pad => {
+  pads.forEach((pad) => {
     if (pad.dataset.playing === "true") {
       preset.push(pad.innerText);
     }
@@ -265,13 +407,12 @@ function updatePresetDropdown() {
   selector.innerHTML = `<option value="">-- เลือก Preset --</option>`;
   select.innerHTML = `<option value="">-- เลือก Preset --</option>`;
 
-  Object.keys(allPresets).forEach(name => {
+  Object.keys(allPresets).forEach((name) => {
     const option = document.createElement("option");
     option.value = name;
     option.textContent = name;
     selector.appendChild(option);
     select.appendChild(option);
-
   });
 }
 function exportSelectedPreset() {
@@ -289,10 +430,9 @@ function exportSelectedPreset() {
     return;
   }
 
-  const blob = new Blob(
-    [JSON.stringify({ [selectedName]: preset }, null, 2)],
-    { type: "application/json" }
-  );
+  const blob = new Blob([JSON.stringify({ [selectedName]: preset }, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -313,7 +453,9 @@ function importPreset(event) {
         throw new Error("Invalid format");
       }
 
-      const currentPresets = JSON.parse(localStorage.getItem("allPresets") || "{}");
+      const currentPresets = JSON.parse(
+        localStorage.getItem("allPresets") || "{}"
+      );
 
       // ตรวจสอบแต่ละ Preset ที่นำเข้า
       Object.entries(importedData).forEach(([name, preset]) => {
@@ -323,7 +465,9 @@ function importPreset(event) {
 
         // ถ้าชื่อซ้ำ ให้แจ้งเตือน (หรือจะเปลี่ยนชื่ออัตโนมัติ / เขียนทับก็ได้)
         if (currentPresets[name]) {
-          const overwrite = confirm(`มี Preset ชื่อ "${name}" อยู่แล้ว ต้องการเขียนทับหรือไม่?`);
+          const overwrite = confirm(
+            `มี Preset ชื่อ "${name}" อยู่แล้ว ต้องการเขียนทับหรือไม่?`
+          );
           if (!overwrite) return;
         }
 
@@ -334,7 +478,6 @@ function importPreset(event) {
       alert("นำเข้า Preset สำเร็จแล้ว!");
       updatePresetDropdown();
       updateDeletePreset();
-
     } catch (err) {
       alert("ไฟล์ Preset ไม่ถูกต้อง หรืออ่านไม่สำเร็จ");
       console.error(err);
@@ -360,7 +503,7 @@ function loadPresetFromDropdown() {
     return;
   }
 
-  document.querySelectorAll(".pad").forEach(pad => {
+  document.querySelectorAll(".pad").forEach((pad) => {
     if (preset.includes(pad.innerText)) {
       if (pad.dataset.playing !== "true") {
         queueStartPad(pad);
@@ -372,27 +515,29 @@ function loadPresetFromDropdown() {
     }
   });
 }
-document.getElementById("loadPresetBtn").addEventListener("click", loadPresetFromDropdown);
+document
+  .getElementById("loadPresetBtn")
+  .addEventListener("click", loadPresetFromDropdown);
 
 function clearPreset() {
   localStorage.removeItem("allPresets"); // ลบ preset ที่เคยเซฟไว้
   alert("ล้าง Preset สำเร็จแล้ว!");
-  updatePresetDropdown()
-  updateDeletePreset()
+  updatePresetDropdown();
+  updateDeletePreset();
 }
 function updateDeletePreset() {
   const presets = JSON.parse(localStorage.getItem("allPresets") || "{}");
 
   const selectors = [
     document.getElementById("presetSelector"),
-    document.getElementById("deletePresetSelector")
+    document.getElementById("deletePresetSelector"),
   ];
 
-  selectors.forEach(selector => {
+  selectors.forEach((selector) => {
     if (!selector) return;
 
     selector.innerHTML = '<option value="">-- เลือก Preset --</option>';
-    Object.keys(presets).forEach(name => {
+    Object.keys(presets).forEach((name) => {
       const option = document.createElement("option");
       option.value = name;
       option.textContent = name;
@@ -423,12 +568,7 @@ function deleteSelectedPreset() {
   alert(`ลบ Preset "${selectedName}" แล้วเรียบร้อย`);
 
   updateDeletePreset(); // อัปเดต dropdown ใหม่
-  updatePresetDropdown()
+  updatePresetDropdown();
 }
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
-
-
-
-
-
