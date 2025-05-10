@@ -1,4 +1,7 @@
-
+// สร้าง GainNode หลักที่ใช้รวมเสียงทั้งหมด
+const mainGainNode = audioContext.createGain();
+mainGainNode.connect(audioContext.destination); // เชื่อมต่อกับ output ของ audioContext
+console.log(mainGainNode);
 function createPad(sound) {
     const pad = document.createElement("div");
     pad.classList.add("pad");
@@ -68,6 +71,7 @@ function queueStartPadFx(pad) {
 
     source.connect(gainNode);
     gainNode.connect(audioContext.destination);
+    gainNode.connect(mainGainNode); // เชื่อมต่อกับ mainGainNode ที่รวมเสียงทั้งหมด
 
     pad.source = source;
     pad.gainNode = gainNode;
@@ -111,10 +115,7 @@ function stopPadFx(pad) {
         }, 100); // cleanup หลังเสียงหยุด
     }
 }
-// สร้าง GainNode หลักที่ใช้รวมเสียงทั้งหมด
-const mainGainNode = audioContext.createGain();
-mainGainNode.connect(audioContext.destination); // เชื่อมต่อกับ output ของ audioContext
-console.log(mainGainNode);
+
 
 function queueStartPad(pad) {
     const container = document.getElementById(pad.parentElement.id);
