@@ -570,5 +570,22 @@ function deleteSelectedPreset() {
   updateDeletePreset(); // อัปเดต dropdown ใหม่
   updatePresetDropdown();
 }
+
+function changeTemplate(el, key) {
+  // ลบ active class จากปุ่มทั้งหมด
+  document.querySelectorAll('.template-btn').forEach((btn) => {
+    btn.style.backgroundColor = '#2d3748';
+    btn.style.border = '1px solid #4a5568';
+  });
+
+  // เพิ่ม active style ให้ปุ่มที่กด
+  el.style.backgroundColor = '#4a5568';
+  el.style.border = '1px solid #63b3ed';
+
+  // log ค่า template
+  console.log('Template ที่เลือก:', key);
+
+  // TODO: ใส่ logic การเปลี่ยน layout template จริง ๆ ตรงนี้
+}
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
