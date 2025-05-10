@@ -9,104 +9,200 @@
   <script src="./encoder.js" ></script>
 </head>
 
+
 <body>
 
-  <div class="bpm-control">
-    <input type="number" id="bpmSlider" value="120" min="60" max="200">
-    <button id="confirmBPM">confirmBPM</button>
-    <span id="bpmValue">124</span> BPM
+  <div class="bpm-control" style="
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  background-color: #1a202c;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-family: sans-serif;
+  color: white;
+  font-size: 14px;
+  max-width: 100%;
+  margin-left: 0;
+  box-sizing: border-box;
+">
+  <input
+    type="number"
+    id="bpmSlider"
+    value="120"
+    min="60"
+    max="200"
+    style="
+      width: 100px;
+      padding: 5px 8px;
+      background-color: #2d3748;
+      color: white;
+      border: 1px solid #4a5568;
+      border-radius: 4px;
+      flex-shrink: 0;
+    "
+  />
+  <button
+    id="confirmBPM"
+    style="
+      padding: 6px 12px;
+      background-color: #2b6cb0;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+    "
+  >
+    Confirm
+  </button>
+  <div style="display: flex; align-items: center; flex-shrink: 0;">
+    <span id="bpmValue" style="font-weight: bold; margin-right: 4px;">124</span> BPM
   </div>
+</div>
+
 
 
 
   
-  <!-- เ<button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
-  <div>
-    <button onclick="savePreset()">Save Preset</button>
-    <select id="presetSelector">
-      <option value="">-- เลือก Preset --</option>
-    </select>
-    <button id="loadPresetBtn">Play Preset</button>
-
-  </div>
-  <br>
-
-  <div>
-    <button onclick="clearPreset()">Clear All Preset</button>
-    <select id="deletePresetSelector">
-      <option value="">-- เลือก Preset ที่จะลบ --</option>
-    </select>
-    <button onclick="deleteSelectedPreset()">ลบ Preset ที่เลือก</button>
-
-  </div>
-  <br>
-
-  <div>
  
-    <button onclick="exportSelectedPreset()">Export Preset</button>
-        <label for="importPresetFile" style="cursor:pointer;">
-          <select id="exportPresetSelect">
-            <option value="" disabled selected>-- เลือก Preset ที่จะ Export --</option>
-          </select>
-  <input type="file" id="importPresetFile" accept=".json" onchange="importPreset(event)" style="display: none;" />
- <button onclick="document.getElementById('importPresetFile').click()">Import Preset</button>
-          
-
-  </div>
   <div style="height: 20px;"></div>
-  <div style="display: flex;gap: 10px;">
-
-
-
-    <button id="stopAllBtn">🛑 Stop All</button>
-
-
-  </div>
-  <div id="beatIndicator">
-    <div class="beat" data-index="0"></div>
-    <div class="beat" data-index="1"></div>
-    <div class="beat" data-index="2"></div>
-    <div class="beat" data-index="3"></div>
-  </div>
+  
 
 
 
 
   <div id="padsContainer">
+    <div
+    class="category1"
+    style="
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+
+   
+    "
+  >
+    <!-- Preset Selector + Encoders -->
+    <div
+      style="
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      "
+    >
+      <div>
+        <select id="" style="padding: 8px 12px; border-radius: 6px; background-color: #2d3748; color: white; border: 1px solid #4a5568;">
+          <option value="">-- เลือก template --</option>
+        </select>
+      </div>
+  
+      <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder>
+      <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder>
+      <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder>
+      <midi-encoder label="Synth #" colour="#27ae60" data-category="synthContainer" init="100"></midi-encoder>
+      <midi-encoder label="FX #" colour="#27ae60" data-category="fxContainer" init="100"></midi-encoder>
+    </div>
+  
+    <!-- Beat Indicator + Stop All Button -->
+    <div
+      style="
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      "
+    >
+      <div id="beatIndicator" style="display: flex; gap: 6px; align-items: center;">
+        <div class="beat" data-index="0" style="width: 16px; height: 16px; background-color: #27ae60; border-radius: 50%; opacity: 0.3;"></div>
+        <div class="beat" data-index="1" style="width: 16px; height: 16px; background-color: #27ae60; border-radius: 50%; opacity: 0.3;"></div>
+        <div class="beat" data-index="2" style="width: 16px; height: 16px; background-color: #27ae60; border-radius: 50%; opacity: 0.3;"></div>
+        <div class="beat" data-index="3" style="width: 16px; height: 16px; background-color: #27ae60; border-radius: 50%; opacity: 0.3;"></div>
+      </div>
+      <button id="stopAllBtn">🛑 Stop All</button>
+    </div>
+  </div>
+   
+
     <div class="category">
-      <div style="display: flex; gap: 10px; align-items: center;">
+      <!-- <div style="display: flex; gap: 10px; align-items: center;"> -->
         <!-- <input type="range" min="0" max="1" step="0.01" value="1" data-category="drumContainer"
           class="volumeSlider"> -->
         
-           <div style="height: auto; width: 100%; display: flex; gap: 10px;">
+           <!-- <div style="height: auto; width: 100%; display: flex; gap: 10px;"> -->
           <!-- <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="drumContainer" init="100"></midi-slider>
           <midi-slider label="Drum #" colour="#2BA8E8" type="horizontal" data-id="slider2" data-category="drumContainer" init="100"></midi-slider> -->
-          <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder>
+        
 
-          </div>
-      </div>
+          <!-- </div> -->
+      <!-- </div> -->
       <div class="padContainer" id="drumContainer"></div>
     </div>
     <div class="category">
-      <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder>
+
       <div class="padContainer" id="bassContainer"></div>
     </div>
    
     <div class="category">
-      <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder>
+      
       <div class="padContainer" id="padContainer"></div>
     </div>
     <div class="category">
-      <midi-encoder label="Synth #" colour="#27ae60" data-category="synthContainer" init="100"></midi-encoder>
+    
       <div class="padContainer" id="synthContainer"></div>
     </div>
 
     <div class="category">
-      <midi-encoder label="FX #" colour="#27ae60" data-category="fxContainer" init="100"></midi-encoder>
+      
       <div class="padContainer" id="fxContainer"></div>
     </div>
   </div>
 
+
+  <!--  -->
+   <!-- <button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
+   <div style="display: flex; flex-direction: column; justify-content: flex-start; width: 100%; margin-top: 30px; margin-bottom: 30px; gap: 20px; font-family: sans-serif; color: white; padding: 20px; border-radius: 10px;">
+
+    <!-- Save & Load Preset -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button onclick="savePreset()" style="padding: 10px 16px; background-color: #2b6cb0; color: white; border: none; border-radius: 6px; cursor: pointer;">Save Preset</button>
+      <select id="presetSelector" style="padding: 8px 12px; border-radius: 6px; background-color: #2d3748; color: white; border: 1px solid #4a5568;">
+        <option value="">-- เลือก Preset --</option>
+      </select>
+      <button id="loadPresetBtn" style="padding: 10px 16px; background-color: #38a169; color: white; border: none; border-radius: 6px; cursor: pointer;">Play Preset</button>
+    </div>
+  
+    <!-- Clear & Delete Preset -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button onclick="clearPreset()" style="padding: 10px 16px; background-color: #e53e3e; color: white; border: none; border-radius: 6px; cursor: pointer;">Clear All Preset</button>
+      <select id="deletePresetSelector" style="padding: 8px 12px; border-radius: 6px; background-color: #2d3748; color: white; border: 1px solid #4a5568;">
+        <option value="">-- เลือก Preset ที่จะลบ --</option>
+      </select>
+      <button onclick="deleteSelectedPreset()" style="padding: 10px 16px; background-color: #dd6b20; color: white; border: none; border-radius: 6px; cursor: pointer;">ลบ Preset ที่เลือก</button>
+    </div>
+  
+    <!-- Export & Import Preset -->
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button onclick="exportSelectedPreset()" style="padding: 10px 16px; background-color: #805ad5; color: white; border: none; border-radius: 6px; cursor: pointer;">Export Preset</button>
+  
+      <select id="exportPresetSelect" style="padding: 8px 12px; border-radius: 6px; background-color: #2d3748; color: white; border: 1px solid #4a5568;">
+        <option value="" disabled selected>-- เลือก Preset ที่จะ Export --</option>
+      </select>
+  
+      <input type="file" id="importPresetFile" accept=".json" onchange="importPreset(event)" style="display: none;" />
+      <button onclick="document.getElementById('importPresetFile').click()" style="padding: 10px 16px; background-color: #4299e1; color: white; border: none; border-radius: 6px; cursor: pointer;">Import Preset</button>
+    </div>
+  
+  </div>
+  
+  
+  
   <script src="script.js">
   
 
