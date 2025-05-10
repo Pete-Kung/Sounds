@@ -3,7 +3,6 @@ let beatsPerBar = 4;
 let beatDuration = 60 / bpm;
 let barDuration = beatDuration * beatsPerBar;
 let currentBeat = 0;
-
 const beatEls = document.querySelectorAll(".beat");
 const bpmSlider = document.getElementById("bpmSlider");
 const bpmValueLabel = document.getElementById("bpmValue");
@@ -294,6 +293,7 @@ const sounds = [
 //   },
 // ];
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
 // Load audio buffer from file
 function loadBuffer(url) {
   return fetch(url)
