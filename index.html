@@ -84,9 +84,10 @@
     
     <div style="height: 20px"></div>
     <div></div>
-    <h1>Sound Wave Animation</h1>
-    <canvas id="waveformCanvas" width="800" height="400" style="border: 1px solid black;"></canvas>
+
     <div id="padsContainer" class="pads-container" >
+          <h1>Sound Wave Animation</h1>
+    <canvas id="waveformCanvas" width="800" height="400" style="border: 1px solid black;"></canvas>
       <div
      
         style="
@@ -229,9 +230,9 @@
       </div>
     </div>
 
-    <div id="padsContainerB" class="pads-container" style="display: none;">
+    <div id="padsContainerB" class="pads-container" style="display: none; width: 80%;">
 
-  <div style="width: 100%; max-width: 400px; margin: 0 auto; background: #2c003e; border-radius: 20px; padding: 20px; font-family: sans-serif;">
+  <div style="width: 100%;   margin: 0 auto; background: #2c003e; border-radius: 20px; padding: 20px; font-family: sans-serif;">
     
     <!-- Header Tabs -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -240,14 +241,15 @@
         <button id="tab-sequence" style="padding: 6px 12px; background: transparent; border: none; color: white;">SEQUENCE</button>
         <button id="tab-perform" style="padding: 6px 12px; background: transparent; border: none; color: white;">PERFORM</button>
       </div>
-      <button id="menu-button" style="background: transparent; border: none; color: white;">☰</button>
+      <!-- <button id="menu-button" style="background: transparent; border: none; color: white;">☰</button> -->
     </div>
 
     <!-- Controls -->
-    <div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 10px;">
-      <div id="listen-mode" style="width: 40px; height: 40px; background: #141414; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff;">🎧</div>
-      <div id="record-mode" style="width: 40px; height: 40px; background: #141414; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff;">🎤</div>
-    </div>
+<div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 10px;">
+  <div id="listen-mode" style="width: 60px; height: 60px; background: #141414; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff;">🎧</div>
+  <div id="record-mode" style="width: 60px; height: 60px; background: #141414; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff;">🎤</div>
+</div>
+
 
  <!-- Pad Grid -->
 <div id="pad-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
