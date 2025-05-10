@@ -64,12 +64,29 @@
         BPM
       </div>
     </div>
-
+    <div style="width: 100%; display: flex; justify-content: flex-start;">
+      <div
+        style="
+          display: flex;
+          gap: 10px;
+          background-color: #1a202c;
+          padding: 10px 15px;
+          border-radius: 8px;
+        "
+      >
+      <button class="template-btn" data-key="A" onclick="changeTemplate(this, 'A')">A</button>
+      <button class="template-btn" data-key="B" onclick="changeTemplate(this, 'B')">B</button>
+      <button class="template-btn" data-key="C" onclick="changeTemplate(this, 'C')">C</button>
+      <button class="template-btn" data-key="D" onclick="changeTemplate(this, 'D')">D</button>
+      
+      </div>
+    </div>
+    
     <div style="height: 20px"></div>
 
-    <div id="padsContainer">
+    <div id="padsContainer" class="pads-container" >
       <div
-        class="category1"
+     
         style="
           display: flex;
           flex-direction: row;
@@ -84,73 +101,7 @@
         <div
           style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
         >
-          <div
-            style="
-              display: flex;
-              gap: 10px;
-              background-color: #1a202c;
-              padding: 10px 15px;
-              border-radius: 8px;
-              width: fit-content;
-            "
-          >
-            <button
-              class="template-btn"
-              onclick="changeTemplate(this, 'A')"
-              style="
-                padding: 8px 12px;
-                background-color: #2d3748;
-                color: white;
-                border: 1px solid #4a5568;
-                border-radius: 6px;
-                cursor: pointer;
-              "
-            >
-              A
-            </button>
-            <button
-              class="template-btn"
-              onclick="changeTemplate(this, 'B')"
-              style="
-                padding: 8px 12px;
-                background-color: #2d3748;
-                color: white;
-                border: 1px solid #4a5568;
-                border-radius: 6px;
-                cursor: pointer;
-              "
-            >
-              B
-            </button>
-            <button
-              class="template-btn"
-              onclick="changeTemplate(this, 'C')"
-              style="
-                padding: 8px 12px;
-                background-color: #2d3748;
-                color: white;
-                border: 1px solid #4a5568;
-                border-radius: 6px;
-                cursor: pointer;
-              "
-            >
-              C
-            </button>
-            <button
-              class="template-btn"
-              onclick="changeTemplate(this, 'D')"
-              style="
-                padding: 8px 12px;
-                background-color: #2d3748;
-                color: white;
-                border: 1px solid #4a5568;
-                border-radius: 6px;
-                cursor: pointer;
-              "
-            >
-              D
-            </button>
-          </div>
+       
           <midi-encoder
             label="Drum #"
             colour="#27ae60"
@@ -268,7 +219,9 @@
         <div class="padContainer" id="fxContainer"></div>
       </div>
     </div>
-
+    <div id="padsContainerB" class="pads-container" style="display: none;">เนื้อหา Template B</div>
+    <div id="padsContainerC" class="pads-container" style="display: none;">เนื้อหา Template C</div>
+    <div id="padsContainerD" class="pads-container" style="display: none;">เนื้อหา Template D</div>
     <!--  -->
     <!-- <button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
     <div

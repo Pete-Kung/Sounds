@@ -138,16 +138,16 @@ const sounds = [
     file: "US_DTH_Drum_124_Hotel_FULL.wav",
     container: "drumContainer",
   },
-  {
-    name: "Drum 5",
-    file: "US_DTH_Drum_124_Bell_STRIPPED.wav",
-    container: "drumContainer",
-  },
-  {
-    name: "Drum 6",
-    file: "US_DTH_Drum_124_Road_FULL.wav",
-    container: "drumContainer",
-  },
+  // {
+  //   name: "Drum 5",
+  //   file: "US_DTH_Drum_124_Bell_STRIPPED.wav",
+  //   container: "drumContainer",
+  // },
+  // {
+  //   name: "Drum 6",
+  //   file: "US_DTH_Drum_124_Road_FULL.wav",
+  //   container: "drumContainer",
+  // },
 
   {
     name: "Bass 1",
@@ -169,23 +169,23 @@ const sounds = [
     file: "US_DTH_Bass_124_Marriage_Am.wav",
     container: "bassContainer",
   },
-  {
-    name: "Bass 5",
-    file: "US_DTH_Bass_124_Meeting_Fm.wav",
-    container: "bassContainer",
-  },
-  {
-    name: "Bass 6",
-    file: "US_DTH_Bass_124_sixty_Gm.wav",
-    container: "bassContainer",
-  },
+  // {
+  //   name: "Bass 5",
+  //   file: "US_DTH_Bass_124_Meeting_Fm.wav",
+  //   container: "bassContainer",
+  // },
+  // {
+  //   name: "Bass 6",
+  //   file: "US_DTH_Bass_124_sixty_Gm.wav",
+  //   container: "bassContainer",
+  // },
 
   { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
   { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
   { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "fxContainer" },
   { name: "FX 4", file: "US_DTH_FX_National.wav", container: "fxContainer" },
-  { name: "FX 5", file: "US_DTH_FX_Near.wav", container: "fxContainer" },
-  { name: "FX 6", file: "US_DTH_FX_Republic.wav", container: "fxContainer" },
+  // { name: "FX 5", file: "US_DTH_FX_Near.wav", container: "fxContainer" },
+  // { name: "FX 6", file: "US_DTH_FX_Republic.wav", container: "fxContainer" },
 
   {
     name: "Pad 1",
@@ -203,16 +203,16 @@ const sounds = [
     file: "US_DTH_Pad_124_Remesh.wav",
     container: "padContainer",
   },
-  {
-    name: "Pad 5",
-    file: "US_DTH_Pad_124_Sound_Em.wav",
-    container: "padContainer",
-  },
-  {
-    name: "Pad 6",
-    file: "US_DTH_Pad_124_Cold_Cm.wav",
-    container: "padContainer",
-  },
+  // {
+  //   name: "Pad 5",
+  //   file: "US_DTH_Pad_124_Sound_Em.wav",
+  //   container: "padContainer",
+  // },
+  // {
+  //   name: "Pad 6",
+  //   file: "US_DTH_Pad_124_Cold_Cm.wav",
+  //   container: "padContainer",
+  // },
 
   {
     name: "Synth 1",
@@ -234,16 +234,16 @@ const sounds = [
     file: "US_DTH_Synth_124_Brother_Fm.wav",
     container: "synthContainer",
   },
-  {
-    name: "Synth 5",
-    file: "US_DTH_Synth_124_Large_Cm.wav",
-    container: "synthContainer",
-  },
-  {
-    name: "Synth 6",
-    file: "US_DTH_Synth_124_Machine_Em.wav",
-    container: "synthContainer",
-  },
+  // {
+  //   name: "Synth 5",
+  //   file: "US_DTH_Synth_124_Large_Cm.wav",
+  //   container: "synthContainer",
+  // },
+  // {
+  //   name: "Synth 6",
+  //   file: "US_DTH_Synth_124_Machine_Em.wav",
+  //   container: "synthContainer",
+  // },
 ];
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 // Load audio buffer from file
@@ -570,22 +570,40 @@ function deleteSelectedPreset() {
   updateDeletePreset(); // อัปเดต dropdown ใหม่
   updatePresetDropdown();
 }
-
 function changeTemplate(el, key) {
-  // ลบ active class จากปุ่มทั้งหมด
+  // Reset ปุ่มทั้งหมด
   document.querySelectorAll('.template-btn').forEach((btn) => {
     btn.style.backgroundColor = '#2d3748';
     btn.style.border = '1px solid #4a5568';
   });
 
-  // เพิ่ม active style ให้ปุ่มที่กด
+  // Active ปุ่มที่กด
   el.style.backgroundColor = '#4a5568';
   el.style.border = '1px solid #63b3ed';
 
-  // log ค่า template
-  console.log('Template ที่เลือก:', key);
+  // ซ่อนทุก container
+  document.querySelectorAll('.pads-container').forEach((c) => {
+    c.style.display = 'none';
+  });
 
-  // TODO: ใส่ logic การเปลี่ยน layout template จริง ๆ ตรงนี้
+  // แสดงเฉพาะ container ที่ตรงกับ key
+  const selectedId = key === 'A' ? 'padsContainer'
+                    : key === 'B' ? 'padsContainerB'
+                    : key === 'C' ? 'padsContainerC'
+                    : 'padsContainerD';
+  const selectedContainer = document.getElementById(selectedId);
+  if (selectedContainer) {
+    selectedContainer.style.display = 'flex';
+  }
+
+  console.log('Template ที่เลือก:', key);
 }
+
+// ค่าเริ่มต้น: Template A
+window.addEventListener('DOMContentLoaded', () => {
+  const defaultBtn = document.querySelector('.template-btn[data-key="A"]');
+  if (defaultBtn) changeTemplate(defaultBtn, 'A');
+});
+
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
