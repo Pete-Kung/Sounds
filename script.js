@@ -117,134 +117,182 @@ decodeSlider.forEach((slider) => {
 document.querySelectorAll(".category").forEach((category) => {
   category.addEventListener("click", updateBPM);
 });
-const sounds = [
-  {
-    name: "Drum 1",
-    file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
-    container: "drumContainer",
-  },
-  {
-    name: "Drum 2",
-    file: "US_DTH_Drum_124_Block_TOP.wav",
-    container: "drumContainer",
-  },
-  {
-    name: "Drum 3",
-    file: "US_DTH_Drum_124_Bull_FULL.wav",
-    container: "drumContainer",
-  },
-  {
-    name: "Drum 4",
-    file: "US_DTH_Drum_124_Hotel_FULL.wav",
-    container: "drumContainer",
-  },
-  // {
-  //   name: "Drum 5",
-  //   file: "US_DTH_Drum_124_Bell_STRIPPED.wav",
-  //   container: "drumContainer",
-  // },
-  // {
-  //   name: "Drum 6",
-  //   file: "US_DTH_Drum_124_Road_FULL.wav",
-  //   container: "drumContainer",
-  // },
+// const sounds = [
+//   {
+//     name: "Drum 1",
+//     file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
+//     container: "drumContainer",
+//   },
+//   {
+//     name: "Drum 2",
+//     file: "US_DTH_Drum_124_Block_TOP.wav",
+//     container: "drumContainer",
+//   },
+//   {
+//     name: "Drum 3",
+//     file: "US_DTH_Drum_124_Bull_FULL.wav",
+//     container: "drumContainer",
+//   },
+//   {
+//     name: "Drum 4",
+//     file: "US_DTH_Drum_124_Hotel_FULL.wav",
+//     container: "drumContainer",
+//   },
 
-  {
-    name: "Bass 1",
-    file: "US_DTH_Bass_124_May_Fm.wav",
-    container: "bassContainer",
-  },
-  {
-    name: "Bass 2",
-    file: "US_DTH_Bass_124_Dark_Dm.wav",
-    container: "bassContainer",
-  },
-  {
-    name: "Bass 3",
-    file: "US_DTH_Bass_124_Great_Em.wav",
-    container: "bassContainer",
-  },
-  {
-    name: "Bass 4",
-    file: "US_DTH_Bass_124_Marriage_Am.wav",
-    container: "bassContainer",
-  },
-  // {
-  //   name: "Bass 5",
-  //   file: "US_DTH_Bass_124_Meeting_Fm.wav",
-  //   container: "bassContainer",
-  // },
-  // {
-  //   name: "Bass 6",
-  //   file: "US_DTH_Bass_124_sixty_Gm.wav",
-  //   container: "bassContainer",
-  // },
+//   {
+//     name: "Bass 1",
+//     file: "US_DTH_Bass_124_May_Fm.wav",
+//     container: "bassContainer",
+//   },
+//   {
+//     name: "Bass 2",
+//     file: "US_DTH_Bass_124_Dark_Dm.wav",
+//     container: "bassContainer",
+//   },
+//   {
+//     name: "Bass 3",
+//     file: "US_DTH_Bass_124_Great_Em.wav",
+//     container: "bassContainer",
+//   },
+//   {
+//     name: "Bass 4",
+//     file: "US_DTH_Bass_124_Marriage_Am.wav",
+//     container: "bassContainer",
+//   },
 
-  { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
-  { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
-  { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "fxContainer" },
-  { name: "FX 4", file: "US_DTH_FX_National.wav", container: "fxContainer" },
-  // { name: "FX 5", file: "US_DTH_FX_Near.wav", container: "fxContainer" },
-  // { name: "FX 6", file: "US_DTH_FX_Republic.wav", container: "fxContainer" },
 
-  {
-    name: "Pad 1",
-    file: "US_DTH_Pad_124_Future.wav",
-    container: "padContainer",
-  },
-  {
-    name: "Pad 2",
-    file: "US_DTH_Pad_124_Gazzelle.wav",
-    container: "padContainer",
-  },
-  { name: "Pad 3", file: "US_DTH_Pad_124_Pray.wav", container: "padContainer" },
-  {
-    name: "Pad 4",
-    file: "US_DTH_Pad_124_Remesh.wav",
-    container: "padContainer",
-  },
-  // {
-  //   name: "Pad 5",
-  //   file: "US_DTH_Pad_124_Sound_Em.wav",
-  //   container: "padContainer",
-  // },
-  // {
-  //   name: "Pad 6",
-  //   file: "US_DTH_Pad_124_Cold_Cm.wav",
-  //   container: "padContainer",
-  // },
+//   { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
+//   { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
+//   { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "fxContainer" },
+//   { name: "FX 4", file: "US_DTH_FX_National.wav", container: "fxContainer" },
 
-  {
-    name: "Synth 1",
-    file: "US_DTH_Synth_124_Again.wav",
-    container: "synthContainer",
-  },
-  {
-    name: "Synth 2",
-    file: "US_DTH_Synth_124_Agree_G.wav",
-    container: "synthContainer",
-  },
-  {
-    name: "Synth 3",
-    file: "US_DTH_Synth_124_Begin.wav",
-    container: "synthContainer",
-  },
-  {
-    name: "Synth 4",
-    file: "US_DTH_Synth_124_Brother_Fm.wav",
-    container: "synthContainer",
-  },
-  // {
-  //   name: "Synth 5",
-  //   file: "US_DTH_Synth_124_Large_Cm.wav",
-  //   container: "synthContainer",
-  // },
-  // {
-  //   name: "Synth 6",
-  //   file: "US_DTH_Synth_124_Machine_Em.wav",
-  //   container: "synthContainer",
-  // },
-];
+//   {
+//     name: "Pad 1",
+//     file: "US_DTH_Pad_124_Future.wav",
+//     container: "padContainer",
+//   },
+//   {
+//     name: "Pad 2",
+//     file: "US_DTH_Pad_124_Gazzelle.wav",
+//     container: "padContainer",
+//   },
+//   { name: "Pad 3", file: "US_DTH_Pad_124_Pray.wav", container: "padContainer" },
+//   {
+//     name: "Pad 4",
+//     file: "US_DTH_Pad_124_Remesh.wav",
+//     container: "padContainer",
+//   },
+ 
+
+//   {
+//     name: "Synth 1",
+//     file: "US_DTH_Synth_124_Again.wav",
+//     container: "synthContainer",
+//   },
+//   {
+//     name: "Synth 2",
+//     file: "US_DTH_Synth_124_Agree_G.wav",
+//     container: "synthContainer",
+//   },
+//   {
+//     name: "Synth 3",
+//     file: "US_DTH_Synth_124_Begin.wav",
+//     container: "synthContainer",
+//   },
+//   {
+//     name: "Synth 4",
+//     file: "US_DTH_Synth_124_Brother_Fm.wav",
+//     container: "synthContainer",
+//   },
+ 
+// ];
+
+// const sounds = [
+//   {
+//     name: "Drum 1",
+//     file: "Drum_130_01.wav",
+//     container: "drumContainer",
+//   },
+//   {
+//     name: "Drum 2",
+//     file: "Drum_130_02.wav",
+//     container: "drumContainer",
+//   },
+//   {
+//     name: "Drum 3",
+//     file: "Drum_130_03.wav",
+//     container: "drumContainer",
+//   },
+//   {
+//     name: "Drum 4",
+//     file: "Drum_130_04.wav",
+//     container: "drumContainer",
+//   },
+
+//   {
+//     name: "Bass 1",
+//     file: "Bass_130_01.wav",
+//     container: "bassContainer",
+//   },
+//   {
+//     name: "Bass 2",
+//     file: "Bass_130_02.wav",
+//     container: "bassContainer",
+//   },
+//   {
+//     name: "Bass 3",
+//     file: "Bass_130_03.wav",
+//     container: "bassContainer",
+//   },
+//   {
+//     name: "Bass 4",
+//     file: "Bass_130_04.wav",
+//     container: "bassContainer",
+//   },
+
+//   { name: "FX 1", file: "Fx_130_01.wav", container: "fxContainer" },
+//   { name: "FX 2", file: "Fx_130_02.wav", container: "fxContainer" },
+//   { name: "FX 3", file: "Fx_130_03.wav", container: "fxContainer" },
+//   { name: "FX 4", file: "Fx_130_04.wav", container: "fxContainer" },
+
+//   {
+//     name: "Pad 1",
+//     file: "Pad_130_01.wav",
+//     container: "padContainer",
+//   },
+//   {
+//     name: "Pad 2",
+//     file: "Pad_130_02.wav",
+//     container: "padContainer",
+//   },
+//   { name: "Pad 3", file: "Pad_130_03.wav", container: "padContainer" },
+//   {
+//     name: "Pad 4",
+//     file: "Pad_130_04.wav",
+//     container: "padContainer",
+//   },
+
+//   {
+//     name: "Synth 1",
+//     file: "Synth_130_01.wav",
+//     container: "synthContainer",
+//   },
+//   {
+//     name: "Synth 2",
+//     file: "Synth_130_02.wav",
+//     container: "synthContainer",
+//   },
+//   {
+//     name: "Synth 3",
+//     file: "Synth_130_03.wav",
+//     container: "synthContainer",
+//   },
+//   {
+//     name: "Synth 4",
+//     file: "Synth_130_04.wav",
+//     container: "synthContainer",
+//   },
+// ];
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 // Load audio buffer from file
 function loadBuffer(url) {
