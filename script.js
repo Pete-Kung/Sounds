@@ -252,104 +252,10 @@ function loadBuffer(url) {
     .then((res) => res.arrayBuffer())
     .then((buf) => audioContext.decodeAudioData(buf));
 }
-function createPad(sound) {
-  const pad = document.createElement("div");
-  pad.classList.add("pad");
-  pad.innerText = sound.name;
-  pad.dataset.playing = "false";
-  pad.buffer = null;
-  pad.source = null;
-  loadBuffer(`./sounds/${sound.file}`).then((buffer) => {
-    pad.buffer = buffer;
-  });
-  pad.addEventListener("click", () => {
-    const container = document.getElementById(sound.container);
-    const currentlyPlayingPad = container.querySelector(
-      ".pad[data-playing='true']"
-    );
-    if (currentlyPlayingPad && currentlyPlayingPad !== pad) {
-      stopPad(currentlyPlayingPad); // หยุดเสียงเก่าที่กำลังเล่นอยู่
-    }
-    // รอให้เสียงใหม่เริ่มเล่นที่จังหวะถัดไป
-    if (pad.dataset.playing === "true") {
-      stopPad(pad); // หยุดเสียงเดิมถ้าเล่นอยู่
-    } else {
-      queueStartPad(pad); // Wait for the beat to sync before starting
-      // เริ่มเสียงใหม่ที่จังหวะถัดไป
-      //queueStartPadAtNextBeat(pad);
-    }
-  });
-  // ฟังก์ชันเพื่อเริ่มเสียงใหม่ที่จังหวะถัดไ
-  document.getElementById(sound.container).appendChild(pad);
-}
-function stopPad(pad) {
-  if (pad.source && pad.gainNode) {
-    const stopTime =
-      Math.ceil(audioContext.currentTime / barDuration) * barDuration;
-    pad.gainNode.gain.setValueAtTime(
-      pad.gainNode.gain.value,
-      audioContext.currentTime
-    );
-    pad.gainNode.gain.linearRampToValueAtTime(0, stopTime);
-    pad.source.stop(stopTime);
-    pad.pendingStopTime = stopTime; // 👈 เก็บเวลาไว้
-    pad.dataset.playing = "false";
-    setTimeout(() => {
-      pad.source.disconnect();
-      pad.gainNode.disconnect();
-      pad.source = null;
-      pad.gainNode = null;
-      pad.pendingStopTime = null; // clear
-      pad.classList.remove("active");
-    }, (stopTime - audioContext.currentTime) * 1000 + 50);
-  }
-}
+
+
 // Initialize all the pads
-sounds.forEach(createPad);
 
-function queueStartPad(pad) {
-  const container = document.getElementById(pad.parentElement.id);
-  const currentlyPlayingPad = container.querySelector(
-    ".pad[data-playing='true']"
-  );
-
-  if (currentlyPlayingPad && currentlyPlayingPad !== pad) {
-    stopPad(currentlyPlayingPad);
-    // รอจนกว่า pad เดิมจะหยุดก่อนค่อยเริ่มใหม่
-    const waitTime =
-      (currentlyPlayingPad.pendingStopTime || audioContext.currentTime) -
-      audioContext.currentTime;
-
-    setTimeout(() => {
-      actuallyQueuePad(pad);
-    }, waitTime * 1000);
-  } else {
-    actuallyQueuePad(pad);
-  }
-}
-function actuallyQueuePad(pad) {
-  const nextBarTime =
-    Math.ceil(audioContext.currentTime / barDuration) * barDuration;
-  const currentBeat = Math.floor((nextBarTime % barDuration) / beatDuration);
-  const source = audioContext.createBufferSource();
-  const gainNode = audioContext.createGain();
-
-  source.buffer = pad.buffer;
-  source.loop = true;
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  pad.source = source;
-  pad.gainNode = gainNode;
-  gainNode.gain.setValueAtTime(1, nextBarTime);
-  source.start(nextBarTime);
-  pad.dataset.playing = "true";
-  pad.classList.add("active");
-  // optional: บอกผู้ใช้ว่ากำลังจะเริ่ม
-  beatEls[currentBeat].classList.add("pending");
-  setTimeout(() => {
-    beatEls[currentBeat].classList.remove("pending");
-  }, (nextBarTime - audioContext.currentTime) * 1000);
-}
 function stopAllPads() {
   const pads = document.querySelectorAll(".pad");
   pads.forEach((pad) => {
