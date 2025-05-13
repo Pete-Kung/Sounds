@@ -61,7 +61,14 @@ function queueStartPadB(pad) {
       });
     }
   }
-  
+  function stopAllPadsB() {
+    const pads = document.querySelectorAll(".padB");
+    pads.forEach((pad) => {
+      if (pad.dataset.playing === "true") {
+        stopPadB(pad);
+      }
+    });
+  }
   
 
 function createPadB(sound) {
