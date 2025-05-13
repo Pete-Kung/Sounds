@@ -66,7 +66,7 @@ function queueStartPadB(pad) {
 
 function createPadB(sound) {
   const pad = document.createElement("div");
-  pad.classList.add("pad");
+  pad.classList.add("padB");
   pad.innerText = sound.name;
   pad.dataset.playing = "false";
   pad.buffer = null;

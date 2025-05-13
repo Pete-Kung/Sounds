@@ -76,7 +76,7 @@
   <div style="height: 20px"></div>
   <div></div>
 
-  <div id="padsContainer" class="pads-container">_
+  <div id="padsContainer" class="pads-container">
     <h1>Sound Wave Animation</h1>
     <canvas id="waveformCanvas" width="800" height="400" style="border: 1px solid black"></canvas>
     <div style="
@@ -179,17 +179,17 @@
     </div>
   </div>
 
-  <div id="padsContainerB" class="pads-container" style="display: none; width: 80%;    align-items: center;
+  <div id="padsContainerB" class="pads-container" style="display: none; width: 100%;    align-items: center;
     justify-content: center;">
 
-    <div style="display: flex; flex-direction: column;">
+    <div style="display: flex; flex-direction: column; ">
       <div style="
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start;
+ gap: 10px;
     flex-wrap: wrap;
-    gap: 1rem;
+  align-items: flex-end;
     padding: 1rem;
   ">
         <!-- Preset Selector + Sliders -->
@@ -245,20 +245,29 @@
           <button id="stopAllBtnB" onclick="stopPadB()">🛑 Stop All</button>
         </div>
       </div>
-      <div style="
+
+  <!-- Grid Container -->
+  <div style="
           width: 100%;
+    
+
           margin: 0 auto;
           background: #2c003e;
           border-radius: 20px;
           padding: 20px;
           font-family: sans-serif;
         ">
-        <!-- Pad Containers -->
-        <div id="padB-grid">
-          <div id="padB-1" class="padContainerB"></div>
-          <div id="padB-2" class="padContainerB"></div>
-        </div>
-      </div>
+    <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+   <div class="categoryB">
+      <div class="padContainer" id="padB-1"></div>
+    </div>
+     <div class="categoryB">
+
+       <div id="padB-2" class="padContainer" ></div>
+     </div>
+   
+  </div>
+
     </div>
   </div>
 
