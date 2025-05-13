@@ -313,6 +313,7 @@ function stopAllPads() {
   });
 }
 document.getElementById("stopAllBtn").addEventListener("click", stopAllPads);
+
 // function toggleMuteGroup(containerId) {
 //   const container = document.getElementById(containerId);
 //   const pads = container.querySelectorAll(".pad");
