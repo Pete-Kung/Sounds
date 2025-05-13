@@ -20,29 +20,38 @@ function beatLoop() {
 }
 
 function updateBPM() {
-  const newBpm = parseInt(bpmSlider.value);
-  console.log(newBpm, "bpm");
+  let newBpm = parseInt(bpmSlider.value);
+  console.log("Input BPM:", newBpm);
 
-  if (!newBpm || isNaN(newBpm)) {
-    stopAllPads();
-  } else {
-    bpm = newBpm;
-    bpmValueLabel.textContent = bpm;
-    beatDuration = 60 / bpm;
-    barDuration = beatDuration * beatsPerBar;
-
-    const pads = document.querySelectorAll(".pad");
-    pads.forEach((pad) => {
-      if (pad.dataset.playing === "true" && pad.source) {
-        pad.source.playbackRate.value = bpm / 124;
-      }
-    });
-
-    // รีสตาร์ท loop ด้วย timeout ใหม่ตาม bpm
-    clearTimeout(beatLoopTimeoutId);
-    beatLoop();
+  // ถ้าไม่ใช่ตัวเลข ให้ใช้ค่าเริ่มต้น 120
+  if (isNaN(newBpm)) {
+    newBpm = 120;
   }
+
+  // บีบค่าให้อยู่ในช่วง 60 - 200
+  newBpm = Math.max(60, Math.min(200, newBpm));
+
+  // ตั้งค่า bpmSlider ให้แสดงค่าที่แก้ไขแล้ว
+  bpmSlider.value = newBpm;
+
+  bpm = newBpm;
+  bpmValueLabel.textContent = bpm;
+  beatDuration = 60 / bpm;
+  barDuration = beatDuration * beatsPerBar;
+
+  const pads = document.querySelectorAll(".pad");
+  pads.forEach((pad) => {
+    if (pad.dataset.playing === "true" && pad.source) {
+      pad.source.playbackRate.value = bpm / 120;
+    }
+  });
+
+  clearTimeout(beatLoopTimeoutId);
+  beatLoop();
 }
+
+
+
 
 confirmButton.addEventListener("click", updateBPM);
 
@@ -75,7 +84,7 @@ function onSliderChange(e) {
   const sliderId = slider.getAttribute("data-id") || "unknown";
   const label = slider.getAttribute("label") || "Slider";
   const category = slider.getAttribute("data-category");
-  const volume = parseFloat(e.detail.value)/100;
+  const volume = parseFloat(e.detail.value) / 100;
 
   console.log(`[${sliderId}] ${label} changed:`, volume);
 
@@ -181,7 +190,7 @@ const sounds = [
     file: "US_DTH_Pad_124_Remesh.wav",
     container: "padContainer",
   },
- 
+
 
   {
     name: "Synth 1",
@@ -203,7 +212,7 @@ const sounds = [
     file: "US_DTH_Synth_124_Brother_Fm.wav",
     container: "synthContainer",
   },
- 
+
 ];
 
 // const sounds = [
@@ -548,9 +557,9 @@ function changeTemplate(el, key) {
 
   // แสดงเฉพาะ container ที่ตรงกับ key
   const selectedId = key === 'A' ? 'padsContainer'
-                    : key === 'B' ? 'padsContainerB'
-                    : key === 'C' ? 'padsContainerC'
-                    : 'padsContainerD';
+    : key === 'B' ? 'padsContainerB'
+      : key === 'C' ? 'padsContainerC'
+        : 'padsContainerD';
   const selectedContainer = document.getElementById(selectedId);
   if (selectedContainer) {
     selectedContainer.style.display = 'flex';

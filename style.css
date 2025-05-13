@@ -23,7 +23,7 @@ h1 {
   gap: 20px;
   margin-bottom: 20px;
 }
-.pad.playing {
+.padB.playing {
   background-color: #ff4081; /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
   color: white;
   font-weight: bold;
