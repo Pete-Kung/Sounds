@@ -105,9 +105,7 @@ function drawWaveform(canvas, blob) {
 
   reader.onloadend = () => {
     const arrayBuffer = reader.result;
-
     const offlineCtx = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100 * 5, 44100); // 5 วินาที
-
     offlineCtx.decodeAudioData(arrayBuffer, (audioBuffer) => {
       const rawData = audioBuffer.getChannelData(0);
       const samples = canvas.width;
@@ -134,7 +132,6 @@ function drawWaveform(canvas, blob) {
       console.error('decode error:', err);
     });
   };
-
   reader.readAsArrayBuffer(blob);
 }
 

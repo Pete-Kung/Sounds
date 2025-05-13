@@ -300,7 +300,11 @@ function loadBuffer(url) {
     .then((res) => res.arrayBuffer())
     .then((buf) => audioContext.decodeAudioData(buf));
 }
-
+function loadBufferB(url) {
+  return fetch(url)
+    .then((res) => res.arrayBuffer())
+    .then((buf) => audioContext.decodeAudioData(buf));
+}
 
 // Initialize all the pads
 
@@ -525,6 +529,7 @@ function deleteSelectedPreset() {
   updateDeletePreset(); // อัปเดต dropdown ใหม่
   updatePresetDropdown();
 }
+
 function changeTemplate(el, key) {
   // Reset ปุ่มทั้งหมด
   document.querySelectorAll('.template-btn').forEach((btn) => {

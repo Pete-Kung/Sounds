@@ -1,7 +1,6 @@
 // สร้าง GainNode หลักที่ใช้รวมเสียงทั้งหมด
 const mainGainNode = audioContext.createGain();
 mainGainNode.connect(audioContext.destination); // เชื่อมต่อกับ output ของ audioContext
-console.log(mainGainNode);
 function createPad(sound) {
     const pad = document.createElement("div");
     pad.classList.add("pad");
@@ -62,16 +61,17 @@ function createPad(sound) {
 sounds.forEach(createPad);
 
 function queueStartPadFx(pad) {
-    const nextBarTime = audioContext.currentTime; // เล่นทันที ไม่ต้อง sync
+    const nextBarTime = audioContext.currentTime;
+
     const source = audioContext.createBufferSource();
     const gainNode = audioContext.createGain();
 
     source.buffer = pad.buffer;
-    source.loop = pad.parentElement.id !== "fxContainer"; // fxContainer ไม่ loop
+    source.loop = pad.parentElement.id !== "fxContainer"; // ถ้าไม่ใช่ fxContainer ให้ loop
 
     source.connect(gainNode);
     gainNode.connect(audioContext.destination);
-    gainNode.connect(mainGainNode); // เชื่อมต่อกับ mainGainNode ที่รวมเสียงทั้งหมด
+    gainNode.connect(mainGainNode);
 
     pad.source = source;
     pad.gainNode = gainNode;
@@ -82,10 +82,32 @@ function queueStartPadFx(pad) {
     pad.dataset.playing = "true";
     pad.classList.add("active");
 
-    // เผื่อมี pendingStopTime จากครั้งก่อน
     pad.pendingStopTime = null;
-    pad._startTime = nextBarTime; // 🕒 เก็บเวลาตอนเริ่ม
+    pad._startTime = nextBarTime;
+
+    // 📌 เพิ่ม event สำหรับ "ปล่อยมือ"
+    const stopPad = () => {
+        if (pad.dataset.playing === "true") {
+            try {
+                pad.source.stop();
+            } catch (e) {
+                console.warn("already stopped");
+            }
+
+            pad.dataset.playing = "false";
+            pad.classList.remove("active");
+        }
+
+        // ลบ event listener หลังใช้
+        window.removeEventListener("mouseup", stopPad);
+        window.removeEventListener("touchend", stopPad);
+    };
+
+    // ⌛ รอจนกว่าผู้ใช้จะปล่อย
+    window.addEventListener("mouseup", stopPad);
+    window.addEventListener("touchend", stopPad);
 }
+
 function stopPadFx(pad) {
     if (pad.source && pad.gainNode) {
         const now = audioContext.currentTime;
@@ -123,7 +145,6 @@ function queueStartPad(pad) {
     const containerPads = document.querySelectorAll(".padContainer");
     let currentlyPlayingPad2 = null;
 
-    // ตรวจสอบว่าใน containerPads ไหนที่มี pad กำลังเล่น
     containerPads.forEach(containerpad => {
         const padInContainer = containerpad.querySelector(".pad[data-playing='true']");
         if (padInContainer) {
@@ -131,67 +152,67 @@ function queueStartPad(pad) {
         }
     });
 
-    console.log(currentlyPlayingPad2);
+    const lockedTime = audioContext.currentTime;
+    const syncedStartTime = Math.ceil(lockedTime / barDuration) * barDuration;
 
     if (currentlyPlayingPad2 == null) {
-        // ✅ ไม่มี pad กำลังเล่น → เล่นทันที
-        actuallyQueuePad(pad, false);
+        // ✅ ไม่มี pad เล่นอยู่ → เริ่มทันทีแบบไม่ต้อง sync
+        actuallyQueuePad(pad, false, lockedTime, lockedTime); // sync = false
     } else {
         if (currentlyPlayingPad !== pad) {
             stopPad(currentlyPlayingPad);
-
-            const waitTime =
-                (currentlyPlayingPad?.pendingStopTime || audioContext.currentTime) - audioContext.currentTime;
-
+            const waitTime = (currentlyPlayingPad?.pendingStopTime || lockedTime) - lockedTime;
             setTimeout(() => {
-                actuallyQueuePad(pad, true); // เล่นแบบ sync หลัง pad เดิมหยุด
+                actuallyQueuePad(pad, true, lockedTime, syncedStartTime);
             }, waitTime * 1000);
         } else {
-            actuallyQueuePad(pad, true); // คลิกซ้ำ → เล่นต่อ
+            actuallyQueuePad(pad, true, lockedTime, syncedStartTime);
         }
     }
 }
 
-function actuallyQueuePad(pad, sync = true) {
-    const currentTime = audioContext.currentTime;
 
-    // คำนวณเวลาเริ่มต้นที่แน่นอน (รอจนกว่าจะถึงจังหวะถัดไป)
-    const startTime = sync
-        ? Math.ceil(currentTime / barDuration) * barDuration // หาจังหวะถัดไปที่ตรง
-        : currentTime;
 
-    const currentBeat = Math.floor((currentTime % barDuration) / beatDuration);
+function actuallyQueuePad(pad, sync = true, lockedTime = audioContext.currentTime, startTime = null) {
+    const actualStartTime = sync
+        ? (startTime ?? Math.ceil(lockedTime / barDuration) * barDuration)
+        : lockedTime; // ถ้าไม่ sync → เริ่มทันที
+
+    const currentBeat = Math.floor((lockedTime % barDuration) / beatDuration);
 
     const source = audioContext.createBufferSource();
     const gainNode = audioContext.createGain();
+
+    console.log(`[PAD START] startTime: ${actualStartTime.toFixed(3)}, now: ${lockedTime.toFixed(3)}, diff: ${(actualStartTime - lockedTime).toFixed(3)}`);
 
     source.buffer = pad.buffer;
     source.loop = true;
 
     source.connect(gainNode);
-    gainNode.connect(mainGainNode); // เชื่อมต่อกับ mainGainNode ที่รวมเสียงทั้งหมด
+    gainNode.connect(mainGainNode);
 
     pad.source = source;
     pad.gainNode = gainNode;
 
-    gainNode.gain.setValueAtTime(1, startTime); // ระดับเสียงที่เวลา startTime
-    source.start(startTime); // เริ่มเสียงในช่วงเวลาที่คำนวณไว้
+    gainNode.gain.setValueAtTime(1, actualStartTime);
+    source.start(actualStartTime);
 
     pad.dataset.playing = "true";
     pad.classList.add("active");
 
-    // คำนวณเวลาที่ pad ถัดไปจะหยุด (สำหรับการเล่นซ้ำ)
-    const nextStartTime = Math.ceil(audioContext.currentTime / barDuration) * barDuration;
+    const nextStartTime = Math.ceil(lockedTime / barDuration) * barDuration;
     pad.pendingStopTime = nextStartTime;
 
-    // ทำให้ beat ปัจจุบันแสดงสถานะ pending (ระหว่างรอ)
     if (sync) {
         beatEls[currentBeat].classList.add("pending");
         setTimeout(() => {
             beatEls[currentBeat].classList.remove("pending");
-        }, (nextStartTime - currentTime) * 1000); // ใช้เวลารอที่คำนวณใหม่
+        }, (nextStartTime - lockedTime) * 1000);
     }
 }
+
+
+
 
 
 function stopPad(pad) {
@@ -215,53 +236,53 @@ function stopPad(pad) {
     }
 }
 
-    // สร้าง AnalyserNode สำหรับดึงข้อมูลเสียง
-    const analyser = audioContext.createAnalyser();
-    mainGainNode.connect(analyser); // เชื่อมต่อกับ mainGainNode เพื่อดึงข้อมูล
+// สร้าง AnalyserNode สำหรับดึงข้อมูลเสียง
+const analyser = audioContext.createAnalyser();
+mainGainNode.connect(analyser); // เชื่อมต่อกับ mainGainNode เพื่อดึงข้อมูล
 
-    analyser.fftSize = 256; // ขนาด FFT
-    const bufferLength = analyser.frequencyBinCount; // จำนวนข้อมูลที่ได้
-    const dataArray = new Uint8Array(bufferLength);
+analyser.fftSize = 256; // ขนาด FFT
+const bufferLength = analyser.frequencyBinCount; // จำนวนข้อมูลที่ได้
+const dataArray = new Uint8Array(bufferLength);
 
-    const canvas = document.getElementById("waveformCanvas");
-    const canvasCtx = canvas.getContext("2d");
+const canvas = document.getElementById("waveformCanvas");
+const canvasCtx = canvas.getContext("2d");
 
-    function draw() {
-        analyser.getByteTimeDomainData(dataArray); // รับข้อมูลเสียงจาก AnalyserNode
+function draw() {
+    analyser.getByteTimeDomainData(dataArray); // รับข้อมูลเสียงจาก AnalyserNode
 
-        canvasCtx.clearRect(0, 0, canvas.width, canvas.height); // ลบภาพเดิม
-        canvasCtx.lineWidth = 2;
-        canvasCtx.strokeStyle = "rgb(0, 255, 0)";
-        canvasCtx.beginPath();
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height); // ลบภาพเดิม
+    canvasCtx.lineWidth = 2;
+    canvasCtx.strokeStyle = "rgb(0, 255, 0)";
+    canvasCtx.beginPath();
 
-        const sliceWidth = canvas.width / bufferLength;
-        let x = 0;
+    const sliceWidth = canvas.width / bufferLength;
+    let x = 0;
 
-        for (let i = 0; i < bufferLength; i++) {
-            const v = dataArray[i] / 128.0;
-            const y = v * canvas.height / 2;
+    for (let i = 0; i < bufferLength; i++) {
+        const v = dataArray[i] / 128.0;
+        const y = v * canvas.height / 2;
 
-            if (i === 0) {
-                canvasCtx.moveTo(x, y);
-            } else {
-                canvasCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
+        if (i === 0) {
+            canvasCtx.moveTo(x, y);
+        } else {
+            canvasCtx.lineTo(x, y);
         }
 
-        canvasCtx.lineTo(canvas.width, canvas.height / 2);
-        canvasCtx.stroke();
-
-        requestAnimationFrame(draw); // เรียกใช้งาน draw ซ้ำในทุกๆ เฟรม
+        x += sliceWidth;
     }
 
-    function startWaveAnimation() {
-        draw(); // เริ่มการวาดกราฟคลื่นเสียง
-    }
+    canvasCtx.lineTo(canvas.width, canvas.height / 2);
+    canvasCtx.stroke();
 
-    // เริ่มต้นการแสดงผล
-    startWaveAnimation();
+    requestAnimationFrame(draw); // เรียกใช้งาน draw ซ้ำในทุกๆ เฟรม
+}
+
+function startWaveAnimation() {
+    draw(); // เริ่มการวาดกราฟคลื่นเสียง
+}
+
+// เริ่มต้นการแสดงผล
+startWaveAnimation();
 
 
 

@@ -17,7 +17,31 @@ h1 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   text-align: center;
 }
+#padB-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.pad.playing {
+  background-color: #ff4081; /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 10px #ff4081;
+}
 
+.padContainerB {
+  background: #00d8ff;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 #padsContainer {
   display: flex;
   flex-direction: column;

@@ -76,7 +76,7 @@
   <div style="height: 20px"></div>
   <div></div>
 
-  <div id="padsContainer" class="pads-container">
+  <div id="padsContainer" class="pads-container">_
     <h1>Sound Wave Animation</h1>
     <canvas id="waveformCanvas" width="800" height="400" style="border: 1px solid black"></canvas>
     <div style="
@@ -183,8 +183,7 @@
     justify-content: center;">
 
     <div style="display: flex; flex-direction: column;">
-<div
-  style="
+      <div style="
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -192,115 +191,61 @@
     flex-wrap: wrap;
     gap: 1rem;
     padding: 1rem;
-  "
->
-  <!-- Preset Selector + Sliders -->
-  <div
-    style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
-  >
-    <midi-slider
-      label="Drum #"
-      colour="#A82BE8"
-      type="vertical"
-      data-id="slider1"
-      data-category="drumContainer"
-      init="100"
-    ></midi-slider>
+  ">
+        <!-- Preset Selector + Sliders -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+          <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="drumContainer"
+            init="100"></midi-slider>
 
-    <midi-slider
-      label="Bass #"
-      colour="#A82BE8"
-      type="vertical"
-      data-id="slider2"
-      data-category="bassContainer"
-      init="100"
-    ></midi-slider>
+          <midi-slider label="Bass #" colour="#A82BE8" type="vertical" data-id="slider2" data-category="bassContainer"
+            init="100"></midi-slider>
 
-    <midi-slider
-      label="Pad #"
-      colour="#A82BE8"
-      type="vertical"
-      data-id="slider3"
-      data-category="padContainer"
-      init="100"
-    ></midi-slider>
+          <midi-slider label="Pad #" colour="#A82BE8" type="vertical" data-id="slider3" data-category="padContainer"
+            init="100"></midi-slider>
 
-    <midi-slider
-      label="Synth #"
-      colour="#A82BE8"
-      type="vertical"
-      data-id="slider4"
-      data-category="synthContainer"
-      init="100"
-    ></midi-slider>
+          <midi-slider label="Synth #" colour="#A82BE8" type="vertical" data-id="slider4" data-category="synthContainer"
+            init="100"></midi-slider>
 
-    <midi-slider
-      label="FX #"
-      colour="#A82BE8"
-      type="vertical"
-      data-id="slider5"
-      data-category="fxContainer"
-      init="100"
-    ></midi-slider>
-  </div>
+          <midi-slider label="FX #" colour="#A82BE8" type="vertical" data-id="slider5" data-category="fxContainer"
+            init="100"></midi-slider>
+        </div>
 
-  <!-- Beat Indicator + Stop All Button -->
-  <div
-    style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
-  >
-    <div
-      id="beatIndicatorB"
-      style="display: flex; gap: 6px; align-items: center"
-    >
-      <div
-        class="beat"
-        data-index="0"
-        style="
+        <!-- Beat Indicator + Stop All Button -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+          <div id="beatIndicatorB" style="display: flex; gap: 6px; align-items: center">
+            <div class="beat" data-index="0" style="
           width: 16px;
           height: 16px;
           background-color: #27ae60;
           border-radius: 50%;
           opacity: 0.3;
-        "
-      ></div>
-      <div
-        class="beat"
-        data-index="1"
-        style="
+        "></div>
+            <div class="beat" data-index="1" style="
           width: 16px;
           height: 16px;
           background-color: #27ae60;
           border-radius: 50%;
           opacity: 0.3;
-        "
-      ></div>
-      <div
-        class="beat"
-        data-index="2"
-        style="
+        "></div>
+            <div class="beat" data-index="2" style="
           width: 16px;
           height: 16px;
           background-color: #27ae60;
           border-radius: 50%;
           opacity: 0.3;
-        "
-      ></div>
-      <div
-        class="beat"
-        data-index="3"
-        style="
+        "></div>
+            <div class="beat" data-index="3" style="
           width: 16px;
           height: 16px;
           background-color: #27ae60;
           border-radius: 50%;
           opacity: 0.3;
-        "
-      ></div>
-    </div>
-    <button id="stopAllBtnB">🛑 Stop All</button>
-  </div>
-</div>
- <div style="
+        "></div>
+          </div>
+          <button id="stopAllBtnB" onclick="stopPadB()">🛑 Stop All</button>
+        </div>
+      </div>
+      <div style="
           width: 100%;
           margin: 0 auto;
           background: #2c003e;
@@ -308,149 +253,17 @@
           padding: 20px;
           font-family: sans-serif;
         ">
-<!-- Pad Containers -->
-<div id="padB-grid" style="
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-          ">
-        <!-- ปุ่ม Pad 1-8 -->
-        <div id="padB-1" style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                pointer-events: auto;
-              "></canvas>
+        <!-- Pad Containers -->
+        <div id="padB-grid">
+          <div id="padB-1" class="padContainerB"></div>
+          <div id="padB-2" class="padContainerB"></div>
         </div>
-
-        <div id="padB-2"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-        <div id="padB-3"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-        <div id="padB-4"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-        <div id="padB-5"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-        <div id="padB-6"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-        <div id="padB-7"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-        <div id="padB-8"  style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            ">
-          <canvas width="100" height="100" style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "></canvas>
-        </div>
-
-  </div>
-  </div>
-  </div>
+      </div>
+    </div>
   </div>
 
   <div id="padsContainerC" class="pads-container" style="display: none; width: 80%">
+
     <div style="
           width: 100%;
           margin: 0 auto;
@@ -495,7 +308,6 @@
         </div>
         <!-- <button id="menu-button" style="background: transparent; border: none; color: white;">☰</button> -->
       </div>
-
       <!-- Controls -->
       <div style="
             display: flex;
@@ -793,6 +605,8 @@
 
   <script src="script.js"></script>
   <script src="soundpad.js"></script>
+  <script src="soundpadB.js"></script>
+
   <script src="padsContainerC.js"></script>
 
   <!-- <script>
