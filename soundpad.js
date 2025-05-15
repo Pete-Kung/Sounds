@@ -214,7 +214,6 @@ function actuallyQueuePad(pad, sync = true, lockedTime = audioContext.currentTim
 
 
 
-
 function stopPad(pad) {
     if (pad && pad.source && pad.gainNode) { // Ensure pad is not null/undefined
         try {

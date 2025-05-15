@@ -20,6 +20,10 @@ function beatLoop() {
 }
 
 function updateBPM() {
+  const getBpm = document.getElementById("confirmBPM");
+  const tabSelect = getBpm.dataset.tab;
+  console.log("tab", tabSelect);
+
   let newBpm = parseInt(bpmSlider.value);
   console.log("Input BPM:", newBpm);
 
@@ -39,19 +43,24 @@ function updateBPM() {
   beatDuration = 60 / bpm;
   barDuration = beatDuration * beatsPerBar;
 
-  const pads = document.querySelectorAll(".pad");
-  pads.forEach((pad) => {
-    if (pad.dataset.playing === "true" && pad.source) {
-      pad.source.playbackRate.value = bpm / 120;
-    }
-  });
+  if (tabSelect == "A") {
+    const pads = document.querySelectorAll(".pad");
+    pads.forEach((pad) => {
+      if (pad.dataset.playing === "true" && pad.source) {
+        pad.source.playbackRate.value = bpm / 120;
+      }
+    });
+    beatLoop();
 
-  clearTimeout(beatLoopTimeoutId);
-  beatLoop();
+    clearTimeout(beatLoopTimeoutId);
+  } else if (tabSelect == "B") {
+    bpmUpdateB(bpm);
+  } else if (tabSelect == "C") {
+  } else {
+  }
+
+
 }
-
-
-
 
 confirmButton.addEventListener("click", updateBPM);
 
@@ -102,9 +111,6 @@ function onSliderChange(e) {
     }
   }
 }
-
-
-
 
 // === ผูก event แค่ครั้งเดียว ไม่ซ้ำ ===
 const sliders = document.querySelectorAll("midi-slider");
@@ -168,7 +174,6 @@ const sounds = [
     container: "bassContainer",
   },
 
-
   { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "fxContainer" },
   { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "fxContainer" },
   { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "fxContainer" },
@@ -191,7 +196,6 @@ const sounds = [
     container: "padContainer",
   },
 
-
   {
     name: "Synth 1",
     file: "US_DTH_Synth_124_Again.wav",
@@ -212,95 +216,9 @@ const sounds = [
     file: "US_DTH_Synth_124_Brother_Fm.wav",
     container: "synthContainer",
   },
-
 ];
 
-// const sounds = [
-//   {
-//     name: "Drum 1",
-//     file: "Drum_130_01.wav",
-//     container: "drumContainer",
-//   },
-//   {
-//     name: "Drum 2",
-//     file: "Drum_130_02.wav",
-//     container: "drumContainer",
-//   },
-//   {
-//     name: "Drum 3",
-//     file: "Drum_130_03.wav",
-//     container: "drumContainer",
-//   },
-//   {
-//     name: "Drum 4",
-//     file: "Drum_130_04.wav",
-//     container: "drumContainer",
-//   },
 
-//   {
-//     name: "Bass 1",
-//     file: "Bass_130_01.wav",
-//     container: "bassContainer",
-//   },
-//   {
-//     name: "Bass 2",
-//     file: "Bass_130_02.wav",
-//     container: "bassContainer",
-//   },
-//   {
-//     name: "Bass 3",
-//     file: "Bass_130_03.wav",
-//     container: "bassContainer",
-//   },
-//   {
-//     name: "Bass 4",
-//     file: "Bass_130_04.wav",
-//     container: "bassContainer",
-//   },
-
-//   { name: "FX 1", file: "Fx_130_01.wav", container: "fxContainer" },
-//   { name: "FX 2", file: "Fx_130_02.wav", container: "fxContainer" },
-//   { name: "FX 3", file: "Fx_130_03.wav", container: "fxContainer" },
-//   { name: "FX 4", file: "Fx_130_04.wav", container: "fxContainer" },
-
-//   {
-//     name: "Pad 1",
-//     file: "Pad_130_01.wav",
-//     container: "padContainer",
-//   },
-//   {
-//     name: "Pad 2",
-//     file: "Pad_130_02.wav",
-//     container: "padContainer",
-//   },
-//   { name: "Pad 3", file: "Pad_130_03.wav", container: "padContainer" },
-//   {
-//     name: "Pad 4",
-//     file: "Pad_130_04.wav",
-//     container: "padContainer",
-//   },
-
-//   {
-//     name: "Synth 1",
-//     file: "Synth_130_01.wav",
-//     container: "synthContainer",
-//   },
-//   {
-//     name: "Synth 2",
-//     file: "Synth_130_02.wav",
-//     container: "synthContainer",
-//   },
-//   {
-//     name: "Synth 3",
-//     file: "Synth_130_03.wav",
-//     container: "synthContainer",
-//   },
-//   {
-//     name: "Synth 4",
-//     file: "Synth_130_04.wav",
-//     container: "synthContainer",
-//   },
-// ];
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 // Load audio buffer from file
@@ -541,37 +459,44 @@ function deleteSelectedPreset() {
 
 function changeTemplate(el, key) {
   // Reset ปุ่มทั้งหมด
-  document.querySelectorAll('.template-btn').forEach((btn) => {
-    btn.style.backgroundColor = '#2d3748';
-    btn.style.border = '1px solid #4a5568';
+  document.querySelectorAll(".template-btn").forEach((btn) => {
+    btn.style.backgroundColor = "#2d3748";
+    btn.style.border = "1px solid #4a5568";
   });
 
   // Active ปุ่มที่กด
-  el.style.backgroundColor = '#4a5568';
-  el.style.border = '1px solid #63b3ed';
+  el.style.backgroundColor = "#4a5568";
+  el.style.border = "1px solid #63b3ed";
 
   // ซ่อนทุก container
-  document.querySelectorAll('.pads-container').forEach((c) => {
-    c.style.display = 'none';
+  document.querySelectorAll(".pads-container").forEach((c) => {
+    c.style.display = "none";
   });
 
   // แสดงเฉพาะ container ที่ตรงกับ key
-  const selectedId = key === 'A' ? 'padsContainer'
-    : key === 'B' ? 'padsContainerB'
-      : key === 'C' ? 'padsContainerC'
-        : 'padsContainerD';
+  const selectedId =
+    key === "A"
+      ? "padsContainer"
+      : key === "B"
+      ? "padsContainerB"
+      : key === "C"
+      ? "padsContainerC"
+      : "padsContainerD";
   const selectedContainer = document.getElementById(selectedId);
   if (selectedContainer) {
-    selectedContainer.style.display = 'flex';
+    selectedContainer.style.display = "flex";
   }
 
-  console.log('Template ที่เลือก:', key);
+  console.log("Template ที่เลือก:", key);
+
+  const bpmSelect = document.getElementById("confirmBPM");
+  bpmSelect.dataset.tab = key;
 }
 
 // ค่าเริ่มต้น: Template A
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener("DOMContentLoaded", () => {
   const defaultBtn = document.querySelector('.template-btn[data-key="A"]');
-  if (defaultBtn) changeTemplate(defaultBtn, 'A');
+  if (defaultBtn) changeTemplate(defaultBtn, "A");
 });
 
 // PitchShift ได้ค่ามาแล้วเอาไปใช้ต่อ

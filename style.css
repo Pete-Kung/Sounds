@@ -138,6 +138,17 @@ h1 {
   box-shadow: 0 0 10px #ffd700;
 }
 
+.beatB.active {
+  background-color: #00ff80;
+  transform: scale(1.4);
+  box-shadow: 0 0 15px #00ff80;
+}
+
+.beatB.pending {
+  background-color: #ffd700;
+  box-shadow: 0 0 10px #ffd700;
+}
+
 #stopAllBtn {
   padding: 10px 20px;
   font-size: 16px;
