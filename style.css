@@ -29,7 +29,29 @@ h1 {
   font-weight: bold;
   box-shadow: 0 0 10px #ff4081;
 }
+    #canvasArea {
+      width: 100%;
+      height: 80vh;
+      border: 2px dashed #999;
+      position: relative;
+      margin-top: 20px;
+      background: #f9f9f9;
+    }
 
+    .draggable-button {
+      position: absolute;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: move;
+      border-radius: 5px;
+    }
+
+    #addButton {
+      margin: 10px;
+      padding: 10px 20px;
+    }
 .padContainerB {
   background: transparent;
   aspect-ratio: 1 / 1;
