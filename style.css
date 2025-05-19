@@ -29,7 +29,7 @@ h1 {
   font-weight: bold;
   box-shadow: 0 0 10px #ff4081;
 }
-    #canvasArea {
+    /* #canvasArea {
       width: 100%;
       height: 80vh;
       border: 2px dashed #999;
@@ -46,8 +46,26 @@ h1 {
       border: none;
       cursor: move;
       border-radius: 5px;
+    } */
+
+      #canvasArea {
+      width: 600px;
+      height: 400px;
+      position: relative;
+      background: #f0f0f0;
+      border: 2px dashed #999; /* เพิ่มเพื่อเห็นขอบ canvas */
+      overflow: hidden; /* ✅ เพิ่มเพื่อป้องกันปุ่มล้นออก */
     }
 
+    .draggable-button {
+      cursor: move;
+         padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: move;
+      border-radius: 5px;
+    }
     #addButton {
       margin: 10px;
       padding: 10px 20px;
