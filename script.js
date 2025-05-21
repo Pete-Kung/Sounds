@@ -54,7 +54,7 @@ function updateBPM() {
 
     clearTimeout(beatLoopTimeoutId);
   } else if (tabSelect == "B") {
-    bpmUpdateB(bpm);
+    // bpmUpdateB(bpm);
   } else if (tabSelect == "C") {
   } else {
   }

@@ -9,8 +9,14 @@
   </head>
 
   <body>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; gap: 30px; ">
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+      "
+    >
       <div
         class="bpm-control"
         style="
@@ -45,8 +51,7 @@
             flex-shrink: 0;
           "
         />
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-
+        <div style="display: flex; flex-direction: column; gap: 10px">
           <button
             id="confirmBPM"
             data-tab="A"
@@ -110,18 +115,16 @@
           </button>
         </div>
       </div>
-
     </div>
 
     <div style="height: 20px"></div>
-    <div></div>
 
-<button id="addButton">เพิ่มปุ่ม</button>
+    <!-- <button id="addButton">เพิ่มปุ่ม</button>
 <button id="clearAllButton">ล้างทั้งหมด</button>
-    <button id="saveButton">บันทึกตำแหน่ง</button> 
-<!-- <button id="savePosition">บันทึกตำแหน่ง</button> -->
+    <button id="saveButton">บันทึกตำแหน่ง</button>  -->
+    <!-- <button id="savePosition">บันทึกตำแหน่ง</button> -->
 
-<div id="canvasArea"></div>
+    <!-- <div id="canvasArea"></div> -->
 
     <!-- Pad A -->
     <div id="padsContainer" class="pads-container">
@@ -195,50 +198,10 @@
             id="beatIndicator"
             style="display: flex; gap: 6px; align-items: center"
           >
-            <div
-              class="beat"
-              data-index="0"
-              style="
-                width: 16px;
-                height: 16px;
-                background-color: #27ae60;
-                border-radius: 50%;
-                opacity: 0.3;
-              "
-            ></div>
-            <div
-              class="beat"
-              data-index="1"
-              style="
-                width: 16px;
-                height: 16px;
-                background-color: #27ae60;
-                border-radius: 50%;
-                opacity: 0.3;
-              "
-            ></div>
-            <div
-              class="beat"
-              data-index="2"
-              style="
-                width: 16px;
-                height: 16px;
-                background-color: #27ae60;
-                border-radius: 50%;
-                opacity: 0.3;
-              "
-            ></div>
-            <div
-              class="beat"
-              data-index="3"
-              style="
-                width: 16px;
-                height: 16px;
-                background-color: #27ae60;
-                border-radius: 50%;
-                opacity: 0.3;
-              "
-            ></div>
+            <div class="beat" data-index="0"></div>
+            <div class="beat" data-index="1"></div>
+            <div class="beat" data-index="2"></div>
+            <div class="beat" data-index="3"></div>
           </div>
           <button id="stopAllBtn">🛑 Stop All</button>
         </div>
@@ -375,54 +338,12 @@
               id="beatIndicatorB"
               style="display: flex; gap: 6px; align-items: center"
             >
-              <div
-                class="beatB"
-                data-index="0"
-                style="
-                  width: 16px;
-                  height: 16px;
-                  background-color: #27ae60;
-                  border-radius: 50%;
-                  opacity: 0.3;
-                "
-              ></div>
-              <div
-                class="beatB"
-                data-index="1"
-                style="
-                  width: 16px;
-                  height: 16px;
-                  background-color: #27ae60;
-                  border-radius: 50%;
-                  opacity: 0.3;
-                "
-              ></div>
-              <div
-                class="beatB"
-                data-index="2"
-                style="
-                  width: 16px;
-                  height: 16px;
-                  background-color: #27ae60;
-                  border-radius: 50%;
-                  opacity: 0.3;
-                "
-              ></div>
-              <div
-                class="beatB"
-                data-index="3"
-                style="
-                  width: 16px;
-                  height: 16px;
-                  background-color: #27ae60;
-                  border-radius: 50%;
-                  opacity: 0.3;
-                "
-              ></div>
+              <div class="beatB" data-index="0"></div>
+              <div class="beatB" data-index="1"></div>
+              <div class="beatB" data-index="2"></div>
+              <div class="beatB" data-index="3"></div>
             </div>
-            <button id="stopAllBtnB" onclick="stopAllPadsB()">
-              🛑 Stop All
-            </button>
+            <button id="stopAllBtnB">🛑 Stop All</button>
           </div>
         </div>
 
@@ -462,313 +383,133 @@
     <div
       id="padsContainerC"
       class="pads-container"
-      style="display: none; width: 80%"
+      style="
+        display: none;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+      "
     >
-      <div
-        style="
-          width: 100%;
-          margin: 0 auto;
-          background: #2c003e;
-          border-radius: 20px;
-          padding: 20px;
-          font-family: sans-serif;
-        "
-      >
-        <!-- Header Tabs -->
+      <div style="display: flex; flex-direction: column">
         <div
           style="
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-          "
-        >
-          <div style="display: flex; gap: 10px">
-            <button
-              id="tab-sample"
-              style="
-                padding: 6px 12px;
-                background: #ff4b6e;
-                border: none;
-                border-radius: 6px;
-                color: white;
-              "
-            >
-              SAMPLE
-            </button>
-            <button
-              id="tab-sequence"
-              style="
-                padding: 6px 12px;
-                background: transparent;
-                border: none;
-                color: white;
-              "
-            >
-              SEQUENCE
-            </button>
-            <button
-              id="tab-perform"
-              style="
-                padding: 6px 12px;
-                background: transparent;
-                border: none;
-                color: white;
-              "
-            >
-              PERFORM
-            </button>
-          </div>
-          <!-- <button id="menu-button" style="background: transparent; border: none; color: white;">☰</button> -->
-        </div>
-        <!-- Controls -->
-        <div
-          style="
-            display: flex;
+            flex-direction: row;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 10px;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            padding: 1rem;
           "
         >
+          <!-- Preset Selector + Sliders -->
           <div
-            id="listen-mode"
             style="
-              width: 60px;
-              height: 60px;
-              background: #141414;
-              border-radius: 50%;
               display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
               align-items: center;
-              justify-content: center;
-              color: #fff;
             "
           >
-            🎧
+            <midi-slider
+              label="Drum #"
+              colour="#a8dd77"
+              type="vertical"
+              data-id="slider1"
+              data-category="padC-1"
+              init="100"
+            ></midi-slider>
+            
+
+            <midi-slider
+              label="Bass #"
+              colour="#a8dd77"
+              type="vertical"
+              data-id="slider2"
+              data-category="padC-2"
+              init="100"
+            ></midi-slider>
+
+            <midi-slider
+              label="Pad #"
+              colour="#a8dd77"
+              type="vertical"
+              data-id="slider3"
+              data-category="padC-3"
+              init="100"
+            ></midi-slider>
+
+            <midi-slider
+              label="Synth #"
+              colour="#a8dd77"
+              type="vertical"
+              data-id="slider4"
+              data-category="padC-4"
+              init="100"
+            ></midi-slider>
+
+            <midi-slider
+              label="FX #"
+              colour="#a8dd77"
+              type="vertical"
+              data-id="slider5"
+              data-category="padC-5"
+              init="100"
+            ></midi-slider>
           </div>
+
+          <!-- Beat Indicator + Stop All Button -->
           <div
-            id="record-mode"
             style="
-              width: 60px;
-              height: 60px;
-              background: #141414;
-              border-radius: 50%;
               display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
               align-items: center;
-              justify-content: center;
-              color: #fff;
             "
           >
-            🎤
+            <div
+              id="beatIndicatorC"
+              style="display: flex; gap: 6px; align-items: center"
+            >
+              <div class="beatC" data-index="0"></div>
+              <div class="beatC" data-index="1"></div>
+              <div class="beatC" data-index="2"></div>
+              <div class="beatC" data-index="3"></div>
+            </div>
+            <button id="stopAllBtnC">🛑 Stop All</button>
           </div>
         </div>
 
-        <!-- Pad Grid -->
+        <!-- Grid Container -->
         <div
-          id="pad-grid"
           style="
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+            width: 100%;
+            margin: 0 auto;
+            background: #2c003e;
+            border-radius: 20px;
+            padding: 20px;
+            font-family: sans-serif;
           "
         >
-          <!-- ปุ่ม Pad 1-8 -->
-          <div
-            id="pad-1"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                z-index: 1;
-                pointer-events: auto;
-              "
-            ></canvas>
+          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+          <div class="categoryC">
+            <div class="padContainer" id="padC-1"></div>
           </div>
-
-          <div
-            id="pad-2"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
+          <div class="categoryC">
+            <div id="padC-2" class="padContainer"></div>
           </div>
-
-          <div
-            id="pad-3"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
+          <div class="categoryC">
+            <div id="padC-3" class="padContainer"></div>
           </div>
-
-          <div
-            id="pad-4"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
+          <div class="categoryC">
+            <div id="padC-4" class="padContainer"></div>
           </div>
-
-          <div
-            id="pad-5"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
-          </div>
-
-          <div
-            id="pad-6"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
-          </div>
-
-          <div
-            id="pad-7"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
-          </div>
-
-          <div
-            id="pad-8"
-            class="pad-button"
-            style="
-              background: #00d8ff;
-              aspect-ratio: 1 / 1;
-              border-radius: 10px;
-              cursor: pointer;
-              position: relative;
-            "
-          >
-            <canvas
-              width="100"
-              height="100"
-              style="
-                position: absolute;
-                inset: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-              "
-            ></canvas>
+          <div class="categoryC">
+            <div id="padC-5" class="padContainer"></div>
           </div>
         </div>
       </div>
     </div>
-    
 
     <!-- Pad D -->
     <div id="padsContainerD" class="pads-container" style="display: none">
@@ -931,7 +672,8 @@
 
     <script src="script.js"></script>
     <script src="soundpad.js"></script>
-    <script src="soundpadB.js"></script>
+    <!-- <script src="soundpadB.js"></script> -->
+    <script src="genericPad.js"></script>
     <script src="draggable.js"></script>
 
     <script src="padsContainerC.js"></script>

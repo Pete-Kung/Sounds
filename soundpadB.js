@@ -103,12 +103,10 @@ function beatLoopB() {
 beatLoopB();
 
 function bpmUpdateB(bpm) {
-  
   const pads = document.querySelectorAll(".padB");
 
   beatDurationB = 60 / bpm;
   pads.forEach((pad) => {
- 
     if (pad.dataset.playing === "true" && pad.source) {
       pad.source.playbackRate.value = bpm / 120;
     }
@@ -120,7 +118,6 @@ function bpmUpdateB(bpm) {
 document.querySelectorAll(".categoryB").forEach((category) => {
   category.addEventListener("click", updateBPM);
 });
-
 
 const mainGainNodeB = audioContext.createGain();
 mainGainNodeB.connect(audioContext.destination);
@@ -390,7 +387,6 @@ function onSliderChangeB(e) {
 
   console.log(`[${sliderId}] ${label} changed padB:`, volume);
 
-
   // === Update volume container ===
   if (category) {
     const container = document.getElementById(category);
@@ -399,7 +395,6 @@ function onSliderChangeB(e) {
       const pads = container.querySelectorAll(".padB");
 
       pads.forEach((pad) => {
-        
         if (pad.dataset.playing === "true" && pad.gainNode) {
           pad.gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
         }
