@@ -58,8 +58,6 @@ function updateBPM() {
   } else if (tabSelect == "C") {
   } else {
   }
-
-
 }
 
 confirmButton.addEventListener("click", updateBPM);
@@ -217,7 +215,6 @@ const sounds = [
     container: "synthContainer",
   },
 ];
-
 
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -485,6 +482,14 @@ function changeTemplate(el, key) {
   const selectedContainer = document.getElementById(selectedId);
   if (selectedContainer) {
     selectedContainer.style.display = "flex";
+    // ✅ Fix: Force redraw หรือ resize สำหรับ midi-encoder
+    requestAnimationFrame(() => {
+      selectedContainer.querySelectorAll("midi-encoder").forEach((encoder) => {
+        if (typeof encoder.resize === "function") {
+          encoder.resize();
+        }
+      });
+    });
   }
 
   console.log("Template ที่เลือก:", key);

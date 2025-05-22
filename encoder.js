@@ -122,7 +122,7 @@ class Encoder {
     ctx.textAlign = "center";
     ctx.font = font_size + "px Arial"; // normal
     ctx.fillStyle = this.colour;
-    ctx.fillText(text, cx, cy + font_size / 3); 
+    ctx.fillText(text, cx, cy + font_size / 3);
 
     // Trigger MIDI actions
     for (let i = 0; i < this.midiactions.length; i++) {
@@ -133,6 +133,13 @@ class Encoder {
     this.node.dispatchEvent(
       new CustomEvent("encoder-change", { detail: { value: this.val } })
     );
+  }
+
+  resize() {
+    this.canvas.width = this.node.offsetWidth;
+    this.canvas.height = this.node.offsetHeight;
+    this.span = Math.min(this.canvas.width, this.canvas.height);
+    this.redraw();
   }
 }
 
@@ -169,6 +176,12 @@ class MidiEncoderElement extends HTMLElement {
         Math.min(this.encoder.max, init)
       );
       this.encoder.redraw();
+    }
+  }
+
+  resize() {
+    if (this.encoder) {
+      this.encoder.resize();
     }
   }
 

@@ -177,6 +177,93 @@ const soundsC = [
   { name: "FX 4", file: "Fx_130_04.wav", container: "padC-5" },
 ];
 
+const soundsD = [
+  {
+    name: "Drum 1",
+    file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
+    container: "padD-1",
+  },
+  {
+    name: "Drum 2",
+    file: "US_DTH_Drum_124_Block_TOP.wav",
+    container: "padD-1",
+  },
+  {
+    name: "Drum 3",
+    file: "US_DTH_Drum_124_Bull_FULL.wav",
+    container: "padD-1",
+  },
+  {
+    name: "Drum 4",
+    file: "US_DTH_Drum_124_Hotel_FULL.wav",
+    container: "padD-1",
+  },
+
+  {
+    name: "Bass 1",
+    file: "US_DTH_Bass_124_May_Fm.wav",
+    container: "padD-2",
+  },
+  {
+    name: "Bass 2",
+    file: "US_DTH_Bass_124_Dark_Dm.wav",
+    container: "padD-2",
+  },
+  {
+    name: "Bass 3",
+    file: "US_DTH_Bass_124_Great_Em.wav",
+    container: "padD-2",
+  },
+  {
+    name: "Bass 4",
+    file: "US_DTH_Bass_124_Marriage_Am.wav",
+    container: "padD-2",
+  },
+
+  {
+    name: "Pad 1",
+    file: "US_DTH_Pad_124_Future.wav",
+    container: "padD-3",
+  },
+  {
+    name: "Pad 2",
+    file: "US_DTH_Pad_124_Gazzelle.wav",
+    container: "padD-3",
+  },
+  { name: "Pad 3", file: "US_DTH_Pad_124_Pray.wav", container: "padD-3" },
+  {
+    name: "Pad 4",
+    file: "US_DTH_Pad_124_Remesh.wav",
+    container: "padD-3",
+  },
+
+  {
+    name: "Synth 1",
+    file: "US_DTH_Synth_124_Again.wav",
+    container: "padD-4",
+  },
+  {
+    name: "Synth 2",
+    file: "US_DTH_Synth_124_Agree_G.wav",
+    container: "padD-4",
+  },
+  {
+    name: "Synth 3",
+    file: "US_DTH_Synth_124_Begin.wav",
+    container: "padD-4",
+  },
+  {
+    name: "Synth 4",
+    file: "US_DTH_Synth_124_Brother_Fm.wav",
+    container: "padD-4",
+  },
+
+  { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "padD-5" },
+  { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "padD-5" },
+  { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "padD-5" },
+  { name: "FX 4", file: "US_DTH_FX_National.wav", container: "padD-5" },
+];
+
 function createSoundSet({
   sounds,
   padPrefix,
@@ -227,9 +314,9 @@ function createSoundSet({
     bpmUpdate(parseInt(bpmValue.value));
   });
 
-    document.querySelectorAll(`.${categoryClass}`).forEach((el) => {
-      el.addEventListener("click", () => bpmUpdate(parseInt(bpmValue.value)));
-    });
+  document.querySelectorAll(`.${categoryClass}`).forEach((el) => {
+    el.addEventListener("click", () => bpmUpdate(parseInt(bpmValue.value)));
+  });
 
   async function loadBuffer(url) {
     const response = await fetch(url);
@@ -462,8 +549,13 @@ function createSoundSet({
   }
 
   document.querySelectorAll(sliderSelector).forEach((slider) => {
-    slider.removeEventListener("slider-change", onSliderChange);
-    slider.addEventListener("slider-change", onSliderChange);
+    if (sliderSelector == "midi-slider") {
+      slider.removeEventListener("slider-change", onSliderChange);
+      slider.addEventListener("slider-change", onSliderChange);
+    } else if (sliderSelector == "midi-encoder") {
+      slider.removeEventListener("encoder-change", onSliderChange);
+      slider.addEventListener("encoder-change", onSliderChange);
+    }
   });
 
   beatLoop();
@@ -492,9 +584,21 @@ window.addEventListener("DOMContentLoaded", () => {
     padPrefix: "padC",
     beatClass: "beatC",
     categoryClass: "categoryC",
-    sliderSelector: "midi-slider",
+    sliderSelector: "midi-encoder",
     audioContext,
     bpm: 120,
     btnStopAll: "stopAllBtnC",
+  });
+
+ 
+  const padD = createSoundSet({
+    sounds: soundsD.map((s) => ({ ...s, url: `./sounds/${s.file}` })),
+    padPrefix: "padD",
+    beatClass: "beatD",
+    categoryClass: "categoryD",
+    sliderSelector: "midi-encoder",
+    audioContext,
+    bpm: 120,
+    btnStopAll: "stopAllBtnD",
   });
 });
