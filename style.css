@@ -63,7 +63,7 @@ h1 {
       border-radius: 5px;
     }
 #addButton {
-      margin: 10px;
+      /* margin: 10px; */
       padding: 10px 20px;
     }
 .padContainerB {
@@ -88,6 +88,60 @@ h1 {
   height: auto; /* ปรับความสูงให้เหมาะสมกับเนื้อหา */
 }
 
+   .draggable {
+  position: absolute;
+  cursor: move;
+  user-select: none;
+  padding: 10px 30px 10px 10px; /* เผื่อที่ให้ปุ่ม close */
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-weight: bold;
+  /* ... */
+  position: relative; /* สำคัญ! */
+}
+
+.close-btn {
+  position: absolute;
+  top: -34px;
+  right: -29px;
+  background: #ff5555;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 18px;
+  text-align: center;
+  padding: 0;
+  z-index: 10; /* ให้อยู่บนสุด */
+}
+    button {
+      margin: 5px;
+    }
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .popup button {
+      margin: 10px;
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 .category {
   display: flex;
   gap: 1rem;
