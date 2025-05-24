@@ -113,18 +113,20 @@
           >
             D
           </button>
+              <button
+            class="template-btn"
+            data-key="E"
+            onclick="changeTemplate(this, 'E')"
+          >
+           E
+          </button>
         </div>
       </div>
     </div>
 
     <div style="height: 20px"></div>
 
-    <!-- <button id="addButton">เพิ่มปุ่ม</button>
-<button id="clearAllButton">ล้างทั้งหมด</button>
-    <button id="saveButton">บันทึกตำแหน่ง</button>  -->
-    <!-- <button id="savePosition">บันทึกตำแหน่ง</button> -->
-
-    <!-- <div id="canvasArea"></div> -->
+ 
 
     <!-- Pad A -->
     <div id="padsContainer" class="pads-container">
@@ -333,11 +335,7 @@
             width: 100%;
 
             margin: 0 auto;
-            /* background: #2c003e; */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/bg_pad.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
+            background: #2c003e;
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
@@ -613,6 +611,40 @@
           </div>
         </div>
       </div>
+    </div>
+    <!--  -->
+
+    <!-- Pad E -->
+
+      <div
+      id="padsContainerE"
+      class="pads-container"
+      style="
+        display: none;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; background-color: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; width: 100%;  margin: auto;">
+<div style="display: flex; gap: 10px; width: 50%; align-items: center;">
+  <div class="toolbar">
+    <button id="toggleEditBtn">🛠 เข้าสู่โหมดแก้ไข</button>
+    <button id="addButton">➕ เพิ่มปุ่ม</button>
+    <button id="clearButton">🗑 ล้างทั้งหมด</button>
+    <button id="saveButton">💾 บันทึก</button>
+  </div>
+
+
+</div>
+
+
+  <div id="canvasArea" style="width: 100%; height: 400px; background-color: white; border: 2px dashed #cbd5e0; border-radius: 6px;  overflow: auto;">
+    <!-- พื้นที่สำหรับแสดงผล -->
+  </div>
+</div>
+
+    </div>
     </div>
     <!--  -->
 

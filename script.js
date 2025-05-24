@@ -478,7 +478,9 @@ function changeTemplate(el, key) {
       ? "padsContainerB"
       : key === "C"
       ? "padsContainerC"
-      : "padsContainerD";
+      : key === "D"
+      ? "padsContainerD"
+      : "padsContainerE"; // เพิ่มตรงนี้
   const selectedContainer = document.getElementById(selectedId);
   if (selectedContainer) {
     selectedContainer.style.display = "flex";
