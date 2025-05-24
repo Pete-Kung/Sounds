@@ -1,268 +1,387 @@
 // === CONFIGURABLE SECTION ===
-const soundsB = [
-  {
-    name: "Drum 1",
-    file: "Drum_130_01.wav",
-    container: "padB-1",
-  },
-  {
-    name: "Drum 2",
-    file: "Drum_130_02.wav",
-    container: "padB-1",
-  },
-  {
-    name: "Drum 3",
-    file: "Drum_130_03.wav",
-    container: "padB-1",
-  },
-  {
-    name: "Drum 4",
-    file: "Drum_130_04.wav",
-    container: "padB-1",
-  },
+const allSounds = {
+  soundsB: [
+    {
+      name: "Drum 1",
+      file: "Drum_130_01.wav",
+      container: "padB-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 2",
+      file: "Drum_130_02.wav",
+      container: "padB-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 3",
+      file: "Drum_130_03.wav",
+      container: "padB-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 4",
+      file: "Drum_130_04.wav",
+      container: "padB-1",
+      btnButton: "default",
+    },
 
-  {
-    name: "Bass 1",
-    file: "Bass_130_01.wav",
-    container: "padB-2",
-  },
-  {
-    name: "Bass 2",
-    file: "Bass_130_02.wav",
-    container: "padB-2",
-  },
-  {
-    name: "Bass 3",
-    file: "Bass_130_03.wav",
-    container: "padB-2",
-  },
-  {
-    name: "Bass 4",
-    file: "Bass_130_04.wav",
-    container: "padB-2",
-  },
+    {
+      name: "Bass 1",
+      file: "Bass_130_01.wav",
+      container: "padB-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 2",
+      file: "Bass_130_02.wav",
+      container: "padB-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 3",
+      file: "Bass_130_03.wav",
+      container: "padB-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 4",
+      file: "Bass_130_04.wav",
+      container: "padB-2",
+      btnButton: "default",
+    },
 
-  {
-    name: "Pad 1",
-    file: "Pad_130_01.wav",
-    container: "padB-3",
-  },
-  {
-    name: "Pad 2",
-    file: "Pad_130_02.wav",
-    container: "padB-3",
-  },
-  { name: "Pad 3", file: "Pad_130_03.wav", container: "padB-3" },
-  {
-    name: "Pad 4",
-    file: "Pad_130_04.wav",
-    container: "padB-3",
-  },
+    {
+      name: "Pad 1",
+      file: "Pad_130_01.wav",
+      container: "padB-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 2",
+      file: "Pad_130_02.wav",
+      container: "padB-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 3",
+      file: "Pad_130_03.wav",
+      container: "padB-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 4",
+      file: "Pad_130_04.wav",
+      container: "padB-3",
+      btnButton: "default",
+    },
 
-  {
-    name: "Synth 1",
-    file: "Synth_130_01.wav",
-    container: "padB-4",
-  },
-  {
-    name: "Synth 2",
-    file: "Synth_130_02.wav",
-    container: "padB-4",
-  },
-  {
-    name: "Synth 3",
-    file: "Synth_130_03.wav",
-    container: "padB-4",
-  },
-  {
-    name: "Synth 4",
-    file: "Synth_130_04.wav",
-    container: "padB-4",
-  },
+    {
+      name: "Synth 1",
+      file: "Synth_130_01.wav",
+      container: "padB-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 2",
+      file: "Synth_130_02.wav",
+      container: "padB-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 3",
+      file: "Synth_130_03.wav",
+      container: "padB-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 4",
+      file: "Synth_130_04.wav",
+      container: "padB-4",
+      btnButton: "default",
+    },
 
-  { name: "FX 1", file: "Fx_130_01.wav", container: "padB-5" },
-  { name: "FX 2", file: "Fx_130_02.wav", container: "padB-5" },
-  { name: "FX 3", file: "Fx_130_03.wav", container: "padB-5" },
-  { name: "FX 4", file: "Fx_130_04.wav", container: "padB-5" },
-];
+    {
+      name: "FX 1",
+      file: "Fx_130_01.wav",
+      container: "padB-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 2",
+      file: "Fx_130_02.wav",
+      container: "padB-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 3",
+      file: "Fx_130_03.wav",
+      container: "padB-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 4",
+      file: "Fx_130_04.wav",
+      container: "padB-5",
+      btnButton: "default",
+    },
+  ],
 
-const soundsC = [
-  {
-    name: "Drum 1",
-    file: "JOW_126_Clubbeat1.wav",
-    container: "padC-1",
-  },
-  {
-    name: "Drum 2",
-    file: "JOW_126_Clubbeat2.wav",
-    container: "padC-1",
-  },
-  {
-    name: "Drum 3",
-    file: "JOW_126_ClubbeatKickClap1.wav",
-    container: "padC-1",
-  },
-  {
-    name: "Drum 4",
-    file: "JOW_126_ClubbeatKickClap2.wav",
-    container: "padC-1",
-  },
+  soundsC: [
+    {
+      name: "Drum 1",
+      file: "JOW_126_Clubbeat1.wav",
+      container: "padC-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 2",
+      file: "JOW_126_Clubbeat2.wav",
+      container: "padC-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 3",
+      file: "JOW_126_ClubbeatKickClap1.wav",
+      container: "padC-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 4",
+      file: "JOW_126_ClubbeatKickClap2.wav",
+      container: "padC-1",
+      btnButton: "default",
+    },
 
-  {
-    name: "Bass 1",
-    file: "JOW_126_G_BasslineAcid3.wav",
-    container: "padC-2",
-  },
-  {
-    name: "Bass 2",
-    file: "JOW_126_G_BasslineGangster.wav",
-    container: "padC-2",
-  },
-  {
-    name: "Bass 3",
-    file: "JOW_126_G_BasslineJX.wav",
-    container: "padC-2",
-  },
-  {
-    name: "Bass 4",
-    file: "JOW_126_G_BasslineRipDong.wav",
-    container: "padC-2",
-  },
+    {
+      name: "Bass 1",
+      file: "JOW_126_G_BasslineAcid3.wav",
+      container: "padC-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 2",
+      file: "JOW_126_G_BasslineGangster.wav",
+      container: "padC-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 3",
+      file: "JOW_126_G_BasslineJX.wav",
+      container: "padC-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 4",
+      file: "JOW_126_G_BasslineRipDong.wav",
+      container: "padC-2",
+      btnButton: "default",
+    },
 
-  {
-    name: "Pad 1",
-    file: "A71_Scrt-01_eLAB_Scratcher.wav",
-    container: "padC-3",
-  },
-  {
-    name: "Pad 2",
-    file: "A71_Scrt-02_eLAB_Scratcher.wav",
-    container: "padC-3",
-  },
-  {
-    name: "Pad 3",
-    file: "A71_Scrt-03_eLAB_Scratcher.wav",
-    container: "padC-3",
-  },
-  {
-    name: "Pad 4",
-    file: "A71_Scrt-04_eLAB_Scratcher.wav",
-    container: "padC-3",
-  },
+    {
+      name: "Pad 1",
+      file: "A71_Scrt-01_eLAB_Scratcher.wav",
+      container: "padC-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 2",
+      file: "A71_Scrt-02_eLAB_Scratcher.wav",
+      container: "padC-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 3",
+      file: "A71_Scrt-03_eLAB_Scratcher.wav",
+      container: "padC-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 4",
+      file: "A71_Scrt-04_eLAB_Scratcher.wav",
+      container: "padC-3",
+      btnButton: "default",
+    },
 
-  {
-    name: "Synth 1",
-    file: "ATE2 Synth Loop - 024 - 136 BPM - Gm.wav",
-    container: "padC-4",
-  },
-  {
-    name: "Synth 2",
-    file: "ATE2 Synth Loop - 025 - 136 BPM - Cm.wav",
-    container: "padC-4",
-  },
-  {
-    name: "Synth 3",
-    file: "ATE2 Synth Loop - 026 - 136 BPM - Gm.wav",
-    container: "padC-4",
-  },
-  {
-    name: "Synth 4",
-    file: "ATE2 Synth Loop - 027 - 136 BPM - Gm.wav",
-    container: "padC-4",
-  },
+    {
+      name: "Synth 1",
+      file: "ATE2 Synth Loop - 024 - 136 BPM - Gm.wav",
+      container: "padC-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 2",
+      file: "ATE2 Synth Loop - 025 - 136 BPM - Cm.wav",
+      container: "padC-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 3",
+      file: "ATE2 Synth Loop - 026 - 136 BPM - Gm.wav",
+      container: "padC-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 4",
+      file: "ATE2 Synth Loop - 027 - 136 BPM - Gm.wav",
+      container: "padC-4",
+      btnButton: "default",
+    },
 
-  { name: "FX 1", file: "US_DTH_FX_Report.wav", container: "padC-5" },
-  { name: "FX 2", file: "US_DTH_FX_Republic.wav", container: "padC-5" },
-  { name: "FX 3", file: "Fx_130_03.wav", container: "padC-5" },
-  { name: "FX 4", file: "Fx_130_04.wav", container: "padC-5" },
-];
+    {
+      name: "FX 1",
+      file: "US_DTH_FX_Report.wav",
+      container: "padC-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 2",
+      file: "US_DTH_FX_Republic.wav",
+      container: "padC-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 3",
+      file: "Fx_130_03.wav",
+      container: "padC-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 4",
+      file: "Fx_130_04.wav",
+      container: "padC-5",
+      btnButton: "default",
+    },
+  ],
 
-const soundsD = [
-  {
-    name: "Drum 1",
-    file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
-    container: "padD-1",
-  },
-  {
-    name: "Drum 2",
-    file: "US_DTH_Drum_124_Block_TOP.wav",
-    container: "padD-1",
-  },
-  {
-    name: "Drum 3",
-    file: "US_DTH_Drum_124_Bull_FULL.wav",
-    container: "padD-1",
-  },
-  {
-    name: "Drum 4",
-    file: "US_DTH_Drum_124_Hotel_FULL.wav",
-    container: "padD-1",
-  },
+  soundsD: [
+    {
+      name: "Drum 1",
+      file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
+      container: "padD-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 2",
+      file: "US_DTH_Drum_124_Block_TOP.wav",
+      container: "padD-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 3",
+      file: "US_DTH_Drum_124_Bull_FULL.wav",
+      container: "padD-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 4",
+      file: "US_DTH_Drum_124_Hotel_FULL.wav",
+      container: "padD-1",
+      btnButton: "default",
+    },
 
-  {
-    name: "Bass 1",
-    file: "US_DTH_Bass_124_May_Fm.wav",
-    container: "padD-2",
-  },
-  {
-    name: "Bass 2",
-    file: "US_DTH_Bass_124_Dark_Dm.wav",
-    container: "padD-2",
-  },
-  {
-    name: "Bass 3",
-    file: "US_DTH_Bass_124_Great_Em.wav",
-    container: "padD-2",
-  },
-  {
-    name: "Bass 4",
-    file: "US_DTH_Bass_124_Marriage_Am.wav",
-    container: "padD-2",
-  },
+    {
+      name: "Bass 1",
+      file: "US_DTH_Bass_124_May_Fm.wav",
+      container: "padD-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 2",
+      file: "US_DTH_Bass_124_Dark_Dm.wav",
+      container: "padD-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 3",
+      file: "US_DTH_Bass_124_Great_Em.wav",
+      container: "padD-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 4",
+      file: "US_DTH_Bass_124_Marriage_Am.wav",
+      container: "padD-2",
+      btnButton: "default",
+    },
 
-  {
-    name: "Pad 1",
-    file: "US_DTH_Pad_124_Future.wav",
-    container: "padD-3",
-  },
-  {
-    name: "Pad 2",
-    file: "US_DTH_Pad_124_Gazzelle.wav",
-    container: "padD-3",
-  },
-  { name: "Pad 3", file: "US_DTH_Pad_124_Pray.wav", container: "padD-3" },
-  {
-    name: "Pad 4",
-    file: "US_DTH_Pad_124_Remesh.wav",
-    container: "padD-3",
-  },
+    {
+      name: "Pad 1",
+      file: "US_DTH_Pad_124_Future.wav",
+      container: "padD-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 2",
+      file: "US_DTH_Pad_124_Gazzelle.wav",
+      container: "padD-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 3",
+      file: "US_DTH_Pad_124_Pray.wav",
+      container: "padD-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 4",
+      file: "US_DTH_Pad_124_Remesh.wav",
+      container: "padD-3",
+      btnButton: "default",
+    },
 
-  {
-    name: "Synth 1",
-    file: "US_DTH_Synth_124_Again.wav",
-    container: "padD-4",
-  },
-  {
-    name: "Synth 2",
-    file: "US_DTH_Synth_124_Agree_G.wav",
-    container: "padD-4",
-  },
-  {
-    name: "Synth 3",
-    file: "US_DTH_Synth_124_Begin.wav",
-    container: "padD-4",
-  },
-  {
-    name: "Synth 4",
-    file: "US_DTH_Synth_124_Brother_Fm.wav",
-    container: "padD-4",
-  },
+    {
+      name: "Synth 1",
+      file: "US_DTH_Synth_124_Again.wav",
+      container: "padD-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 2",
+      file: "US_DTH_Synth_124_Agree_G.wav",
+      container: "padD-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 3",
+      file: "US_DTH_Synth_124_Begin.wav",
+      container: "padD-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 4",
+      file: "US_DTH_Synth_124_Brother_Fm.wav",
+      container: "padD-4",
+      btnButton: "default",
+    },
 
-  { name: "FX 1", file: "US_DTH_FX_Venice.wav", container: "padD-5" },
-  { name: "FX 2", file: "US_DTH_FX_Result.wav", container: "padD-5" },
-  { name: "FX 3", file: "US_DTH_FX_USA.wav", container: "padD-5" },
-  { name: "FX 4", file: "US_DTH_FX_National.wav", container: "padD-5" },
-];
+    {
+      name: "FX 1",
+      file: "US_DTH_FX_Venice.wav",
+      container: "padD-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 2",
+      file: "US_DTH_FX_Result.wav",
+      container: "padD-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 3",
+      file: "US_DTH_FX_USA.wav",
+      container: "padD-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 4",
+      file: "US_DTH_FX_National.wav",
+      container: "padD-5",
+      btnButton: "default",
+    },
+  ],
+};
+
 
 function createSoundSet({
   sounds,
@@ -569,7 +688,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   const padB = createSoundSet({
-    sounds: soundsB.map((s) => ({ ...s, url: `./sounds/Loop2/${s.file}` })),
+    sounds: allSounds.soundsB.map((s) => ({ ...s, url: `./sounds/Loop2/${s.file}` })),
     padPrefix: "padB",
     beatClass: "beatB",
     categoryClass: "categoryB",
@@ -580,7 +699,10 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   const padC = createSoundSet({
-    sounds: soundsC.map((s) => ({ ...s, url: `./sounds/Loop3/${s.file}` })),
+    sounds: allSounds.soundsC.map((s) => ({
+      ...s,
+      url: `./sounds/Loop3/${s.file}`,
+    })),
     padPrefix: "padC",
     beatClass: "beatC",
     categoryClass: "categoryC",
@@ -592,7 +714,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
  
   const padD = createSoundSet({
-    sounds: soundsD.map((s) => ({ ...s, url: `./sounds/${s.file}` })),
+    sounds: allSounds.soundsD.map((s) => ({ ...s, url: `./sounds/${s.file}` })),
     padPrefix: "padD",
     beatClass: "beatD",
     categoryClass: "categoryD",
