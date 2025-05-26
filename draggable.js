@@ -62,33 +62,117 @@ let isEditMode = false;
     });
   });
 
-  function showTypePopup() {
-    const overlay = document.createElement("div");
-    overlay.className = "popup-overlay";
+   buttonCount = 0;
 
-    const popup = document.createElement("div");
-    popup.className = "popup";
-    popup.innerHTML = `<h3>เลือกประเภทปุ่ม</h3>`;
+function showTypePopup() {
+  const overlay = document.createElement("div");
+  overlay.className = "popup-overlay";
 
-    const midiBtn = document.createElement("button");
-    midiBtn.innerText = "🎚 MIDI Encoder";
-    midiBtn.onclick = () => {
-      document.body.removeChild(overlay);
-      createDraggableButton("Bass #" + (++buttonCount), "midi");
-    };
+  const popup = document.createElement("div");
+  popup.className = "popup";
+  popup.innerHTML = `
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3>เลือกประเภทปุ่ม</h3>
+      <button class="close-btn">❌</button>
+    </div>
+    <p>เลือกกลุ่ม:</p>
+    <div class="category-options">
+      <div class="category-item" data-category="drumContainer">🥁 Drum</div>
+      <div class="category-item" data-category="bassContainer">🎸 Bass</div>
+      <div class="category-item" data-category="padContainer">🎹 Pad</div>
+      <div class="category-item" data-category="synthContainer">🎛 Synth</div>
+      <div class="category-item" data-category="fxContainer">🎚 FX</div>
+    </div>
+    <div id="button-type-selection" style="margin-top: 20px;"></div>
+  `;
 
-    const padBtn = document.createElement("button");
-    padBtn.innerText = "🥁 Pad";
-    padBtn.onclick = () => {
-      document.body.removeChild(overlay);
-      createDraggableButton("Pad " + (++buttonCount), "pad");
-    };
+  // ปิดเมื่อคลิกพื้นหลัง
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) document.body.removeChild(overlay);
+  });
 
-    popup.appendChild(midiBtn);
-    popup.appendChild(padBtn);
-    overlay.appendChild(popup);
-    document.body.appendChild(overlay);
+  // ปิดเมื่อคลิก ❌
+  popup.querySelector(".close-btn").addEventListener("click", () => {
+    document.body.removeChild(overlay);
+  });
+
+  // เมื่อเลือกประเภท
+  popup.querySelectorAll(".category-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      const category = item.dataset.category;
+      const typeSelection = popup.querySelector("#button-type-selection");
+
+      typeSelection.innerHTML = `
+        <p>เลือกรูปแบบ:</p>
+        <button id="encoderBtn">🎚 MIDI Encoder</button>
+        <button id="sliderBtn">🎛 MIDI Slider</button>
+      `;
+
+      popup.querySelector("#encoderBtn").onclick = () => {
+        document.body.removeChild(overlay);
+        createCustomElement("encoder", category);
+      };
+      popup.querySelector("#sliderBtn").onclick = () => {
+        document.body.removeChild(overlay);
+        createCustomElement("slider", category);
+      };
+    });
+  });
+
+  overlay.appendChild(popup);
+  document.body.appendChild(overlay);
+}
+
+// สร้าง element แบบ encoder หรือ slider
+function createCustomElement(type, category) {
+  buttonCount++;
+
+  let element;
+  const label = `${category} #${buttonCount}`;
+  const id = Date.now();
+
+  if (type === "encoder") {
+    element = document.createElement("midi-encoder");
+    element.setAttribute("label", label);
+    element.setAttribute("colour", "#27ae60");
+    element.setAttribute("init", "100");
+  } else if (type === "slider") {
+    element = document.createElement("midi-slider");
+    element.setAttribute("label", label);
+    element.setAttribute("colour", "#A82BE8");
+    element.setAttribute("type", "vertical");
+    element.setAttribute("init", "100");
   }
+
+  // เพิ่มคุณสมบัติแบบ draggable
+  element.classList.add("draggable");
+  element.dataset.id = id;
+  element.dataset.type = type;
+  element.dataset.category = category;
+  element.style.position = "absolute";
+  element.style.left = "50px";
+  element.style.top = "50px";
+  element.style.cursor = isEditMode ? "move" : "default";
+
+  // ปุ่มลบ
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "close-btn";
+  closeBtn.innerText = "✖";
+  closeBtn.style.display = isEditMode ? "block" : "none";
+  closeBtn.onclick = (e) => {
+    e.stopPropagation();
+    element.remove();
+  };
+  closeBtn.addEventListener("mousedown", e => e.stopPropagation());
+  closeBtn.addEventListener("touchstart", e => e.stopPropagation());
+  element.appendChild(closeBtn);
+
+  // เพิ่มเข้าไปใน canvasArea แทนที่ append ไปที่ category โดยตรง
+  canvasArea.appendChild(element);
+
+  enableDrag(element);
+}
+
 
   function createDraggableButton(label, type, x = "50px", y = "50px", id = Date.now()) {
     const btn = document.createElement("div");
