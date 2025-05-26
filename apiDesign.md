@@ -8,6 +8,8 @@
   - [sound controller by id](#sound-controller-by-id)
   - [sound controller by id add](#sound-controller-by-id-add)
   - [sound controller by id update](#sound-controller-by-id-update)
+  - [search song to generate mixer sound](#search-song-to-generate-mixer-sound)
+  - [AI generate theme](#ai-generate-theme)
 
 
 ### Sound pattern
@@ -640,6 +642,74 @@ Content-Type: application/json
 { "btnButton": "XXXX" }
 ```
 
+### Sound controller all
+
+- request
+
+
+```http request
+GET /v1/api/controller/
+```
+
+- response
+
+```json
+{
+  "code": 0,
+  "description": null,
+  "result": {
+    "controllerA" :  [
+    {
+      "id": 1,
+      "btnType": "A-1",
+      "label": "Drum",
+      "x": "1185px",
+      "y": "155px"
+    },
+    {
+      "id": 2,
+      "btnType": "A-2",
+      "label": "Bass",
+      "x": "588px",
+      "y": "188px"
+    },
+    {
+      "id": 3,
+      "btnType": "A-3",
+      "label": "Pad",
+      "x": "575px",
+      "y": "63px"
+    },
+    {
+      "id": 4,
+      "btnType": "A-4",
+      "label": "Synth",
+      "x": "61px",
+      "y": "74px"
+    },
+    {
+      "id": 5,
+      "btnType": "A-5",
+      "label": "Fx",
+      "x": "61px",
+      "y": "74px"
+    }
+  ],
+  "controllerB" :  null,
+  "controllerC" :  null,
+  "controllerD" :  null,
+
+
+    
+  },
+  "records": null
+}
+```
+- note
+```
+default all controller  == null
+``` 
+
 ### Sound controller by id
 
 - request
@@ -764,6 +834,7 @@ PUT /v1/api/controller/{id}
 ### Sound controller by id update
 
 
+
 - request
 
 ```
@@ -822,3 +893,129 @@ PATCH /v1/api/controller/{id}
   "records": null
 }
 ```
+
+
+
+### Search song to generate mixer sound
+
+- request
+
+
+```http request
+POST /v1/api/generate/
+{
+  songName : "I love you  so"
+}
+```
+
+- response
+
+```
+
+{
+  "code": 0,
+  "description": null,
+  "result": {
+    "soundsB": [
+      {
+        "id": 1,
+        "name": "Drum 1",
+        "file": "XXXX.wav",
+        "container": "padB-1",
+        "btnButton": "default"
+      },
+      {
+        "id": 2,
+        "name": "Drum 2",
+        "file": "XXXX.wav",
+        "container": "padB-1",
+        "btnButton": "default"
+      },
+      {
+        "id": 3,
+        "name": "Drum 3",
+        "file": "XXXX.wav",
+        "container": "padB-1",
+        "btnButton": "default"
+      },
+      ...
+    ],
+    soundsC : [
+      ...
+    ],
+    soundsD : [
+      ...
+    ],
+
+
+   
+  },
+  "records": null
+}
+
+```
+
+- note
+```
+ส่วนที่เป็น file audio A,B,C,D  จะเปลี่ยนไปตามเพลงหรือรูปแบบสไตล์ที่ต้องการ
+```
+
+### AI generate theme
+
+```http request
+POST /v1/api/generate/
+{
+  theme : "love pink"
+}
+```
+
+
+- response
+
+```
+
+{
+  "code": 0,
+  "description": null,
+  "result": {
+    "themeA": {
+      "color1": "#e57373",
+      "color2": "#f06292",
+      "color3": "#ba68c8",
+      "color4": "#9575cd",
+      "color5": "#7986cb"
+    },
+    "themeB": {
+      "color1": "#4db6ac",
+      "color2": "#4dd0e1",
+      "color3": "#4fc3f7",
+      "color4": "#64b5f6",
+      "color5": "#90caf9"
+    },
+    "themeC": {
+      "color1": "#aed581",
+      "color2": "#dce775",
+      "color3": "#fff176",
+      "color4": "#ffd54f",
+      "color5": "#ffb74d"
+    },
+    "themeD": {
+      "color1": "#a1887f",
+      "color2": "#bcaaa4",
+      "color3": "#eeeeee",
+      "color4": "#b0bec5",
+      "color5": "#78909c"
+    }
+  },
+  "records": null
+}
+
+
+```
+
+
+
+
+
+
+
