@@ -9,7 +9,6 @@ const bpmValueLabel = document.getElementById("bpmValue");
 const confirmButton = document.getElementById("confirmBPM");
 
 let beatLoopTimeoutId;
-
 function beatLoop() {
   beatEls.forEach((el, i) => {
     el.classList.toggle("active", i === currentBeat);
@@ -117,12 +116,18 @@ sliders.forEach((slider) => {
   slider.addEventListener("slider-change", onSliderChange);
 });
 
+const slidersNewui = document.querySelectorAll(".knob"); // หรือเลือก drum-knob โดยตรงก็ได้
+slidersNewui.forEach((slider) => {
+  slider.removeEventListener("knob-change", onSliderChange);
+  slider.addEventListener("knob-change", onSliderChange);
+});
 //  decode.js
 const decodeSlider = document.querySelectorAll("midi-encoder");
 decodeSlider.forEach((slider) => {
   slider.removeEventListener("encoder-change", onSliderChange);
   slider.addEventListener("encoder-change", onSliderChange);
 });
+
 
 // เมื่อผู้ใช้พิมพ์ค่า BPM ใหม่
 // เมื่อคลิกที่ category
@@ -532,3 +537,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
+
+

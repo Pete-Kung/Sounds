@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
   <script src="./slider.js"></script>
   <script src="./encoder.js"></script>
+  <script src="./ui.js"></script>
 </head>
 
 <body>
@@ -103,12 +104,18 @@
           padding: 1rem;
         ">
       <!-- Preset Selector + Encoders -->
+
       <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
-        <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder>
-        <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder>
-        <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder>
-        <midi-encoder label="Synth #" colour="#27ae60" data-category="synthContainer" init="100"></midi-encoder>
-        <midi-encoder label="FX #" colour="#27ae60" data-category="fxContainer" init="100"></midi-encoder>
+        <drum-knob label="Drum" init="100" class="knob" data-category="drumContainer"></drum-knob>
+       <drum-knob label="Bass" init="100" class="knob" data-category="bassContainer"></drum-knob>
+       <drum-knob label="Pad" init="100" class="knob" data-category="padContainer"></drum-knob>
+       <drum-knob label="Synth" init="100" class="knob" data-category="synthContainer"></drum-knob>
+       <!-- <drum-knob label="FX" init="100" class="knob" data-category="fxContainer"></drum-knob> -->
+        <!-- <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder> -->
+        <!-- <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder> -->
+        <!-- <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder> -->
+        <!-- <midi-encoder label="Synth #" colour="#27ae60" data-category="synthContainer" init="100"></midi-encoder> -->
+        <!-- <midi-encoder label="FX #" colour="#27ae60" data-category="fxContainer" init="100"></midi-encoder> -->
       </div>
 
       <!-- Beat Indicator + Stop All Button -->
@@ -260,9 +267,11 @@
               flex-wrap: wrap;
               align-items: center;
             ">
-          <midi-encoder label="Drum #" colour="#a8dd77" data-id="slider1" data-category="padC-1"
-            init="100"></midi-encoder>
+          <!-- <midi-encoder label="Drum #" colour="#a8dd77" data-id="slider1" data-category="padC-1"
+            init="100"></midi-encoder> -->
+<!-- uiใหม่ -->
 
+<!-- uiใหม่ -->
           <midi-encoder label="Bass #" colour="#a8dd77" data-id="slider2" data-category="padC-2"
             init="100"></midi-encoder>
 
