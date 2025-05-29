@@ -107,6 +107,8 @@
       <!-- Preset Selector + Encoders -->
 
       <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+
+
         <drum-knob label="Drum" init="100" class="knob" data-category="drumContainer"></drum-knob>
        <drum-knob label="Bass" init="100" class="knob" data-category="bassContainer"></drum-knob>
        <drum-knob label="Pad" init="100" class="knob" data-category="padContainer"></drum-knob>
@@ -195,6 +197,8 @@
 
           <midi-slider label="FX #" colour="#A82BE8" type="vertical" data-id="slider5" data-category="padB-5"
             init="100"></midi-slider> -->
+
+           
 
           <midi-knob label="Drum"  type="metallic" colour="#2C3930" clock="#faffff" init="70" data-id="slider1" data-category="padB-1"  data-event-type="knob-volume-change"></midi-knob>
           <midi-knob label="Bass"  type="metallic" colour="#754E1A" clock="#A59D84" init="70" data-id="slider2" data-category="padB-2"  data-event-type="knob-volume-change"></midi-knob>
@@ -371,6 +375,7 @@
               flex-wrap: wrap;
               align-items: center;
             ">
+             <midi-volume label="Volume #" colour="#FF4500" class="volume"  init="75" data-category="drumContainer"></midi-volume>
           <midi-encoder label="Drum #" colour="#ea8bb3" data-id="slider1" data-category="padD-1"
             init="100"></midi-encoder>
 
