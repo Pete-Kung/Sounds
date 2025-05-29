@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Music Pad with Sync</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="./slider.js"></script>
-    <script src="./encoder.js"></script>
-  </head>
 
-  <body>
-    <div
-      style="
+<head>
+  <meta charset="UTF-8" />
+  <title>Music Pad with Sync</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="./slider.js"></script>
+  <script src="./encoder.js"></script>
+</head>
+
+<body>
+  <div style="
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 30px;
-      "
-    >
-      <div
-        class="bpm-control"
-        style="
+      ">
+    <div class="bpm-control" style="
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -33,15 +30,8 @@
           width: 50%;
           margin-left: 0;
           box-sizing: border-box;
-        "
-      >
-        <input
-          type="number"
-          id="bpmSlider"
-          value="120"
-          min="60"
-          max="200"
-          style="
+        ">
+      <input type="number" id="bpmSlider" value="120" min="60" max="200" style="
             width: 100px;
             padding: 5px 8px;
             background-color: #2d3748;
@@ -49,13 +39,9 @@
             border: 1px solid #4a5568;
             border-radius: 4px;
             flex-shrink: 0;
-          "
-        />
-        <div style="display: flex; flex-direction: column; gap: 10px">
-          <button
-            id="confirmBPM"
-            data-tab="A"
-            style="
+          " />
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <button id="confirmBPM" data-tab="A" style="
               padding: 6px 12px;
               background-color: #2b6cb0;
               color: white;
@@ -63,82 +49,51 @@
               border-radius: 4px;
               cursor: pointer;
               flex-shrink: 0;
-            "
-          >
-            Confirm
-          </button>
-          <div style="display: flex; align-items: center; flex-shrink: 0">
-            <span id="bpmValue" style="font-weight: bold; margin-right: 4px"
-              >120</span
-            >
-            BPM
-          </div>
+            ">
+          Confirm
+        </button>
+        <div style="display: flex; align-items: center; flex-shrink: 0">
+          <span id="bpmValue" style="font-weight: bold; margin-right: 4px">120</span>
+          BPM
         </div>
       </div>
-      <div style="width: 50%; display: flex; justify-content: flex-start">
-        <div
-          style="
+    </div>
+    <div style="width: 50%; display: flex; justify-content: flex-start">
+      <div style="
             display: flex;
             gap: 10px;
             background-color: #1a202c;
             padding: 10px 15px;
             border-radius: 8px;
-          "
-        >
-          <button
-            class="template-btn"
-            data-key="A"
-            onclick="changeTemplate(this, 'A')"
-          >
-            A
-          </button>
-          <button
-            class="template-btn"
-            data-key="B"
-            onclick="changeTemplate(this, 'B')"
-          >
-            B
-          </button>
-          <button
-            class="template-btn"
-            data-key="C"
-            onclick="changeTemplate(this, 'C')"
-          >
-            C
-          </button>
-          <button
-            class="template-btn"
-            data-key="D"
-            onclick="changeTemplate(this, 'D')"
-          >
-            D
-          </button>
-              <button
-            class="template-btn"
-            data-key="E"
-            onclick="changeTemplate(this, 'E')"
-          >
-           E
-          </button>
-        </div>
+          ">
+        <button class="template-btn" data-key="A" onclick="changeTemplate(this, 'A')">
+          A
+        </button>
+        <button class="template-btn" data-key="B" onclick="changeTemplate(this, 'B')">
+          B
+        </button>
+        <button class="template-btn" data-key="C" onclick="changeTemplate(this, 'C')">
+          C
+        </button>
+        <button class="template-btn" data-key="D" onclick="changeTemplate(this, 'D')">
+          D
+        </button>
+        <button class="template-btn" data-key="E" onclick="changeTemplate(this, 'E')">
+          E
+        </button>
       </div>
     </div>
+  </div>
 
-    <div style="height: 20px"></div>
+  <div style="height: 20px"></div>
+  <!-- Pad A -->
+  <div id="padsContainer" class="pads-container">
+    <div style="width: 100%; height: 100px; display: flex; justify-content: center;">
+      <canvas id="waveformCanvas" height="100" style="width: 90%; height: 100px;"></canvas>
+    </div>
 
- 
 
-    <!-- Pad A -->
-    <div id="padsContainer" class="pads-container">
-      <h1>Sound Wave Animation</h1>
-      <canvas
-        id="waveformCanvas"
-        width="800"
-        height="200"
-        style="border: 1px solid black"
-      ></canvas>
-      <div
-        style="
+    <div style="
           display: flex;
           flex-direction: row;
           justify-content: center;
@@ -146,103 +101,63 @@
           flex-wrap: wrap;
           gap: 1rem;
           padding: 1rem;
-        "
-      >
-        <!-- Preset Selector + Encoders -->
-        <div
-          style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
-        >
-          <midi-encoder
-            label="Drum #"
-            colour="#27ae60"
-            data-category="drumContainer"
-            init="100"
-          ></midi-encoder>
-          <midi-encoder
-            label="Bass #"
-            colour="#27ae60"
-            data-category="bassContainer"
-            init="100"
-          ></midi-encoder>
-          <midi-encoder
-            label="Pad #"
-            colour="#27ae60"
-            data-category="padContainer"
-            init="100"
-          ></midi-encoder>
-          <midi-encoder
-            label="Synth #"
-            colour="#27ae60"
-            data-category="synthContainer"
-            init="100"
-          ></midi-encoder>
-          <midi-encoder
-            label="FX #"
-            colour="#27ae60"
-            data-category="fxContainer"
-            init="100"
-          ></midi-encoder>
+        ">
+      <!-- Preset Selector + Encoders -->
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+        <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder>
+        <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder>
+        <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder>
+        <midi-encoder label="Synth #" colour="#27ae60" data-category="synthContainer" init="100"></midi-encoder>
+        <midi-encoder label="FX #" colour="#27ae60" data-category="fxContainer" init="100"></midi-encoder>
+      </div>
+
+      <!-- Beat Indicator + Stop All Button -->
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+        <div id="beatIndicator" style="display: flex; gap: 6px; align-items: center">
+          <div class="beat" data-index="0"></div>
+          <div class="beat" data-index="1"></div>
+          <div class="beat" data-index="2"></div>
+          <div class="beat" data-index="3"></div>
         </div>
+        <button id="stopAllBtn">🛑 Stop All</button>
+      </div>
+    </div>
 
-        <!-- Beat Indicator + Stop All Button -->
-        <div
-          style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
-        >
-          <div
-            id="beatIndicator"
-            style="display: flex; gap: 6px; align-items: center"
-          >
-            <div class="beat" data-index="0"></div>
-            <div class="beat" data-index="1"></div>
-            <div class="beat" data-index="2"></div>
-            <div class="beat" data-index="3"></div>
-          </div>
-          <button id="stopAllBtn">🛑 Stop All</button>
-        </div>
-      </div>
+    <div class="category">
+      <div class="padContainer" id="drumContainer"></div>
+    </div>
+    <div class="category">
+      <div class="padContainer" id="bassContainer"></div>
+    </div>
 
-      <div class="category">
-        <div class="padContainer" id="drumContainer"></div>
-      </div>
-      <div class="category">
-        <div class="padContainer" id="bassContainer"></div>
-      </div>
-
-      <div class="category">
-        <div class="padContainer" id="padContainer"></div>
-      </div>
-      <div class="category">
-        <div class="padContainer" id="synthContainer"></div>
-      </div>
-      <div
-        style="
+    <div class="category">
+      <div class="padContainer" id="padContainer"></div>
+    </div>
+    <div class="category">
+      <div class="padContainer" id="synthContainer"></div>
+    </div>
+    <div style="
           height: 50px;
           width: 100%;
           display: flex;
           justify-content: center;
-        "
-      >
-        <p>FX</p>
-      </div>
-      <div class="category">
-        <div class="padContainer" id="fxContainer"></div>
-      </div>
+        ">
+      <p>FX</p>
     </div>
+    <div class="category">
+      <div class="padContainer" id="fxContainer"></div>
+    </div>
+  </div>
 
-    <!-- Pad B -->
-    <div
-      id="padsContainerB"
-      class="pads-container"
-      style="
+  <!-- Pad B -->
+  <div id="padsContainerB" class="pads-container" style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      "
-    >
-      <div style="display: flex; flex-direction: column">
-        <div
-          style="
+      ">
+    <div style="display: flex; flex-direction: column">
+      <div style="
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -250,88 +165,49 @@
             flex-wrap: wrap;
             align-items: center;
             padding: 1rem;
-          "
-        >
-          <!-- Preset Selector + Sliders -->
-          <div
-            style="
+          ">
+        <!-- Preset Selector + Sliders -->
+        <div style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            "
-          >
-            <midi-slider
-              label="Drum #"
-              colour="#A82BE8"
-              type="vertical"
-              data-id="slider1"
-              data-category="padB-1"
-              init="100"
-            ></midi-slider>
+            ">
+          <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="padB-1"
+            init="100"></midi-slider>
 
-            <midi-slider
-              label="Bass #"
-              colour="#A82BE8"
-              type="vertical"
-              data-id="slider2"
-              data-category="padB-2"
-              init="100"
-            ></midi-slider>
+          <midi-slider label="Bass #" colour="#A82BE8" type="vertical" data-id="slider2" data-category="padB-2"
+            init="100"></midi-slider>
 
-            <midi-slider
-              label="Pad #"
-              colour="#A82BE8"
-              type="vertical"
-              data-id="slider3"
-              data-category="padB-3"
-              init="100"
-            ></midi-slider>
+          <midi-slider label="Pad #" colour="#A82BE8" type="vertical" data-id="slider3" data-category="padB-3"
+            init="100"></midi-slider>
 
-            <midi-slider
-              label="Synth #"
-              colour="#A82BE8"
-              type="vertical"
-              data-id="slider4"
-              data-category="padB-4"
-              init="100"
-            ></midi-slider>
+          <midi-slider label="Synth #" colour="#A82BE8" type="vertical" data-id="slider4" data-category="padB-4"
+            init="100"></midi-slider>
 
-            <midi-slider
-              label="FX #"
-              colour="#A82BE8"
-              type="vertical"
-              data-id="slider5"
-              data-category="padB-5"
-              init="100"
-            ></midi-slider>
-          </div>
-
-          <!-- Beat Indicator + Stop All Button -->
-          <div
-            style="
-              display: flex;
-              gap: 10px;
-              flex-wrap: wrap;
-              align-items: center;
-            "
-          >
-            <div
-              id="beatIndicatorB"
-              style="display: flex; gap: 6px; align-items: center"
-            >
-              <div class="beatB" data-index="0"></div>
-              <div class="beatB" data-index="1"></div>
-              <div class="beatB" data-index="2"></div>
-              <div class="beatB" data-index="3"></div>
-            </div>
-            <button id="stopAllBtnB">🛑 Stop All</button>
-          </div>
+          <midi-slider label="FX #" colour="#A82BE8" type="vertical" data-id="slider5" data-category="padB-5"
+            init="100"></midi-slider>
         </div>
 
-        <!-- Grid Container -->
-        <div
-          style="
+        <!-- Beat Indicator + Stop All Button -->
+        <div style="
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+              align-items: center;
+            ">
+          <div id="beatIndicatorB" style="display: flex; gap: 6px; align-items: center">
+            <div class="beatB" data-index="0"></div>
+            <div class="beatB" data-index="1"></div>
+            <div class="beatB" data-index="2"></div>
+            <div class="beatB" data-index="3"></div>
+          </div>
+          <button id="stopAllBtnB">🛑 Stop All</button>
+        </div>
+      </div>
+
+      <!-- Grid Container -->
+      <div style="
             width: 100%;
 
             margin: 0 auto;
@@ -339,42 +215,36 @@
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
-          "
-        >
-          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
-          <div class="categoryB">
-            <div class="padContainer" id="padB-1"></div>
-          </div>
-          <div class="categoryB">
-            <div id="padB-2" class="padContainer"></div>
-          </div>
-          <div class="categoryB">
-            <div id="padB-3" class="padContainer"></div>
-          </div>
-          <div class="categoryB">
-            <div id="padB-4" class="padContainer"></div>
-          </div>
-          <div class="categoryB">
-            <div id="padB-5" class="padContainer"></div>
-          </div>
+          ">
+        <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+        <div class="categoryB">
+          <div class="padContainer" id="padB-1"></div>
+        </div>
+        <div class="categoryB">
+          <div id="padB-2" class="padContainer"></div>
+        </div>
+        <div class="categoryB">
+          <div id="padB-3" class="padContainer"></div>
+        </div>
+        <div class="categoryB">
+          <div id="padB-4" class="padContainer"></div>
+        </div>
+        <div class="categoryB">
+          <div id="padB-5" class="padContainer"></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pad C -->
-    <div
-      id="padsContainerC"
-      class="pads-container"
-      style="
+  <!-- Pad C -->
+  <div id="padsContainerC" class="pads-container" style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      "
-    >
-      <div style="display: flex; flex-direction: column">
-        <div
-          style="
+      ">
+    <div style="display: flex; flex-direction: column">
+      <div style="
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -382,125 +252,85 @@
             flex-wrap: wrap;
             align-items: center;
             padding: 1rem;
-          "
-        >
-          <!-- Preset Selector + Sliders -->
-          <div
-            style="
+          ">
+        <!-- Preset Selector + Sliders -->
+        <div style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            "
-          >
-            <midi-encoder
-              label="Drum #"
-              colour="#a8dd77"
-              data-id="slider1"
-              data-category="padC-1"
-              init="100"
-            ></midi-encoder>
+            ">
+          <midi-encoder label="Drum #" colour="#a8dd77" data-id="slider1" data-category="padC-1"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="Bass #"
-              colour="#a8dd77"
-              data-id="slider2"
-              data-category="padC-2"
-              init="100"
-            ></midi-encoder>
+          <midi-encoder label="Bass #" colour="#a8dd77" data-id="slider2" data-category="padC-2"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="Pad #"
-              colour="#a8dd77"
-              data-id="slider3"
-              data-category="padC-3"
-              init="100"
-            ></midi-encoder>
+          <midi-encoder label="Pad #" colour="#a8dd77" data-id="slider3" data-category="padC-3"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="Synth #"
-              colour="#a8dd77"
-              data-id="slider4"
-              data-category="padC-4"
-              init="100"
-            ></midi-encoder>
+          <midi-encoder label="Synth #" colour="#a8dd77" data-id="slider4" data-category="padC-4"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="FX #"
-              colour="#a8dd77"
-              data-id="slider5"
-              data-category="padC-5"
-              init="100"
-            ></midi-encoder>
-          </div>
-
-          <!-- Beat Indicator + Stop All Button -->
-          <div
-            style="
-              display: flex;
-              gap: 10px;
-              flex-wrap: wrap;
-              align-items: center;
-            "
-          >
-            <div
-              id="beatIndicatorC"
-              style="display: flex; gap: 6px; align-items: center"
-            >
-              <div class="beatC" data-index="0"></div>
-              <div class="beatC" data-index="1"></div>
-              <div class="beatC" data-index="2"></div>
-              <div class="beatC" data-index="3"></div>
-            </div>
-            <button id="stopAllBtnC">🛑 Stop All</button>
-          </div>
+          <midi-encoder label="FX #" colour="#a8dd77" data-id="slider5" data-category="padC-5"
+            init="100"></midi-encoder>
         </div>
 
-        <!-- Grid Container -->
-        <div
-          style="
+        <!-- Beat Indicator + Stop All Button -->
+        <div style="
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+              align-items: center;
+            ">
+          <div id="beatIndicatorC" style="display: flex; gap: 6px; align-items: center">
+            <div class="beatC" data-index="0"></div>
+            <div class="beatC" data-index="1"></div>
+            <div class="beatC" data-index="2"></div>
+            <div class="beatC" data-index="3"></div>
+          </div>
+          <button id="stopAllBtnC">🛑 Stop All</button>
+        </div>
+      </div>
+
+      <!-- Grid Container -->
+      <div style="
             width: 80%;
             margin: 0 auto;
             background: #033f28;
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
-          "
-        >
-          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
-          <div class="categoryC">
-            <div class="padContainer" id="padC-1"></div>
-          </div>
-          <div class="categoryC">
-            <div id="padC-2" class="padContainer"></div>
-          </div>
-          <div class="categoryC">
-            <div id="padC-3" class="padContainer"></div>
-          </div>
-          <div class="categoryC">
-            <div id="padC-4" class="padContainer"></div>
-          </div>
-          <div class="categoryC">
-            <div id="padC-5" class="padContainer"></div>
-          </div>
+          ">
+        <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+        <div class="categoryC">
+          <div class="padContainer" id="padC-1"></div>
+        </div>
+        <div class="categoryC">
+          <div id="padC-2" class="padContainer"></div>
+        </div>
+        <div class="categoryC">
+          <div id="padC-3" class="padContainer"></div>
+        </div>
+        <div class="categoryC">
+          <div id="padC-4" class="padContainer"></div>
+        </div>
+        <div class="categoryC">
+          <div id="padC-5" class="padContainer"></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Pad D -->
-    <div
-      id="padsContainerD"
-      class="pads-container"
-      style="
+  <!-- Pad D -->
+  <div id="padsContainerD" class="pads-container" style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      "
-    >
-      <div style="display: flex; flex-direction: column">
-        <div
-          style="
+      ">
+    <div style="display: flex; flex-direction: column">
+      <div style="
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -508,310 +338,122 @@
             flex-wrap: wrap;
             align-items: center;
             padding: 1rem;
-          "
-        >
-          <!-- Preset Selector + Sliders -->
-          <div
-            style="
+          ">
+        <!-- Preset Selector + Sliders -->
+        <div style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            "
-          >
-            <midi-encoder
-              label="Drum #"
-              colour="#ea8bb3"
-              data-id="slider1"
-              data-category="padD-1"
-              init="100"
-            ></midi-encoder>
+            ">
+          <midi-encoder label="Drum #" colour="#ea8bb3" data-id="slider1" data-category="padD-1"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="Bass #"
-              colour="#ea8bb3"
-              data-id="slider2"
-              data-category="padD-2"
-              init="100"
-            ></midi-encoder>
+          <midi-encoder label="Bass #" colour="#ea8bb3" data-id="slider2" data-category="padD-2"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="Pad #"
-              colour="#ea8bb3"
-              data-id="slider3"
-              data-category="padD-3"
-              init="100"
-            ></midi-encoder>
+          <midi-encoder label="Pad #" colour="#ea8bb3" data-id="slider3" data-category="padD-3"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="Synth #"
-              colour="#ea8bb3"
-              data-id="slider4"
-              data-category="padD-4"
-              init="100"
-            ></midi-encoder>
+          <midi-encoder label="Synth #" colour="#ea8bb3" data-id="slider4" data-category="padD-4"
+            init="100"></midi-encoder>
 
-            <midi-encoder
-              label="FX #"
-              colour="#ea8bb3"
-              data-id="slider5"
-              data-category="padD-5"
-              init="100"
-            ></midi-encoder>
-          </div>
-
-          <!-- Beat Indicator + Stop All Button -->
-          <div
-            style="
-              display: flex;
-              gap: 10px;
-              flex-wrap: wrap;
-              align-items: center;
-            "
-          >
-            <div
-              id="beatIndicatorD"
-              style="display: flex; gap: 6px; align-items: center"
-            >
-              <div class="beatD" data-index="0"></div>
-              <div class="beatD" data-index="1"></div>
-              <div class="beatD" data-index="2"></div>
-              <div class="beatD" data-index="3"></div>
-            </div>
-            <button id="stopAllBtnD">🛑 Stop All</button>
-          </div>
+          <midi-encoder label="FX #" colour="#ea8bb3" data-id="slider5" data-category="padD-5"
+            init="100"></midi-encoder>
         </div>
 
-        <!-- Grid Container -->
-        <div
-          style="
+        <!-- Beat Indicator + Stop All Button -->
+        <div style="
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+              align-items: center;
+            ">
+          <div id="beatIndicatorD" style="display: flex; gap: 6px; align-items: center">
+            <div class="beatD" data-index="0"></div>
+            <div class="beatD" data-index="1"></div>
+            <div class="beatD" data-index="2"></div>
+            <div class="beatD" data-index="3"></div>
+          </div>
+          <button id="stopAllBtnD">🛑 Stop All</button>
+        </div>
+      </div>
+
+      <!-- Grid Container -->
+      <div style="
             width: 80%;
             margin: 0 auto;
             background: rgb(105, 3, 63);
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
-          "
-        >
-          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
-          <div class="categoryD">
-            <div class="padContainer" id="padD-1"></div>
-          </div>
-          <div class="categoryD">
-            <div id="padD-2" class="padContainer"></div>
-          </div>
-          <div class="categoryD">
-            <div id="padD-3" class="padContainer"></div>
-          </div>
-          <div class="categoryD">
-            <div id="padD-4" class="padContainer"></div>
-          </div>
-          <div class="categoryD">
-            <div id="padD-5" class="padContainer"></div>
-          </div>
+          ">
+        <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+        <div class="categoryD">
+          <div class="padContainer" id="padD-1"></div>
+        </div>
+        <div class="categoryD">
+          <div id="padD-2" class="padContainer"></div>
+        </div>
+        <div class="categoryD">
+          <div id="padD-3" class="padContainer"></div>
+        </div>
+        <div class="categoryD">
+          <div id="padD-4" class="padContainer"></div>
+        </div>
+        <div class="categoryD">
+          <div id="padD-5" class="padContainer"></div>
         </div>
       </div>
     </div>
-    <!--  -->
+  </div>
+  <!--  -->
 
-    <!-- Pad E -->
+  <!-- Pad E -->
 
-      <div
-      id="padsContainerE"
-      class="pads-container"
-      style="
+  <div id="padsContainerE" class="pads-container" style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      "
-    >
-    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; background-color: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; width: 100%;  margin: auto;">
-<div style="display: flex; gap: 10px; width: 50%; align-items: center;">
-  <div class="toolbar">
-    <button id="toggleEditBtn">🛠 เข้าสู่โหมดแก้ไข</button>
-    <button id="addButton">➕ เพิ่มปุ่ม</button>
-    <button id="clearButton">🗑 ล้างทั้งหมด</button>
-    <button id="saveButton">💾 บันทึก</button>
-  </div>
-
-
-</div>
-
-
-  <div id="canvasArea" style="width: 100%; height: 400px; background-color: white; border: 2px dashed #cbd5e0; border-radius: 6px;">
-    <!-- พื้นที่สำหรับแสดงผล -->
-  </div>
-</div>
-
-    </div>
-    </div>
-    <!--  -->
-
-    <!-- <button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
+      ">
     <div
-      style="
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        width: 100%;
-        margin-top: 30px;
-        margin-bottom: 30px;
-        gap: 20px;
-        font-family: sans-serif;
-        color: white;
-        padding: 20px;
-        border-radius: 10px;
-      "
-    >
-      <!-- Save & Load Preset -->
-      <div style="display: flex; align-items: center; gap: 10px">
-        <button
-          onclick="savePreset()"
-          style="
-            padding: 10px 16px;
-            background-color: #2b6cb0;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          "
-        >
-          Save Preset
-        </button>
-        <select
-          id="presetSelector"
-          style="
-            padding: 8px 12px;
-            border-radius: 6px;
-            background-color: #2d3748;
-            color: white;
-            border: 1px solid #4a5568;
-          "
-        >
-          <option value="">-- เลือก Preset --</option>
-        </select>
-        <button
-          id="loadPresetBtn"
-          style="
-            padding: 10px 16px;
-            background-color: #38a169;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          "
-        >
-          Play Preset
-        </button>
+      style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; background-color: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; width: 100%;  margin: auto;">
+      <div style="display: flex; gap: 10px; width: 50%; align-items: center;">
+        <div class="toolbar">
+          <button id="toggleEditBtn">🛠 เข้าสู่โหมดแก้ไข</button>
+          <button id="addButton">➕ เพิ่มปุ่ม</button>
+          <button id="clearButton">🗑 ล้างทั้งหมด</button>
+          <button id="saveButton">💾 บันทึก</button>
+        </div>
+
+
       </div>
 
-      <!-- Clear & Delete Preset -->
-      <div style="display: flex; align-items: center; gap: 10px">
-        <button
-          onclick="clearPreset()"
-          style="
-            padding: 10px 16px;
-            background-color: #e53e3e;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          "
-        >
-          Clear All Preset
-        </button>
-        <select
-          id="deletePresetSelector"
-          style="
-            padding: 8px 12px;
-            border-radius: 6px;
-            background-color: #2d3748;
-            color: white;
-            border: 1px solid #4a5568;
-          "
-        >
-          <option value="">-- เลือก Preset ที่จะลบ --</option>
-        </select>
-        <button
-          onclick="deleteSelectedPreset()"
-          style="
-            padding: 10px 16px;
-            background-color: #dd6b20;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          "
-        >
-          ลบ Preset ที่เลือก
-        </button>
-      </div>
 
-      <!-- Export & Import Preset -->
-      <div style="display: flex; align-items: center; gap: 10px">
-        <button
-          onclick="exportSelectedPreset()"
-          style="
-            padding: 10px 16px;
-            background-color: #805ad5;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          "
-        >
-          Export Preset
-        </button>
-
-        <select
-          id="exportPresetSelect"
-          style="
-            padding: 8px 12px;
-            border-radius: 6px;
-            background-color: #2d3748;
-            color: white;
-            border: 1px solid #4a5568;
-          "
-        >
-          <option value="" disabled selected>
-            -- เลือก Preset ที่จะ Export --
-          </option>
-        </select>
-
-        <input
-          type="file"
-          id="importPresetFile"
-          accept=".json"
-          onchange="importPreset(event)"
-          style="display: none"
-        />
-        <button
-          onclick="document.getElementById('importPresetFile').click()"
-          style="
-            padding: 10px 16px;
-            background-color: #4299e1;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-          "
-        >
-          Import Preset
-        </button>
+      <div id="canvasArea"
+        style="width: 100%; height: 400px; background-color: white; border: 2px dashed #cbd5e0; border-radius: 6px;">
+        <!-- พื้นที่สำหรับแสดงผล -->
       </div>
     </div>
 
-    <script src="script.js"></script>
-    <script src="soundpad.js"></script>
-    <!-- <script src="soundpadB.js"></script> -->
-    <script src="genericPad.js"></script>
-    <script src="draggable.js"></script>
+  </div>
+  </div>
+  <!--  -->
+  <!-- <button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
 
-    <script src="padsContainerC.js"></script>
 
-    <!-- <script>
+  <script src="script.js"></script>
+  <script src="soundpad.js"></script>
+  <!-- <script src="soundpadB.js"></script> -->
+  <script src="genericPad.js"></script>
+  <script src="draggable.js"></script>
+
+  <script src="padsContainerC.js"></script>
+
+  <!-- <script>
  
 </script> -->
-  </body>
+</body>
+
 </html>

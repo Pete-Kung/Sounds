@@ -171,8 +171,6 @@ function queueStartPad(pad) {
     }
 }
 
-
-
 function actuallyQueuePad(pad, sync = true, lockedTime = audioContext.currentTime, startTime = null) {
     const actualStartTime = sync
         ? (startTime ?? Math.ceil(lockedTime / barDuration) * barDuration)
@@ -237,51 +235,55 @@ function stopPad(pad) {
 
 // สร้าง AnalyserNode สำหรับดึงข้อมูลเสียง
 const analyser = audioContext.createAnalyser();
-mainGainNode.connect(analyser); // เชื่อมต่อกับ mainGainNode เพื่อดึงข้อมูล
+mainGainNode.connect(analyser);
 
-analyser.fftSize = 256; // ขนาด FFT
-const bufferLength = analyser.frequencyBinCount; // จำนวนข้อมูลที่ได้
+analyser.fftSize = 256;
+const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
 
 const canvas = document.getElementById("waveformCanvas");
 const canvasCtx = canvas.getContext("2d");
 
+// ตั้งค่าขนาด canvas ให้ตรงกับ DOM
+function resizeCanvas() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+resizeCanvas(); // เรียกครั้งแรก
+
+// รองรับการ resize หน้าจอ
+window.addEventListener("resize", () => {
+    resizeCanvas();
+});
+
+// ฟังก์ชันวาดแท่งเสียง
 function draw() {
-    analyser.getByteTimeDomainData(dataArray); // รับข้อมูลเสียงจาก AnalyserNode
+    requestAnimationFrame(draw);
 
-    canvasCtx.clearRect(0, 0, canvas.width, canvas.height); // ลบภาพเดิม
-    canvasCtx.lineWidth = 2;
-    canvasCtx.strokeStyle = "rgb(0, 255, 0)";
-    canvasCtx.beginPath();
+    analyser.getByteFrequencyData(dataArray); // ดึงข้อมูลความถี่
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const sliceWidth = canvas.width / bufferLength;
+    const barWidth = (canvas.width / bufferLength) * 1.5;
+    let barHeight;
     let x = 0;
 
-    for (let i = 0; i < bufferLength; i++) {
-        const v = dataArray[i] / 128.0;
-        const y = v * canvas.height / 2;
+  for (let i = 0; i < bufferLength; i++) {
+    barHeight = dataArray[i] / 255 * canvas.height;
 
-        if (i === 0) {
-            canvasCtx.moveTo(x, y);
-        } else {
-            canvasCtx.lineTo(x, y);
-        }
+    // คำนวณสีรุ้งจากตำแหน่ง i
+    const hue = (i / bufferLength) * 360; // ไล่สี 0-360 องศา (HSL)
+    canvasCtx.fillStyle = `hsl(${hue}, 100%, 60%)`; // สดใส ชัดเจน
 
-        x += sliceWidth;
-    }
+    canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
 
-    canvasCtx.lineTo(canvas.width, canvas.height / 2);
-    canvasCtx.stroke();
-
-    requestAnimationFrame(draw); // เรียกใช้งาน draw ซ้ำในทุกๆ เฟรม
+    x += barWidth + 1;
 }
 
-function startWaveAnimation() {
-    draw(); // เริ่มการวาดกราฟคลื่นเสียง
 }
 
-// เริ่มต้นการแสดงผล
-startWaveAnimation();
+// เริ่มแสดงผล
+draw();
+
 
 
 
