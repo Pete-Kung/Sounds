@@ -121,6 +121,11 @@ slidersNewui.forEach((slider) => {
   slider.removeEventListener("knob-change", onSliderChange);
   slider.addEventListener("knob-change", onSliderChange);
 });
+const slidersNewui1 = document.querySelectorAll(".volume"); // หรือเลือก drum-knob โดยตรงก็ได้
+slidersNewui1.forEach((slider) => {
+  slider.removeEventListener("knob-change", onSliderChange);
+  slider.addEventListener("knob-change", onSliderChange);
+});
 //  decode.js
 const decodeSlider = document.querySelectorAll("midi-encoder");
 decodeSlider.forEach((slider) => {

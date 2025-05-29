@@ -2,16 +2,35 @@ class VerticalSlider {
   constructor(node, colour, label_str) {
     this.node = node;
     this.colour = colour;
-    this.label = label_str;
+    this.label_format = label_str;
     this.min = 0;
     this.max = 127;
     this.val = 0;
     this.midiactions = [];
 
+    // Create label div FIRST to get its height
+    this.labelDiv = document.createElement("div");
+    this.labelDiv.style.position = "absolute";
+    this.labelDiv.style.bottom = "0"; // ตั้ง bottom เป็น 0 ให้อยู่ในขอบเขตของ this.node
+    this.labelDiv.style.left = "0";
+    this.labelDiv.style.width = "100%";
+    this.labelDiv.style.textAlign = "center";
+    this.labelDiv.style.color = "#FFFF";
+    this.labelDiv.style.fontFamily = "Arial, sans-serif";
+    this.labelDiv.style.fontSize = "12px";
+    this.node.appendChild(this.labelDiv);
+
+    // Set a temporary text content for labelDiv to ensure offsetHeight is calculated correctly
+    this.labelDiv.textContent = this.label_format.replace("#", this.val);
+
+    const labelHeight = this.labelDiv.offsetHeight;
+    const labelMarginBottom = 5;
+
     // Create canvas
     this.canvas = document.createElement("canvas");
     this.canvas.style.width = "100%";
-    this.canvas.style.height = "100%";
+    // Height for canvas now explicitly calculated
+    this.canvas.style.height = `calc(100% - ${labelHeight + labelMarginBottom}px)`;
     this.canvas.style.display = "block";
     this.canvas.style.position = "absolute";
     this.canvas.style.top = "0";
@@ -25,10 +44,19 @@ class VerticalSlider {
     this.knobImg.src = "./images/volume_icon.png";
     this.knobImg.style.position = "absolute";
     this.knobImg.style.pointerEvents = "none";
-    this.knobImg.style.width = "80%";
+    // knobImg width/height will be set in redraw() based on calculated knobHeight
+
+    // === ตกแต่งให้สวยขึ้น ===
+    this.knobImg.style.borderRadius = "50%";
+    this.knobImg.style.boxShadow = "0 4px 10px rgba(0,0,0,0.4)";
+    this.knobImg.style.border = "2px solid white";
+    this.knobImg.style.backgroundColor = "#ffffffcc";
+    // =========================
+
     this.node.appendChild(this.knobImg);
 
     this.dark_colour = "#222"; // Default dark track color
+    this.track_fill_colour = "#3498db"; // เพิ่มสีสำหรับส่วนที่เติมของ track (ถ้ามี)
 
     // Bind events
     this.eventMouseDown = this.eventMouseDown.bind(this);
@@ -94,35 +122,62 @@ class VerticalSlider {
 
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const barWidth = this.canvas.width / 4;
-    const knobHeight = this.canvas.height * 0.25;
-    const sliderY =
-      (1 - this.val / this.max) * this.canvas.height - knobHeight / 2;
+    const barWidth = this.canvas.width / 4; // ความกว้างของแทร็ก
+    const trackX = (this.canvas.width - barWidth) / 2; // ตำแหน่ง X ของแทร็ก
+    const usableCanvasHeight = this.canvas.height;
 
-    // Draw track
-    ctx.fillStyle = this.dark_colour;
+    // คำนวณขนาดของ Knob
+    const knobSizeRatio = 0.6; // กำหนดขนาดของ knob เป็น 60% ของความกว้างของ canvas
+    const knobHeight = this.canvas.width * knobSizeRatio;
+    const knobWidth = knobHeight; // ทำให้เป็นสี่เหลี่ยมจัตุรัส
+
+    // คำนวณช่วงการเคลื่อนที่ของ Knob
+    const knobTravelRange = usableCanvasHeight - knobHeight;
+
+    // คำนวณตำแหน่ง Y ของ Knob (ด้านบนสุดของ Knob)
+    const sliderY = (1 - this.val / this.max) * knobTravelRange;
+
+
+    // --- วาด Track (หลอด) ---
+
+    // 1. วาดส่วนล่าง (filled part) ของ Track (สีที่เปลี่ยนตามค่า)
+    // ส่วนนี้จะวาดจากด้านล่างขึ้นมาจนถึงตำแหน่งของ Knob
+    const fillHeight = usableCanvasHeight - (sliderY + knobHeight / 2); // ความสูงของส่วนที่เติม
+    const fillY = usableCanvasHeight - fillHeight; // ตำแหน่ง Y เริ่มต้นของส่วนที่เติม (จากล่างขึ้นบน)
+
+    // ตรวจสอบให้แน่ใจว่า fillY ไม่เกิน usableCanvasHeight และ fillHeight ไม่ติดลบ
+    if (fillHeight > 0) {
+        ctx.fillStyle = this.track_fill_colour; // ใช้สีที่กำหนดสำหรับส่วนที่เติม
+        ctx.fillRect(
+            trackX,
+            fillY,
+            barWidth,
+            fillHeight
+        );
+    }
+
+
+    // 2. วาดส่วนบน (empty part) ของ Track (สีเข้ม)
+    // ส่วนนี้จะวาดจากตำแหน่งของ Knob ขึ้นไปจนถึงด้านบน
+    const emptyHeight = usableCanvasHeight - fillHeight; // ความสูงของส่วนที่ว่างเปล่า (จากบนลงล่าง)
+    ctx.fillStyle = this.dark_colour; // ใช้สีเข้มสำหรับส่วนที่ยังไม่เติม
     ctx.fillRect(
-      (this.canvas.width - barWidth) / 2,
-      0,
-      barWidth,
-      this.canvas.height
+        trackX,
+        0, // เริ่มจากด้านบนสุดของ canvas
+        barWidth,
+        emptyHeight
     );
 
-    // Position knob image
+
+    // --- วางตำแหน่ง Knob Image ---
     this.knobImg.style.top = `${sliderY}px`;
     this.knobImg.style.left = `50%`;
     this.knobImg.style.transform = "translateX(-50%)";
     this.knobImg.style.height = `${knobHeight}px`;
+    this.knobImg.style.width = `${knobWidth}px`; // ให้ knob เป็นสี่เหลี่ยมจัตุรัส
 
-    // Label
-    ctx.font = "12px Arial";
-    ctx.textAlign = "center";
-    ctx.fillStyle = this.colour;
-    ctx.fillText(
-      this.label.replace("#", this.val),
-      this.canvas.width / 2,
-      this.canvas.height - 5
-    );
+    // Update label div content
+    this.labelDiv.textContent = this.label_format.replace("#", this.val);
 
     // MIDI actions
     this.midiactions.forEach((action) => action.trigger(this.val));
@@ -134,8 +189,11 @@ class VerticalSlider {
   }
 
   resize() {
+    const labelHeight = this.labelDiv.offsetHeight;
+    const labelMarginBottom = 5;
+
     this.canvas.width = this.node.offsetWidth;
-    this.canvas.height = this.node.offsetHeight;
+    this.canvas.height = this.node.offsetHeight - (labelHeight + labelMarginBottom);
     this.redraw();
   }
 
@@ -162,8 +220,11 @@ class MidiVolumeElement extends HTMLElement {
 
     this.style.display = "inline-block";
     this.style.width = "40px";
-    this.style.height = "120px";
+    this.style.height = "160px"; // เพิ่มความสูงให้ครอบคลุม label และ margin
     this.style.position = "relative";
+    this.style.display = "flex";
+    this.style.flexDirection = "column";
+    this.style.alignItems = "center";
 
     this.slider = new VerticalSlider(this, colour, label);
     this.slider.value = init;
@@ -181,4 +242,3 @@ class MidiVolumeElement extends HTMLElement {
 }
 
 customElements.define("midi-volume", MidiVolumeElement);
-  
