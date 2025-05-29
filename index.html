@@ -6,6 +6,7 @@
   <title>Music Pad with Sync</title>
   <link rel="stylesheet" href="style.css" />
   <script src="./slider.js"></script>
+  <script src="./volume.js"></script>
   <script src="./encoder.js"></script>
 </head>
 
@@ -104,6 +105,8 @@
         ">
       <!-- Preset Selector + Encoders -->
       <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
+
+
         <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder>
         <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder>
         <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder>
@@ -173,7 +176,7 @@
               flex-wrap: wrap;
               align-items: center;
             ">
-          <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="padB-1"
+          <!-- <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="padB-1"
             init="100"></midi-slider>
 
           <midi-slider label="Bass #" colour="#A82BE8" type="vertical" data-id="slider2" data-category="padB-2"
@@ -186,7 +189,14 @@
             init="100"></midi-slider>
 
           <midi-slider label="FX #" colour="#A82BE8" type="vertical" data-id="slider5" data-category="padB-5"
-            init="100"></midi-slider>
+            init="100"></midi-slider> -->
+
+          <midi-knob label="Drum"  type="metallic" colour="#2C3930" clock="#faffff" init="70" data-id="slider1" data-category="padB-1"  data-event-type="knob-volume-change"></midi-knob>
+          <midi-knob label="Bass"  type="metallic" colour="#754E1A" clock="#A59D84" init="70" data-id="slider2" data-category="padB-2"  data-event-type="knob-volume-change"></midi-knob>
+          <midi-knob label="Pad"  type="metallic" colour="#123458" clock="#A6AEBF" init="70" data-id="slider3" data-category="padB-3"  data-event-type="knob-volume-change"></midi-knob>
+          <midi-knob label="Synth"  type="metallic" colour="#077A7D" clock="#A6AEBF" init="70" data-id="slider4" data-category="padB-4"  data-event-type="knob-volume-change"></midi-knob>
+          <midi-knob label="FX"  type="metallic" colour="#948979" clock="#F79B72" init="70" data-id="slider5" data-category="padB-5"  data-event-type="knob-volume-change"></midi-knob>
+        
         </div>
 
         <!-- Beat Indicator + Stop All Button -->
@@ -205,6 +215,8 @@
           <button id="stopAllBtnB">🛑 Stop All</button>
         </div>
       </div>
+
+      <div style="height: 20px;"></div>
 
       <!-- Grid Container -->
       <div style="
@@ -260,7 +272,7 @@
               flex-wrap: wrap;
               align-items: center;
             ">
-          <midi-encoder label="Drum #" colour="#a8dd77" data-id="slider1" data-category="padC-1"
+          <!-- <midi-encoder label="Drum #" colour="#a8dd77" data-id="slider1" data-category="padC-1"
             init="100"></midi-encoder>
 
           <midi-encoder label="Bass #" colour="#a8dd77" data-id="slider2" data-category="padC-2"
@@ -273,7 +285,13 @@
             init="100"></midi-encoder>
 
           <midi-encoder label="FX #" colour="#a8dd77" data-id="slider5" data-category="padC-5"
-            init="100"></midi-encoder>
+            init="100"></midi-encoder> -->
+
+        <midi-knob label="Drum" type="fire" colour="#000" clock="#ffffff" init="50"  data-id="slider1" data-category="padC-1" data-event-type="knob-volume-change"></midi-knob>
+        <midi-knob label="Bass"  type="carbon" init="50" clock="#ffffff" data-id="slider2" data-category="padC-2" data-event-type="knob-volume-change" ></midi-knob>
+        <midi-knob label="Pad"  type="metallic" colour="#000" clock="#ffffff" init="50" data-id="slider3" data-category="padC-3"  data-event-type="knob-volume-change"></midi-knob>
+        <midi-knob label="Synth"  type="flat" colour="#000" clock="#ffffff" init="50" data-id="slider4" data-category="padC-4" data-event-type="knob-volume-change" ></midi-knob>
+        <midi-knob label="FX"  type="threeD" colour="#000" clock="#ffffff" data-id="slider5" data-category="padC-5" init="50"  data-event-type="knob-volume-change"></midi-knob>
         </div>
 
         <!-- Beat Indicator + Stop All Button -->
@@ -293,6 +311,8 @@
         </div>
       </div>
 
+      <div style="height: 30px;"></div>
+
       <!-- Grid Container -->
       <div style="
             width: 80%;
@@ -301,6 +321,7 @@
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
+           
           ">
         <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
         <div class="categoryC">

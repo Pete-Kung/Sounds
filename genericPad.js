@@ -651,6 +651,12 @@ function createSoundSet({
       .forEach(stopPad);
   }
 
+  const supportedSliderEvents = [
+    "slider-change",
+    "encoder-change",
+    "knob-volume-change",
+  ];
+
   function onSliderChange(e) {
     const slider = e.currentTarget;
     const category = slider.getAttribute("data-category");
@@ -667,15 +673,27 @@ function createSoundSet({
     }
   }
 
-  document.querySelectorAll(sliderSelector).forEach((slider) => {
-    if (sliderSelector == "midi-slider") {
-      slider.removeEventListener("slider-change", onSliderChange);
-      slider.addEventListener("slider-change", onSliderChange);
-    } else if (sliderSelector == "midi-encoder") {
-      slider.removeEventListener("encoder-change", onSliderChange);
-      slider.addEventListener("encoder-change", onSliderChange);
-    }
+  supportedSliderEvents.forEach((eventType) => {
+    document
+      .querySelectorAll(`[data-event-type="${eventType}"]`)
+      .forEach((slider) => {
+        slider.removeEventListener(eventType, onSliderChange);
+        slider.addEventListener(eventType, onSliderChange);
+      });
   });
+
+  // document.querySelectorAll(sliderSelector).forEach((slider) => {
+  //   if (sliderSelector == "midi-slider") {
+  //     slider.removeEventListener("slider-change", onSliderChange);
+  //     slider.addEventListener("slider-change", onSliderChange);
+  //   } else if (sliderSelector == "midi-encoder") {
+  //     slider.removeEventListener("encoder-change", onSliderChange);
+  //     slider.addEventListener("encoder-change", onSliderChange);
+  //   } else if (sliderSelector == "midi-knob") {
+  //     slider.removeEventListener("knob-volume-change", onSliderChange);
+  //     slider.addEventListener("knob-volume-change", onSliderChange);
+  //   }
+  // });
 
   beatLoop();
 
@@ -688,11 +706,14 @@ window.addEventListener("DOMContentLoaded", () => {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
   const padB = createSoundSet({
-    sounds: allSounds.soundsB.map((s) => ({ ...s, url: `./sounds/Loop2/${s.file}` })),
+    sounds: allSounds.soundsB.map((s) => ({
+      ...s,
+      url: `./sounds/Loop2/${s.file}`,
+    })),
     padPrefix: "padB",
     beatClass: "beatB",
     categoryClass: "categoryB",
-    sliderSelector: "midi-slider",
+    sliderSelector: "midi-slider slider-change",
     audioContext,
     bpm: 120,
     btnStopAll: "stopAllBtnB",
@@ -706,7 +727,7 @@ window.addEventListener("DOMContentLoaded", () => {
     padPrefix: "padC",
     beatClass: "beatC",
     categoryClass: "categoryC",
-    sliderSelector: "midi-encoder",
+    sliderSelector: "midi-knob",
     audioContext,
     bpm: 120,
     btnStopAll: "stopAllBtnC",
@@ -723,4 +744,6 @@ window.addEventListener("DOMContentLoaded", () => {
     bpm: 120,
     btnStopAll: "stopAllBtnD",
   });
+
+ 
 });

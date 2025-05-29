@@ -198,3 +198,243 @@ class MidiSliderElement extends HTMLElement {
 }
 
 customElements.define("midi-slider", MidiSliderElement);
+
+class MidiKnobElement extends HTMLElement {
+  static get observedAttributes() {
+    return ["type", "colour", "label", "min", "max", "step", "init", "clock"];
+  }
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this._value = 0;
+    this.min = 0;
+    this.max = 100;
+    this.step = 1;
+    this.angleRange = 270;
+    this.startAngle = -135;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(newVal) {
+    const clampedVal = Math.max(this.min, Math.min(this.max, newVal));
+    if (clampedVal !== this._value) {
+      this._value = clampedVal;
+      this.updateRotation();
+      this.dispatchEvent(
+        new CustomEvent("knob-volume-change", {
+          detail: { value: this._value },
+        })
+      );
+      if (this.valueDisplay) {
+        this.valueDisplay.innerText = this._value;
+        console.log(this._value / 100);
+      }
+    }
+  }
+
+  connectedCallback() {
+    // อ่านค่า attribute
+    this.min = parseFloat(this.getAttribute("min")) || this.min;
+    this.max = parseFloat(this.getAttribute("max")) || this.max;
+    this.step = parseFloat(this.getAttribute("step")) || this.step;
+    const initAttr = this.getAttribute("init");
+    if (initAttr !== null) {
+      this._value = parseFloat(initAttr);
+    }
+    this._value = Math.max(this.min, Math.min(this.max, this._value));
+
+    this.render();
+    this.updateRotation();
+  }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    if (name === "type" && this.wrapper) {
+      this.applyStyle(this.wrapper, newVal);
+    }
+
+    if (name === "label" && this.labelDisplay) {
+      this.labelDisplay.innerText = newVal;
+    }
+
+    if (name === "colour" && this.wrapper) {
+      this.applyStyle(this.wrapper, this.getAttribute("type") || "metallic");
+    }
+
+    if (["min", "max", "step"].includes(name)) {
+      this[name] = parseFloat(newVal);
+      this.value = this._value; // re-clamp
+    }
+    if (name === "init") {
+      this._value = parseFloat(newVal);
+      this._value = Math.max(this.min, Math.min(this.max, this._value));
+      this.updateRotation();
+    }
+  }
+
+  render() {
+    const label = this.getAttribute("label") || "Knob";
+    const type = this.getAttribute("type") || "metallic";
+    this.colour = this.getAttribute("colour") || "#A82BE8";
+    this.clock = this.getAttribute("clock") || "#A82BE8";
+
+    const darkerColour = this.darkenColor(this.clock, 0.2);
+
+    this.wrapper = document.createElement("div");
+    Object.assign(this.wrapper.style, {
+      position: "relative",
+      width: "80px",
+      height: "80px",
+      borderRadius: "50%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      cursor: "pointer",
+      userSelect: "none",
+    });
+    this.applyStyle(this.wrapper, type);
+
+    this.pointer = document.createElement("div");
+    Object.assign(this.pointer.style, {
+      width: "4px",
+      height: "40%",
+      background: darkerColour,
+      position: "absolute",
+      top: "10%",
+      borderRadius: "2px",
+      transformOrigin: "bottom center",
+      transition: "transform 0.05s ease-out",
+    });
+
+    this.valueDisplay = document.createElement("div");
+    Object.assign(this.valueDisplay.style, {
+      position: "absolute",
+      bottom: "-20px",
+      color: "#fff",
+      fontSize: "14px",
+    });
+    this.valueDisplay.innerText = this._value;
+
+    this.labelDisplay = document.createElement("div");
+    Object.assign(this.labelDisplay.style, {
+      position: "absolute",
+      top: "-20px",
+      color: "#fff",
+      fontSize: "12px",
+    });
+    this.labelDisplay.innerText = label;
+
+    this.wrapper.appendChild(this.pointer);
+    this.wrapper.appendChild(this.valueDisplay);
+    this.wrapper.appendChild(this.labelDisplay);
+    this.shadowRoot.appendChild(this.wrapper);
+
+    this.initEvents();
+  }
+
+  initEvents() {
+    let startY = 0;
+    let startValue = this._value;
+
+    const onMove = (e) => {
+      const dy = (e.clientY || e.touches[0].clientY) - startY;
+      let newVal = startValue - dy * this.step;
+      newVal = Math.round(newVal / this.step) * this.step;
+      this.value = newVal;
+    };
+
+    const onUp = () => {
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", onUp);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", onUp);
+    };
+
+    this.wrapper.addEventListener("mousedown", (e) => {
+      startY = e.clientY;
+      startValue = this._value;
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    });
+
+    this.wrapper.addEventListener("touchstart", (e) => {
+      startY = e.touches[0].clientY;
+      startValue = this._value;
+      document.addEventListener("touchmove", onMove);
+      document.addEventListener("touchend", onUp);
+    });
+
+    this.wrapper.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      this.value += e.deltaY < 0 ? this.step : -this.step;
+    });
+  }
+
+  updateRotation() {
+    const ratio = (this._value - this.min) / (this.max - this.min);
+    const angle = this.startAngle + ratio * this.angleRange;
+    this.pointer.style.transform = `rotate(${angle}deg)`;
+    this.valueDisplay.innerText = this._value;
+    this.dispatchEvent(
+      new CustomEvent("knob-volume-change", { detail: { value: this._value } })
+    );
+  }
+
+  darkenColor(color, percent) {
+    let r = parseInt(color.slice(1, 3), 16);
+    let g = parseInt(color.slice(3, 5), 16);
+    let b = parseInt(color.slice(5, 7), 16);
+    r = Math.max(0, Math.min(255, Math.floor(r * (1 - percent))));
+    g = Math.max(0, Math.min(255, Math.floor(g * (1 - percent))));
+    b = Math.max(0, Math.min(255, Math.floor(b * (1 - percent))));
+    return `rgb(${r},${g},${b})`;
+  }
+
+  applyStyle(el, style) {
+    switch (style) {
+      case "metallic":
+        el.style.background = `radial-gradient(circle at 30% 30%, #2e2e2e, ${this.colour})`; // โทนดำเทา
+        el.style.border = `2px solid #555`; // ขอบเทาเข้ม
+        el.style.boxShadow = `
+                              inset -2px -2px 4px #1a1a1a, 
+                              inset 2px 2px 6px #666`; // แสงและเงาแบบมีมิติ
+        break;
+      case "carbon":
+        el.style.background = `repeating-linear-gradient(45deg, #2b2b2b, #2b2b2b 10px, #1c1c1c 10px, #1c1c1c 20px)`;
+        el.style.border = `2px solid #444`;
+        el.style.boxShadow = `0 0 10px rgba(0,0,0,0.5)`;
+        break;
+      case "plastic":
+        el.style.background = this.colour;
+        el.style.border = `2px solid #000`;
+        el.style.boxShadow = `inset 2px 2px 4px rgba(255,255,255,0.3), inset -2px -2px 4px rgba(0,0,0,0.3)`;
+        break;
+      case "fire":
+        el.style.background = `radial-gradient(circle at center, #ff5722, #b71c1c)`;
+        el.style.border = `2px solid #ff8a65`;
+        el.style.boxShadow = `0 0 10px #ff5722, 0 0 20px #ff7043`;
+        break;
+      case "threeD":
+        el.style.background = `linear-gradient(145deg, ${this.colour}, #222)`;
+        el.style.boxShadow = `
+          5px 5px 15px rgba(0,0,0,0.7),
+          -5px -5px 15px rgba(255,255,255,0.2),
+          inset 2px 2px 5px rgba(255,255,255,0.3),
+          inset -2px -2px 5px rgba(0,0,0,0.7)
+        `;
+        el.style.borderRadius = "8px";
+        break;
+      case "flat":
+      default:
+        el.style.background = this.colour;
+        el.style.border = "none";
+        el.style.boxShadow = "none";
+        break;
+    }
+  }
+}
+
+customElements.define("midi-knob", MidiKnobElement);
