@@ -489,7 +489,17 @@ function createSoundSet({
     pad.source = source;
     pad.gainNode = gainNode;
 
-    gainNode.gain.setValueAtTime(1, audioContext.currentTime);
+    // ✅ ดึงค่าระดับเสียงจาก slider ปัจจุบัน
+    const  category = pad.getAttribute("class")
+    const slider = document.querySelector(`[data-category="${category}-5"]`);
+    const sliderVolume = slider
+      ? parseFloat(slider.getAttribute("data-volume") || "1")
+      : 1;
+    gainNode.gain.setValueAtTime(sliderVolume, audioContext.currentTime);
+    console.log(sliderVolume);
+    
+
+    gainNode.gain.setValueAtTime(sliderVolume, audioContext.currentTime);
     source.start(audioContext.currentTime);
 
     pad.dataset.playing = "true";
@@ -655,12 +665,15 @@ function createSoundSet({
     "slider-change",
     "encoder-change",
     "knob-volume-change",
+    "volume-change",
   ];
 
   function onSliderChange(e) {
     const slider = e.currentTarget;
     const category = slider.getAttribute("data-category");
     const volume = parseFloat(e.detail.value) / 100;
+
+    slider.setAttribute("data-volume", volume.toString());
 
     const container = document.getElementById(category);
     if (container) {

@@ -378,6 +378,6 @@ function drawWavePeaks() {
 }
 
 drawWavePeaks()
-//drawCircularBars()
- //drawSoftBars()
-//drawWaveformLine(); 
+// drawCircularBars()
+//  drawSoftBars()
+// drawWaveformLine(); 

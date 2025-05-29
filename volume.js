@@ -4,9 +4,14 @@ class VerticalSlider {
     this.colour = colour;
     this.label_format = label_str;
     this.min = 0;
-    this.max = 127;
+    this.max = 100;
     this.val = 0;
     this.midiactions = [];
+
+    this.ro = new ResizeObserver(() => {
+      this.resize();
+    });
+    this.ro.observe(this.node);
 
     // Create label div FIRST to get its height
     this.labelDiv = document.createElement("div");
@@ -18,19 +23,19 @@ class VerticalSlider {
     this.labelDiv.style.color = "#FFFF";
     this.labelDiv.style.fontFamily = "Arial, sans-serif";
     this.labelDiv.style.fontSize = "12px";
+    this.labelDiv.style.fontWeight = "bold";
     this.node.appendChild(this.labelDiv);
 
     // Set a temporary text content for labelDiv to ensure offsetHeight is calculated correctly
     this.labelDiv.textContent = this.label_format.replace("#", this.val);
 
     const labelHeight = this.labelDiv.offsetHeight;
-    const labelMarginBottom = 5;
 
     // Create canvas
     this.canvas = document.createElement("canvas");
     this.canvas.style.width = "100%";
     // Height for canvas now explicitly calculated
-    this.canvas.style.height = `calc(100% - ${labelHeight + labelMarginBottom}px)`;
+    this.canvas.style.height = `calc(100% - ${labelHeight + 25}px)`;
     this.canvas.style.display = "block";
     this.canvas.style.position = "absolute";
     this.canvas.style.top = "0";
@@ -56,7 +61,7 @@ class VerticalSlider {
     this.node.appendChild(this.knobImg);
 
     this.dark_colour = "#222"; // Default dark track color
-    this.track_fill_colour = "#3498db"; // เพิ่มสีสำหรับส่วนที่เติมของ track (ถ้ามี)
+    this.track_fill_colour = this.colour; // เพิ่มสีสำหรับส่วนที่เติมของ track (ถ้ามี)
 
     // Bind events
     this.eventMouseDown = this.eventMouseDown.bind(this);
@@ -122,61 +127,45 @@ class VerticalSlider {
 
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    const barWidth = this.canvas.width / 4; // ความกว้างของแทร็ก
-    const trackX = (this.canvas.width - barWidth) / 2; // ตำแหน่ง X ของแทร็ก
+    const barWidth = this.canvas.width / 4;
+    const trackX = (this.canvas.width - barWidth) / 2;
     const usableCanvasHeight = this.canvas.height;
 
-    // คำนวณขนาดของ Knob
-    const knobSizeRatio = 0.6; // กำหนดขนาดของ knob เป็น 60% ของความกว้างของ canvas
+    const knobSizeRatio = 0.6;
     const knobHeight = this.canvas.width * knobSizeRatio;
-    const knobWidth = knobHeight; // ทำให้เป็นสี่เหลี่ยมจัตุรัส
+    const knobWidth = knobHeight;
 
-    // คำนวณช่วงการเคลื่อนที่ของ Knob
     const knobTravelRange = usableCanvasHeight - knobHeight;
 
-    // คำนวณตำแหน่ง Y ของ Knob (ด้านบนสุดของ Knob)
-    const sliderY = (1 - this.val / this.max) * knobTravelRange;
+    // คำนวณตำแหน่งของ knob (ชดเชยให้เลื่อนลงสุดพอดี)
+    let sliderY = (1 - this.val / this.max) * knobTravelRange;
+    sliderY = Math.min(Math.max(sliderY, 0), knobTravelRange); // Clamp ค่าไม่ให้ออกนอกขอบ
 
+    // --- วาด Track ---
+    const knobCenterY = sliderY + knobHeight / 2;
 
-    // --- วาด Track (หลอด) ---
+    // 1. Filled track (จากล่างถึง knob)
+    const fillHeight = usableCanvasHeight - knobCenterY;
+    const fillY = knobCenterY;
 
-    // 1. วาดส่วนล่าง (filled part) ของ Track (สีที่เปลี่ยนตามค่า)
-    // ส่วนนี้จะวาดจากด้านล่างขึ้นมาจนถึงตำแหน่งของ Knob
-    const fillHeight = usableCanvasHeight - (sliderY + knobHeight / 2); // ความสูงของส่วนที่เติม
-    const fillY = usableCanvasHeight - fillHeight; // ตำแหน่ง Y เริ่มต้นของส่วนที่เติม (จากล่างขึ้นบน)
-
-    // ตรวจสอบให้แน่ใจว่า fillY ไม่เกิน usableCanvasHeight และ fillHeight ไม่ติดลบ
     if (fillHeight > 0) {
-        ctx.fillStyle = this.track_fill_colour; // ใช้สีที่กำหนดสำหรับส่วนที่เติม
-        ctx.fillRect(
-            trackX,
-            fillY,
-            barWidth,
-            fillHeight
-        );
+      ctx.fillStyle = this.track_fill_colour;
+      ctx.fillRect(trackX, fillY, barWidth, fillHeight);
     }
 
+    // 2. Empty track (จากบนถึง knob)
+    const emptyHeight = knobCenterY;
+    ctx.fillStyle = this.dark_colour;
+    ctx.fillRect(trackX, 0, barWidth, emptyHeight);
 
-    // 2. วาดส่วนบน (empty part) ของ Track (สีเข้ม)
-    // ส่วนนี้จะวาดจากตำแหน่งของ Knob ขึ้นไปจนถึงด้านบน
-    const emptyHeight = usableCanvasHeight - fillHeight; // ความสูงของส่วนที่ว่างเปล่า (จากบนลงล่าง)
-    ctx.fillStyle = this.dark_colour; // ใช้สีเข้มสำหรับส่วนที่ยังไม่เติม
-    ctx.fillRect(
-        trackX,
-        0, // เริ่มจากด้านบนสุดของ canvas
-        barWidth,
-        emptyHeight
-    );
-
-
-    // --- วางตำแหน่ง Knob Image ---
+    // --- วางตำแหน่ง Knob ---
     this.knobImg.style.top = `${sliderY}px`;
     this.knobImg.style.left = `50%`;
     this.knobImg.style.transform = "translateX(-50%)";
     this.knobImg.style.height = `${knobHeight}px`;
-    this.knobImg.style.width = `${knobWidth}px`; // ให้ knob เป็นสี่เหลี่ยมจัตุรัส
+    this.knobImg.style.width = `${knobWidth}px`;
 
-    // Update label div content
+    // --- Label ---
     this.labelDiv.textContent = this.label_format.replace("#", this.val);
 
     // MIDI actions
@@ -189,11 +178,15 @@ class VerticalSlider {
   }
 
   resize() {
+    if (!this.canvas || !this.labelDiv) return;
+
     const labelHeight = this.labelDiv.offsetHeight;
     const labelMarginBottom = 5;
 
     this.canvas.width = this.node.offsetWidth;
-    this.canvas.height = this.node.offsetHeight - (labelHeight + labelMarginBottom);
+    this.canvas.height =
+      this.node.offsetHeight - (labelHeight + labelMarginBottom);
+
     this.redraw();
   }
 
@@ -220,14 +213,17 @@ class MidiVolumeElement extends HTMLElement {
 
     this.style.display = "inline-block";
     this.style.width = "40px";
-    this.style.height = "160px"; // เพิ่มความสูงให้ครอบคลุม label และ margin
+    this.style.height = "150px"; // เพิ่มความสูงให้ครอบคลุม label และ margin
     this.style.position = "relative";
     this.style.display = "flex";
     this.style.flexDirection = "column";
     this.style.alignItems = "center";
 
     this.slider = new VerticalSlider(this, colour, label);
-    this.slider.value = init;
+    requestAnimationFrame(() => {
+      this.slider.value = init;
+      this.slider.resize(); // รีขนาดหลัง DOM เสร็จ
+    });
   }
 
   get value() {
