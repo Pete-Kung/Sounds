@@ -236,54 +236,148 @@ function stopPad(pad) {
 // สร้าง AnalyserNode สำหรับดึงข้อมูลเสียง
 const analyser = audioContext.createAnalyser();
 mainGainNode.connect(analyser);
-
 analyser.fftSize = 256;
 const bufferLength = analyser.frequencyBinCount;
 const dataArray = new Uint8Array(bufferLength);
-
 const canvas = document.getElementById("waveformCanvas");
 const canvasCtx = canvas.getContext("2d");
-
 // ตั้งค่าขนาด canvas ให้ตรงกับ DOM
 function resizeCanvas() {
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
 }
 resizeCanvas(); // เรียกครั้งแรก
-
 // รองรับการ resize หน้าจอ
 window.addEventListener("resize", () => {
     resizeCanvas();
 });
-
 // ฟังก์ชันวาดแท่งเสียง
-function draw() {
-    requestAnimationFrame(draw);
+function drawWaveformLine() {
+    requestAnimationFrame(drawWaveformLine);
+    analyser.getByteTimeDomainData(dataArray);
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    canvasCtx.lineWidth = 2;
+    canvasCtx.strokeStyle = "#00FFFF"; // สีฟ้านีออน
+    canvasCtx.beginPath();
+    const sliceWidth = canvas.width / bufferLength;
+    let x = 0;
+    for (let i = 0; i < bufferLength; i++) {
+        const v = dataArray[i] / 128.0; // กลางที่ 128
+        const y = (v * canvas.height) / 2;
 
-    analyser.getByteFrequencyData(dataArray); // ดึงข้อมูลความถี่
+        if (i === 0) {
+            canvasCtx.moveTo(x, y);
+        } else {
+            canvasCtx.lineTo(x, y);
+        }
+
+        x += sliceWidth;
+    }
+
+    canvasCtx.lineTo(canvas.width, canvas.height / 2);
+    canvasCtx.stroke();
+}
+function drawSoftBars() {
+    requestAnimationFrame(drawSoftBars);
+    analyser.getByteFrequencyData(dataArray);
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    const barWidth = (canvas.width / bufferLength) * 1.2;
+    let x = 0;
+    for (let i = 0; i < bufferLength; i++) {
+        const barHeight = (dataArray[i] / 255) * canvas.height;
+        const hue = (i / bufferLength) * 100 + 200; // ไล่สีแนวพาสเทลม่วงฟ้า
+        canvasCtx.fillStyle = `hsl(${hue}, 80%, 70%)`;
+        canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        x += barWidth + 0.5;
+    }
+}
+function drawCircularBars() {
+    requestAnimationFrame(drawCircularBars);
+    analyser.getByteFrequencyData(dataArray);
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const barWidth = (canvas.width / bufferLength) * 1.5;
-    let barHeight;
-    let x = 0;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = 40;
+    const barCount = bufferLength;
+    const angleStep = (Math.PI * 2) / barCount;
 
-  for (let i = 0; i < bufferLength; i++) {
-    barHeight = dataArray[i] / 255 * canvas.height;
+    // วาดวงกลมตรงกลางให้ดูเนียน
+    canvasCtx.beginPath();
+    canvasCtx.arc(centerX, centerY, radius - 5, 0, Math.PI * 2);
+    canvasCtx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    canvasCtx.fill();
 
-    // คำนวณสีรุ้งจากตำแหน่ง i
-    const hue = (i / bufferLength) * 360; // ไล่สี 0-360 องศา (HSL)
-    canvasCtx.fillStyle = `hsl(${hue}, 100%, 60%)`; // สดใส ชัดเจน
+    for (let i = 0; i < barCount; i++) {
+        const value = dataArray[i];
+        const barLength = value / 255 * (canvas.height / 2 - radius - 20);
 
-    canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+        const angle = i * angleStep;
+        const x1 = centerX + Math.cos(angle) * radius;
+        const y1 = centerY + Math.sin(angle) * radius;
+        const x2 = centerX + Math.cos(angle) * (radius + barLength);
+        const y2 = centerY + Math.sin(angle) * (radius + barLength);
 
-    x += barWidth + 1;
+        // ไล่เฉดสีแนวฟ้าชมพูเรืองแสง
+        const gradient = canvasCtx.createLinearGradient(x1, y1, x2, y2);
+        gradient.addColorStop(0, `hsla(${(i / barCount) * 360}, 100%, 70%, 0.8)`);
+        gradient.addColorStop(1, `hsla(${(i / barCount) * 360 + 30}, 100%, 50%, 0.9)`);
+
+        canvasCtx.strokeStyle = gradient;
+        canvasCtx.lineWidth = 2;
+
+        // เพิ่ม glow ด้วย shadow
+        canvasCtx.shadowBlur = 8;
+        canvasCtx.shadowColor = `hsla(${(i / barCount) * 360}, 100%, 60%, 0.6)`;
+
+        canvasCtx.beginPath();
+        canvasCtx.moveTo(x1, y1);
+        canvasCtx.lineTo(x2, y2);
+        canvasCtx.stroke();
+    }
+
+    // ล้าง shadow หลังวาดเสร็จ
+    canvasCtx.shadowBlur = 0;
+}
+function drawWavePeaks() {
+    requestAnimationFrame(drawWavePeaks);
+    analyser.getByteFrequencyData(dataArray);
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const waveLayers = 3; // จำนวนคลื่นซ้อนกัน
+    const gap = 10;       // ช่องว่างระหว่าง layer
+    const baseHeight = canvas.height / 2;
+
+    for (let layer = 0; layer < waveLayers; layer++) {
+        const opacity = 1 - layer * 0.3;
+        const offset = layer * gap;
+
+        canvasCtx.beginPath();
+
+        for (let i = 0; i < bufferLength; i++) {
+            const x = (i / bufferLength) * canvas.width;
+            const value = dataArray[i];
+            const y = baseHeight - (value / 255 * canvas.height / (2.5 + layer * 1.2)); // ยอดคลื่น
+
+            if (i === 0) {
+                canvasCtx.moveTo(x, y + offset);
+            } else {
+                canvasCtx.lineTo(x, y + offset);
+            }
+        }
+
+        const gradient = canvasCtx.createLinearGradient(0, 0, canvas.width, 0);
+        gradient.addColorStop(0, `rgba(255, 99, 132, ${opacity})`);
+        gradient.addColorStop(0.5, `rgba(54, 162, 235, ${opacity})`);
+        gradient.addColorStop(1, `rgba(75, 192, 192, ${opacity})`);
+
+        canvasCtx.strokeStyle = gradient;
+        canvasCtx.lineWidth = 2;
+        canvasCtx.stroke();
+    }
 }
 
-}
-
-// เริ่มแสดงผล
-draw();
-
-
-
-
+drawWavePeaks()
+//drawCircularBars()
+ //drawSoftBars()
+//drawWaveformLine(); 
