@@ -682,18 +682,6 @@ function createSoundSet({
       });
   });
 
-  // document.querySelectorAll(sliderSelector).forEach((slider) => {
-  //   if (sliderSelector == "midi-slider") {
-  //     slider.removeEventListener("slider-change", onSliderChange);
-  //     slider.addEventListener("slider-change", onSliderChange);
-  //   } else if (sliderSelector == "midi-encoder") {
-  //     slider.removeEventListener("encoder-change", onSliderChange);
-  //     slider.addEventListener("encoder-change", onSliderChange);
-  //   } else if (sliderSelector == "midi-knob") {
-  //     slider.removeEventListener("knob-volume-change", onSliderChange);
-  //     slider.addEventListener("knob-volume-change", onSliderChange);
-  //   }
-  // });
 
   beatLoop();
 

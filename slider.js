@@ -231,7 +231,6 @@ class MidiKnobElement extends HTMLElement {
       );
       if (this.valueDisplay) {
         this.valueDisplay.innerText = this._value;
-        console.log(this._value / 100);
       }
     }
   }
@@ -280,27 +279,55 @@ class MidiKnobElement extends HTMLElement {
     const type = this.getAttribute("type") || "metallic";
     this.colour = this.getAttribute("colour") || "#A82BE8";
     this.clock = this.getAttribute("clock") || "#A82BE8";
-
     const darkerColour = this.darkenColor(this.clock, 0.2);
 
     this.wrapper = document.createElement("div");
     Object.assign(this.wrapper.style, {
       position: "relative",
-      width: "80px",
-      height: "80px",
+      width: "120px", // ขยายขนาด
+      height: "140px",
+      borderRadius: "16px", // กรอบมน
+      display: "flex",
+      flexDirection: "column", // ให้ label/value อยู่ด้านบน/ล่างของ knob
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#111", // โทนดำ
+      padding: "10px",
+      boxSizing: "border-box",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.6)",
+    });
+
+    this.applyStyle(this.wrapper, type);
+
+    // Label
+    this.labelDisplay = document.createElement("div");
+    Object.assign(this.labelDisplay.style, {
+      color: "#fff",
+      fontSize: "13px",
+      marginBottom: "6px",
+      fontWeight: "bold",
+    });
+    this.labelDisplay.innerText = label;
+
+    // ปุ่ม pointer
+    const knob = document.createElement("div");
+    Object.assign(knob.style, {
+      position: "relative",
+      width: "60px",
+      height: "60px",
       borderRadius: "50%",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      cursor: "pointer",
-      userSelect: "none",
+      background: "#222",
+      border: "2px solid #444",
+      boxShadow: "inset -2px -2px 5px #000, inset 2px 2px 5px #555",
     });
-    this.applyStyle(this.wrapper, type);
 
     this.pointer = document.createElement("div");
     Object.assign(this.pointer.style, {
       width: "4px",
-      height: "40%",
+      height: "35%",
       background: darkerColour,
       position: "absolute",
       top: "10%",
@@ -308,28 +335,21 @@ class MidiKnobElement extends HTMLElement {
       transformOrigin: "bottom center",
       transition: "transform 0.05s ease-out",
     });
+    knob.appendChild(this.pointer);
 
+    // ค่า value
     this.valueDisplay = document.createElement("div");
     Object.assign(this.valueDisplay.style, {
-      position: "absolute",
-      bottom: "-20px",
-      color: "#fff",
+      color: "#ccc",
       fontSize: "14px",
+      marginTop: "6px",
+      fontWeight: "bold"
     });
     this.valueDisplay.innerText = this._value;
 
-    this.labelDisplay = document.createElement("div");
-    Object.assign(this.labelDisplay.style, {
-      position: "absolute",
-      top: "-20px",
-      color: "#fff",
-      fontSize: "12px",
-    });
-    this.labelDisplay.innerText = label;
-
-    this.wrapper.appendChild(this.pointer);
-    this.wrapper.appendChild(this.valueDisplay);
     this.wrapper.appendChild(this.labelDisplay);
+    this.wrapper.appendChild(knob);
+    this.wrapper.appendChild(this.valueDisplay);
     this.shadowRoot.appendChild(this.wrapper);
 
     this.initEvents();
