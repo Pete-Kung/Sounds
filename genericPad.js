@@ -382,7 +382,6 @@ const allSounds = {
   ],
 };
 
-
 function createSoundSet({
   sounds,
   padPrefix,
@@ -490,14 +489,13 @@ function createSoundSet({
     pad.gainNode = gainNode;
 
     // ✅ ดึงค่าระดับเสียงจาก slider ปัจจุบัน
-    const  category = pad.getAttribute("class")
+    const category = pad.getAttribute("class");
     const slider = document.querySelector(`[data-category="${category}-5"]`);
     const sliderVolume = slider
       ? parseFloat(slider.getAttribute("data-volume") || "1")
       : 1;
     gainNode.gain.setValueAtTime(sliderVolume, audioContext.currentTime);
     console.log(sliderVolume);
-    
 
     gainNode.gain.setValueAtTime(sliderVolume, audioContext.currentTime);
     source.start(audioContext.currentTime);
@@ -549,7 +547,7 @@ function createSoundSet({
   function queueStartPad(pad) {
     const container = document.getElementById(pad.parentElement.id);
 
-    console.log(container);
+    console.log(container.id);
 
     const currentlyPlayingPad = container.querySelector(
       "[data-playing='true']"
@@ -571,17 +569,23 @@ function createSoundSet({
 
     if (currentlyPlayingPad2 == null) {
       // ✅ ไม่มี pad เล่นอยู่ → เริ่มทันทีแบบไม่ต้อง sync
-      actuallyQueuePad(pad, false, lockedTime, lockedTime); // sync = false
+      actuallyQueuePad(pad, false, lockedTime, lockedTime, container.id); // sync = false
     } else {
       if (currentlyPlayingPad !== pad) {
         stopPad(currentlyPlayingPad);
         const waitTime =
           (currentlyPlayingPad?.pendingStopTime || lockedTime) - lockedTime;
         setTimeout(() => {
-          actuallyQueuePad(pad, true, lockedTime, syncedStartTime);
+          actuallyQueuePad(
+            pad,
+            true,
+            lockedTime,
+            syncedStartTime,
+            container.id
+          );
         }, waitTime * 1000);
       } else {
-        actuallyQueuePad(pad, true, lockedTime, syncedStartTime);
+        actuallyQueuePad(pad, true, lockedTime, syncedStartTime, container.id);
       }
     }
   }
@@ -590,7 +594,8 @@ function createSoundSet({
     pad,
     sync = true,
     lockedTime = audioContext.currentTime,
-    startTime = null
+    startTime = null,
+    padId
   ) {
     const actualStartTime = sync
       ? startTime ?? Math.ceil(lockedTime / barDuration) * barDuration
@@ -618,7 +623,15 @@ function createSoundSet({
     pad.source = source;
     pad.gainNode = gainNode;
 
-    gainNode.gain.setValueAtTime(1, actualStartTime);
+    const padContainer = padId.replace(/-\d+$/, "");
+    const volumeControll = document.querySelectorAll(`.${padContainer}-volume`);
+    volumeControll.forEach((div) => {
+      if (div.dataset.category === padId) {
+        const setVolume = div.dataset.volume;
+        gainNode.gain.setValueAtTime(setVolume, actualStartTime);
+      }
+    });
+
     source.start(actualStartTime);
 
     pad.dataset.playing = "true";
@@ -661,6 +674,16 @@ function createSoundSet({
       .forEach(stopPad);
   }
 
+  // ✅ Debounce function
+  function debounce(fn, delay) {
+    let timeoutId;
+    return function (...args) {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  // ✅ รายชื่อ event ที่รองรับจาก slider
   const supportedSliderEvents = [
     "slider-change",
     "encoder-change",
@@ -668,13 +691,19 @@ function createSoundSet({
     "volume-change",
   ];
 
+  // ✅ สร้าง debounce สำหรับ updateLogdata
+  const debouncedUpdateLogdata = debounce(updateLogdata, 1000);
+
+  // ✅ Main event handler
   function onSliderChange(e) {
     const slider = e.currentTarget;
     const category = slider.getAttribute("data-category");
     const volume = parseFloat(e.detail.value) / 100;
 
+    // อัปเดตค่าใน DOM
     slider.setAttribute("data-volume", volume.toString());
 
+    // ดึง container และตั้งค่า gain ถ้ากำลังเล่น
     const container = document.getElementById(category);
     if (container) {
       const pads = container.querySelectorAll(`.${padPrefix}`);
@@ -684,8 +713,12 @@ function createSoundSet({
         }
       });
     }
+
+    // ✅ เรียก updateLogdata เมื่อหยุดเลื่อน slider
+    debouncedUpdateLogdata(category);
   }
 
+  // ✅ ผูก event ทุก slider
   supportedSliderEvents.forEach((eventType) => {
     document
       .querySelectorAll(`[data-event-type="${eventType}"]`)
@@ -695,12 +728,10 @@ function createSoundSet({
       });
   });
 
-
   beatLoop();
 
   sounds.forEach((sound) => createPad(sound));
 }
-
 
 // === USAGE EXAMPLE ===
 
@@ -735,7 +766,6 @@ window.addEventListener("DOMContentLoaded", () => {
     btnStopAll: "stopAllBtnC",
   });
 
- 
   const padD = createSoundSet({
     sounds: allSounds.soundsD.map((s) => ({ ...s, url: `./sounds/${s.file}` })),
     padPrefix: "padD",
@@ -746,6 +776,8 @@ window.addEventListener("DOMContentLoaded", () => {
     bpm: 120,
     btnStopAll: "stopAllBtnD",
   });
-
- 
 });
+
+
+
+

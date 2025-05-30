@@ -9,6 +9,8 @@
   <script src="./volume.js"></script>
   <script src="./encoder.js"></script>
   <script src="./ui.js"></script>
+  <script src="./dataCollection.js"></script>
+
 </head>
 
 <body>
@@ -200,11 +202,11 @@
 
            
 
-          <midi-knob label="Drum"  type="metallic" colour="#2C3930" clock="#faffff" init="100" data-id="slider1" data-category="padB-1"  data-event-type="knob-volume-change"></midi-knob>
-          <midi-knob label="Bass"  type="metallic" colour="#754E1A" clock="#A59D84" init="100" data-id="slider2" data-category="padB-2"  data-event-type="knob-volume-change"></midi-knob>
-          <midi-knob label="Pad"  type="metallic" colour="#123458" clock="#A6AEBF" init="100" data-id="slider3" data-category="padB-3"  data-event-type="knob-volume-change"></midi-knob>
-          <midi-knob label="Synth"  type="metallic" colour="#077A7D" clock="#A6AEBF" init="100" data-id="slider4" data-category="padB-4"  data-event-type="knob-volume-change"></midi-knob>
-          <midi-knob label="FX"  type="metallic" colour="#948979" clock="#F79B72" init="100" data-id="slider5" data-category="padB-5"  data-valume="1" data-event-type="knob-volume-change"></midi-knob>
+          <midi-knob label="Drum" class="padB-volume" type="metallic" colour="#2C3930" clock="#faffff" init="100" data-id="slider1" data-category="padB-1"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
+          <midi-knob label="Bass" class="padB-volume" type="metallic" colour="#754E1A" clock="#A59D84" init="100" data-id="slider2" data-category="padB-2"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
+          <midi-knob label="Pad" class="padB-volume"  type="metallic" colour="#123458" clock="#A6AEBF" init="100" data-id="slider3" data-category="padB-3"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
+          <midi-knob label="Synth" class="padB-volume"  type="metallic" colour="#077A7D" clock="#A6AEBF" init="100" data-id="slider4" data-category="padB-4"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
+          <midi-knob label="FX" class="padB-volume" type="metallic" colour="#948979" clock="#F79B72" init="100" data-id="slider5" data-category="padB-5"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
         
         </div>
 
@@ -295,11 +297,11 @@
           <midi-encoder label="FX #" colour="#a8dd77" data-id="slider5" data-category="padC-5"
             init="100"></midi-encoder> -->
 
-        <midi-knob label="Drum" type="fire" colour="#000" clock="#ffffff" init="100"  data-id="slider1" data-category="padC-1" data-event-type="knob-volume-change"></midi-knob>
-        <midi-knob label="Bass"  type="carbon" clock="#ffffff" init="100" data-id="slider2" data-category="padC-2" data-event-type="knob-volume-change" ></midi-knob>
-        <midi-knob label="Pad"  type="metallic" colour="#000" clock="#ffffff" init="100" data-id="slider3" data-category="padC-3"  data-event-type="knob-volume-change"></midi-knob>
-        <midi-knob label="Synth"  type="flat" colour="#000" clock="#ffffff" init="100" data-id="slider4" data-category="padC-4" data-event-type="knob-volume-change" ></midi-knob>
-        <midi-knob label="FX"  type="threeD" colour="#000" clock="#ffffff" init="100" data-id="slider5" data-category="padC-5"  data-valume="1"  data-event-type="knob-volume-change"></midi-knob>
+        <midi-knob label="Drum" class="padC-volume" type="fire" colour="#000" clock="#ffffff" init="100"  data-id="slider1" data-category="padC-1" data-event-type="knob-volume-change" data-volume="1"> </midi-knob>
+        <midi-knob label="Bass" class="padC-volume"  type="carbon" clock="#ffffff" init="100" data-id="slider2" data-category="padC-2" data-event-type="knob-volume-change" data-volume="1"></midi-knob>
+        <midi-knob label="Pad" class="padC-volume"  type="metallic" colour="#000" clock="#ffffff" init="100" data-id="slider3" data-category="padC-3"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
+        <midi-knob label="Synth" class="padC-volume"  type="flat" colour="#000" clock="#ffffff" init="100" data-id="slider4" data-category="padC-4" data-event-type="knob-volume-change" data-volume="1" ></midi-knob>
+        <midi-knob label="FX" class="padC-volume"  type="threeD" colour="#000" clock="#ffffff" init="100" data-id="slider5" data-category="padC-5"  data-event-type="knob-volume-change"  data-volume="1"></midi-knob>
         </div>
 
         <!-- Beat Indicator + Stop All Button -->
@@ -395,11 +397,11 @@
 
           <div style="padding: 25px 40px; border-radius: 20px; background: repeating-linear-gradient(45deg, rgb(43, 43, 43), rgb(43, 43, 43) 10px, rgb(105, 3, 63) 10px, rgb(105, 3, 63) 20px); display: flex;  gap: 10px;   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
     border: 2px solid rgb(68, 68, 68);">
-            <midi-volume label="Drum" init="100" colour="#ffc2cd"  data-id="slider1" data-category="padD-1" data-event-type="volume-change"></midi-volume>
-            <midi-volume label="Bass" init="100" colour="#ff93ac" data-id="slider2" data-category="padD-2" data-event-type="volume-change"></midi-volume>
-            <midi-volume label="Pad" init="100" colour="#ff6289" data-id="slider3" data-category="padD-3" data-event-type="volume-change"></midi-volume>
-            <midi-volume label="Synth" init="100" colour="#fc3468" data-id="slider4" data-category="padD-4" data-event-type="volume-change"></midi-volume>
-            <midi-volume label="Fx" init="100" colour="#ff084a" data-id="slider5" data-category="padD-5" data-event-type="volume-change"></midi-volume>
+            <midi-volume class="padD-volume" label="Drum" init="100" colour="#ffc2cd"  data-id="slider1" data-category="padD-1" data-event-type="volume-change" data-volume="1"></midi-volume>
+            <midi-volume class="padD-volume" label="Bass" init="100" colour="#ff93ac" data-id="slider2" data-category="padD-2" data-event-type="volume-change" data-volume="1"></midi-volume>
+            <midi-volume class="padD-volume" label="Pad" init="100" colour="#ff6289" data-id="slider3" data-category="padD-3" data-event-type="volume-change" data-volume="1"></midi-volume>
+            <midi-volume class="padD-volume" label="Synth" init="100" colour="#fc3468" data-id="slider4" data-category="padD-4" data-event-type="volume-change" data-volume="1"></midi-volume>
+            <midi-volume class="padD-volume" label="Fx" init="100" colour="#ff084a" data-id="slider5" data-category="padD-5" data-event-type="volume-change"  data-volume="1"></midi-volume>
 
           </div>
         
