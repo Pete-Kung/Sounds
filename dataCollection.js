@@ -1,27 +1,34 @@
+function updateLogdata(pad) {
+  const padContainer = pad.replace(/-\d+$/, "");
+  const volumeControll = document.querySelectorAll(`.${padContainer}-volume`);
+  const bpmValue = document.getElementById("bpmSlider");
+  const knobValues = {};
+  let padStyle = null;
 
-function updateLogdata (pad) {
+  volumeControll.forEach((div) => {
+    const category = div.getAttribute("label");
+    const volume = div.dataset.volume; // แปลงเป็นตัวเลข
 
-    const padContainer = pad.replace(/-\d+$/, "");
-    const volumeControll = document.querySelectorAll(`.${padContainer}-volume`);
-    const bpmValue = document.getElementById("bpmSlider");
-    const knobValues = {};
+    // เก็บไว้ใน knobValues โดยใช้ชื่อ category เป็น key
+    knobValues[category] = volume;
+  });
 
-    volumeControll.forEach((div) => {
-      const category = div.getAttribute("label");
-      const volume = div.dataset.volume; // แปลงเป็นตัวเลข
+  if (padContainer == "padA") {
+    padStyle = "Deep House";
+  } else if (padContainer == "padB") {
+    padStyle = "Trap";
+  } else if (padContainer == "padC") {
+    padStyle = "";
+  } else if (padContainer == "padD") {
+    padStyle = "EDM";
+  }
 
-      // เก็บไว้ใน knobValues โดยใช้ชื่อ category เป็น key
-      knobValues[category] = volume;
-    });
+  const mData = {
+    pad_style: padStyle,
+    mixer_pad: padContainer,
+    bpm: bpmValue.value,
+    knob_values: knobValues,
+  };
 
-    const mData = {
-      mixer_pad: padContainer,
-      bpm: bpmValue.value,
-      knob_values: knobValues,
-    };
-
-    console.log(mData);
-
-    
-
+  console.log(mData);
 }
