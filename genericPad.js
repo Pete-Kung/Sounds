@@ -424,12 +424,12 @@ function createSoundSet({
     clearTimeout(beatLoopTimeoutId);
     beatLoop();
   }
-
   const confirmBpm = document.getElementById("confirmBPM");
   const bpmValue = document.getElementById("bpmSlider");
-
   confirmBpm.addEventListener("click", () => {
     bpmUpdate(parseInt(bpmValue.value));
+    const getPadId = confirmBpm.dataset.tab;
+    updateLogDataBpm(getPadId, parseInt(bpmValue.value));
   });
 
   document.querySelectorAll(`.${categoryClass}`).forEach((el) => {
@@ -444,9 +444,12 @@ function createSoundSet({
 
   function createPad(sound) {
     const pad = document.createElement("div");
+    const padName = padPrefix.replace(/pad/i, "");
     pad.classList.add(padPrefix);
     pad.innerText = sound.name;
     pad.dataset.playing = "false";
+    pad.dataset.pad = padName;
+    pad.dataset.padType = sound.name;
     pad.buffer = null;
     pad.source = null;
 
@@ -487,6 +490,8 @@ function createSoundSet({
 
     pad.source = source;
     pad.gainNode = gainNode;
+
+    updateFxClick(pad.dataset.pad, pad.dataset.padType);
 
     // ✅ ดึงค่าระดับเสียงจาก slider ปัจจุบัน
     const category = pad.getAttribute("class");
@@ -541,7 +546,9 @@ function createSoundSet({
       stopPad(pad);
     } else {
       queueStartPad(pad);
+      updatePadClick(pad.dataset.pad, pad.dataset.padType);
     }
+   
   }
 
   function queueStartPad(pad) {
@@ -667,20 +674,12 @@ function createSoundSet({
   const stopAllButton = document.getElementById(btnStopAll);
   stopAllButton?.addEventListener("click", () => {
     stopAllPads(padPrefix);
+    updateStopPad(padPrefix);
   });
   function stopAllPads() {
     document
       .querySelectorAll(`.${padPrefix}[data-playing='true']`)
       .forEach(stopPad);
-  }
-
-  // ✅ Debounce function
-  function debounce(fn, delay) {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => fn.apply(this, args), delay);
-    };
   }
 
   // ✅ รายชื่อ event ที่รองรับจาก slider
@@ -691,8 +690,6 @@ function createSoundSet({
     "volume-change",
   ];
 
-  // ✅ สร้าง debounce สำหรับ updateLogdata
-  const debouncedUpdateLogdata = debounce(updateLogdata, 1000);
 
   // ✅ Main event handler
   function onSliderChange(e) {
@@ -713,9 +710,6 @@ function createSoundSet({
         }
       });
     }
-
-    // ✅ เรียก updateLogdata เมื่อหยุดเลื่อน slider
-    debouncedUpdateLogdata(category);
   }
 
   // ✅ ผูก event ทุก slider
@@ -767,7 +761,10 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   const padD = createSoundSet({
-    sounds: allSounds.soundsD.map((s) => ({ ...s, url: `./sounds/LoopPJ/${s.file}` })),
+    sounds: allSounds.soundsD.map((s) => ({
+      ...s,
+      url: `./sounds/LoopPJ/${s.file}`,
+    })),
     padPrefix: "padD",
     beatClass: "beatD",
     categoryClass: "categoryD",
@@ -777,7 +774,3 @@ window.addEventListener("DOMContentLoaded", () => {
     btnStopAll: "stopAllBtnD",
   });
 });
-
-
-
-

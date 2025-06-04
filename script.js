@@ -133,7 +133,6 @@ decodeSlider.forEach((slider) => {
   slider.addEventListener("encoder-change", onSliderChange);
 });
 
-
 // เมื่อผู้ใช้พิมพ์ค่า BPM ใหม่
 // เมื่อคลิกที่ category
 document.querySelectorAll(".category").forEach((category) => {
@@ -505,42 +504,14 @@ function changeTemplate(el, key) {
   }
 
   console.log("Template ที่เลือก:", key);
-
+  updateSelectPreset(key);
   const bpmSelect = document.getElementById("confirmBPM");
   bpmSelect.dataset.tab = key;
 }
 
 // ค่าเริ่มต้น: Template A
-window.addEventListener("DOMContentLoaded", () => {
-  const defaultBtn = document.querySelector('.template-btn[data-key="A"]');
-  if (defaultBtn) changeTemplate(defaultBtn, "A");
-});
 
-// PitchShift ได้ค่ามาแล้วเอาไปใช้ต่อ
-// function addPitchShiftEncoder() {
-//   const container = document.querySelector('div[style*="flex; gap"]');
-
-//   const encoder = document.createElement('midi-encoder');
-//   encoder.setAttribute('label', 'Pitch-Shift');
-//   encoder.setAttribute('colour', '#e67e22');
-//   encoder.setAttribute('data-category', 'pitchShiftContainer');
-//   encoder.setAttribute('init', '0');
-
-//   // 🟢 เพิ่ม event listener สำหรับ pitch-shift
-//   encoder.addEventListener('input', (e) => {
-//     const value = e.target.value;
-
-//     // 👉 เพิ่ม logic การเปลี่ยน pitch ที่นี่
-//     console.log('Pitch Shift value:', value);
-
-//     // ตัวอย่างการเชื่อมกับ Web Audio:
-//     // pitchShiftNode.pitch = value;
-//   });
-
-//   container.appendChild(encoder);
-// }
 
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
-
 

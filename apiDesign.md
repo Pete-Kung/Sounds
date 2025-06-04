@@ -10,6 +10,7 @@
   - [sound controller by id update](#sound-controller-by-id-update)
   - [search song to generate mixer sound](#search-song-to-generate-mixer-sound)
   - [AI generate theme](#ai-generate-theme)
+  - [collect data to analysis](#collect-data)
 
 
 ### Sound pattern
@@ -1014,7 +1015,61 @@ POST /v1/api/generate/
 ```
 
 
+### Collect data
 
+```http request
+POST /v1/api/mixerLog/
+
+// event adjust volume
+{
+    "event_type": "knob_adjust",
+    "preset_name": "Trap",
+    "mixer_pad": "B",
+    "bpm": "120",
+    "knob_values": {
+        "Drum": "0.39",
+        "Bass": "1",
+        "Pad": "1",
+        "Synth": "1",
+        "FX": "1"
+    }
+}  
+
+// event adjust bpm
+{
+    "event_type": "bpm_adjust",
+    "mixer_pad": "B",
+    "bpm": 120
+}
+// event select preset
+{
+    "event_type": "preset_select",
+    "mixer_pad": "C",
+    "preset_name": "HipHop",
+    "bpm": 120
+}
+// event stop all
+{
+    "event_type": "stop_all",
+    "mixer_pad": "C"
+}
+// event pad click
+{
+    "event_type": "pad_click",
+    "mixer_pad": "C",
+    "pad_type": "Drum",
+    "pad_id": "Drum 3"
+}
+// event fx click
+{
+    "event_type": "fx_click",
+    "mixer_pad": "C",
+    "pad_type": "FX",
+    "pad_id": "FX 4"
+}
+
+
+```
 
 
 
