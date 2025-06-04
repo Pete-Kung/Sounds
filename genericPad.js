@@ -428,8 +428,8 @@ function createSoundSet({
   const bpmValue = document.getElementById("bpmSlider");
   confirmBpm.addEventListener("click", () => {
     bpmUpdate(parseInt(bpmValue.value));
-    const getPadId = confirmBpm.dataset.tab;
-    updateLogDataBpm(getPadId, parseInt(bpmValue.value));
+    // const getPadId = confirmBpm.dataset.tab;
+    // updateLogDataBpm(getPadId, parseInt(bpmValue.value));
   });
 
   document.querySelectorAll(`.${categoryClass}`).forEach((el) => {

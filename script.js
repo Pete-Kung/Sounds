@@ -21,10 +21,13 @@ function beatLoop() {
 function updateBPM() {
   const getBpm = document.getElementById("confirmBPM");
   const tabSelect = getBpm.dataset.tab;
-  console.log("tab", tabSelect);
+  
 
   let newBpm = parseInt(bpmSlider.value);
   console.log("Input BPM:", newBpm);
+
+  
+  updateLogDataBpm(tabSelect, newBpm);
 
   // ถ้าไม่ใช่ตัวเลข ให้ใช้ค่าเริ่มต้น 120
   if (isNaN(newBpm)) {
