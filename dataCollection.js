@@ -18,7 +18,7 @@ function updateLogdata(pad) {
   } else if (padContainer == "padB") {
     padStyle = "Trap";
   } else if (padContainer == "padC") {
-    padStyle = "";
+    padStyle = "HipHop";
   } else if (padContainer == "padD") {
     padStyle = "EDM";
   }
