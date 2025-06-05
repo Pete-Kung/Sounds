@@ -1,16 +1,16 @@
 # Navigation
 
-- [Get sounds](#sound-pattern)
-  - [get sounds all](#sound-pattern)
-  - [get sounds by id](#sound-id)
-  - [chang btn pad](#change-btn-pad)
-  - [sound controller all](#sound-controller-all)
-  - [sound controller by id](#sound-controller-by-id)
-  - [sound controller by id add](#sound-controller-by-id-add)
-  - [sound controller by id update](#sound-controller-by-id-update)
-  - [search song to generate mixer sound](#search-song-to-generate-mixer-sound)
-  - [AI generate theme](#ai-generate-theme)
-  - [collect data to analysis](#collect-data)
+- [Navigation](#navigation)
+    - [Sound pattern](#sound-pattern)
+    - [Sound id](#sound-id)
+    - [Change btn pad](#change-btn-pad)
+    - [Sound controller all](#sound-controller-all)
+    - [Sound controller by id](#sound-controller-by-id)
+    - [Sound controller by id add](#sound-controller-by-id-add)
+    - [Sound controller by id update](#sound-controller-by-id-update)
+    - [Search song to generate mixer sound](#search-song-to-generate-mixer-sound)
+    - [AI generate theme](#ai-generate-theme)
+    - [Collect data](#collect-data)
 
 
 ### Sound pattern
@@ -1018,59 +1018,54 @@ POST /v1/api/generate/
 ### Collect data
 
 ```http request
-POST /v1/api/mixerLog/
+POST /v1/mixer-logs/event
 
 // event adjust volume
 {
-    "event_type": "knob_adjust",
-    "preset_name": "Trap",
-    "mixer_pad": "B",
-    "bpm": "120",
-    "knob_values": {
-        "Drum": "0.39",
-        "Bass": "1",
-        "Pad": "1",
-        "Synth": "1",
-        "FX": "1"
-    }
-}  
+  "eventType": "VOLUME_ADJUST",
+  "mixerPad": "B",
+  "presetName": "Trap",
+  "bpm": 120,
+  "drumVolume": 39,
+  "bassVolume": 100,
+  "padVolume": 100,
+  "synthVolume": 100,
+  "fxVolume": 100
+}
 
 // event adjust bpm
 {
-    "event_type": "bpm_adjust",
-    "mixer_pad": "B",
-    "bpm": 120
+  "eventType": "BPM_ADJUST",
+  "mixerPad": "B",
+  "bpm": 120
 }
+
 // event select preset
 {
-    "event_type": "preset_select",
-    "mixer_pad": "C",
-    "preset_name": "HipHop",
-    "bpm": 120
+  "eventType": "PRESET_SELECT",
+  "mixerPad": "C",
+  "presetName": "HipHop"
 }
+
 // event stop all
 {
-    "event_type": "stop_all",
-    "mixer_pad": "C"
+  "eventType": "STOP_ALL",
+  "mixerPad": "C"
 }
+
 // event pad click
 {
-    "event_type": "pad_click",
-    "mixer_pad": "C",
-    "pad_type": "Drum",
-    "pad_id": "Drum 3"
+  "eventType": "PAD_CLICK",
+  "mixerPad": "C",
+  "padId": "Drum 3",
+  "padType": "Drum"
 }
+
 // event fx click
 {
-    "event_type": "fx_click",
-    "mixer_pad": "C",
-    "pad_type": "FX",
-    "pad_id": "FX 4"
+  "eventType": "FX_CLICK",
+  "mixerPad": "C",
+  "padId": "FX 4",
+  "padType": "FX"
 }
-
-
 ```
-
-
-
-
