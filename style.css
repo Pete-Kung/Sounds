@@ -190,10 +190,11 @@ button:hover {
   cursor: pointer;
 }
 
-.category {
+.categoryA {
   display: flex;
   gap: 1rem;
   align-items: center;
+  margin: 10px;
 }
 .categoryB {
   display: flex;
@@ -220,7 +221,7 @@ button:hover {
   width: 100%;
 }
 
-.pad {
+.padA {
   background-color: #34495e;
   text-align: center;
   cursor: pointer;
@@ -234,7 +235,7 @@ button:hover {
   justify-content: center;
 }
 
-.pad.active {
+.padA.playing {
   background-color: #27ae60;
   color: #fff;
 }
@@ -312,7 +313,7 @@ button:hover {
   color: #ecf0f1;
 }
 
-#beatIndicator {
+#beatIndicatorA {
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -320,7 +321,7 @@ button:hover {
   margin: 40px 0;
 }
 
-.beat {
+.beatA {
   width: 16px;
   height: 16px;
   background-color: #636161;
@@ -329,13 +330,13 @@ button:hover {
  
 }
 
-.beat.active {
+.beatA.active {
   background-color: #06ad5a;
   transform: scale(1.4);
   box-shadow: 0 0 15px #06ad5a;
 }
 
-.beat.pending {
+.beatA.pending {
   background-color: #06ad5a;
   box-shadow: 0 0 10px #06ad5a;
 }

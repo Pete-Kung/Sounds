@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Music Pad with Sync</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="./control-slider-ui.js"></script>
+    <script src="./control-volume-ui.js"></script>
+    <script src="./control-encoder-ui.js"></script>
+    <script src="./control-circle-ui.js"></script>
+    <script src="./dataCollection.js"></script>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Music Pad with Sync</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="./control-slider-ui.js"></script>
-  <script src="./control-volume-ui.js"></script>
-  <script src="./control-encoder-ui.js"></script>
-  <script src="./control-circle-ui.js"></script>
-  <script src="./dataCollection.js"></script>
- 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
 
-</head>
-
-<body>
-  <div style="
+  <body>
+    <div
+      style="
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 30px;
-      ">
-    <div class="bpm-control" style="
+      "
+    >
+      <div
+        class="bpm-control"
+        style="
           display: flex;
           flex-wrap: wrap;
           align-items: center;
@@ -36,8 +38,15 @@
           width: 50%;
           margin-left: 0;
           box-sizing: border-box;
-        ">
-      <input type="number" id="bpmSlider" value="120" min="60" max="200" style="
+        "
+      >
+        <input
+          type="number"
+          id="bpmSlider"
+          value="120"
+          min="60"
+          max="200"
+          style="
             width: 100px;
             padding: 5px 8px;
             background-color: #2d3748;
@@ -45,9 +54,13 @@
             border: 1px solid #4a5568;
             border-radius: 4px;
             flex-shrink: 0;
-          " />
-      <div style="display: flex; flex-direction: column; gap: 10px">
-        <button id="confirmBPM" data-tab="A" style="
+          "
+        />
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <button
+            id="confirmBPM"
+            data-tab="A"
+            style="
               padding: 6px 12px;
               background-color: #2b6cb0;
               color: white;
@@ -55,123 +68,244 @@
               border-radius: 4px;
               cursor: pointer;
               flex-shrink: 0;
-            ">
-          Confirm
-        </button>
-        <div style="display: flex; align-items: center; flex-shrink: 0">
-          <span id="bpmValue" style="font-weight: bold; margin-right: 4px">120</span>
-          BPM
+            "
+          >
+            Confirm
+          </button>
+          <div style="display: flex; align-items: center; flex-shrink: 0">
+            <span id="bpmValue" style="font-weight: bold; margin-right: 4px"
+              >120</span
+            >
+            BPM
+          </div>
         </div>
       </div>
-    </div>
-    <div style="width: 50%; display: flex; justify-content: flex-start">
-      <div style="
+      <div style="width: 50%; display: flex; justify-content: flex-start">
+        <div
+          style="
             display: flex;
             gap: 10px;
             background-color: #1a202c;
             padding: 10px 15px;
             border-radius: 8px;
-          ">
-        <button class="template-btn" data-key="A" onclick="changeTemplate(this, 'A')">
-          A
-        </button>
-        <button class="template-btn" data-key="B" onclick="changeTemplate(this, 'B')">
-          B
-        </button>
-        <button class="template-btn" data-key="C" onclick="changeTemplate(this, 'C')">
-          C
-        </button>
-        <button class="template-btn" data-key="D" onclick="changeTemplate(this, 'D')">
-          D
-        </button>
-        <button class="template-btn" data-key="E" onclick="changeTemplate(this, 'E')">
-          E
-        </button>
+          "
+        >
+          <button
+            class="template-btn"
+            data-key="A"
+            onclick="changeTemplate(this, 'A')"
+          >
+            A
+          </button>
+          <button
+            class="template-btn"
+            data-key="B"
+            onclick="changeTemplate(this, 'B')"
+          >
+            B
+          </button>
+          <button
+            class="template-btn"
+            data-key="C"
+            onclick="changeTemplate(this, 'C')"
+          >
+            C
+          </button>
+          <button
+            class="template-btn"
+            data-key="D"
+            onclick="changeTemplate(this, 'D')"
+          >
+            D
+          </button>
+          <button
+            class="template-btn"
+            data-key="E"
+            onclick="changeTemplate(this, 'E')"
+          >
+            E
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div style="height: 20px"></div>
-  <!-- Pad A -->
-  <div id="padsContainer" class="pads-container">
-    <div style="width: 100%; height: 100px; display: flex; justify-content: center;">
-      <canvas id="waveformCanvas" height="100" style="width: 90%; height: 100px;"></canvas>
-    </div>
+    <div style="height: 20px"></div>
 
-
-    <div style="
+    <!-- Pad A -->
+    <div
+      id="padsContainer"
+      class="pads-container"
+      style="width: 100%; align-items: center; justify-content: center"
+    >
+      <!-- Canvas animation -->
+      <div
+        style="
+          width: 100%;
+          height: 100px;
+          display: flex;
+          justify-content: center;
+        "
+      >
+        <canvas
+          id="waveformCanvasA"
+          height="100"
+          style="width: 90%; height: 100px"
+        ></canvas>
+      </div>
+      <!-- Controls Section -->
+      <div
+        style="
           display: flex;
           flex-direction: row;
           justify-content: center;
-          align-items: flex-start;
+          gap: 10px;
           flex-wrap: wrap;
-          gap: 1rem;
+          align-items: center;
           padding: 1rem;
-        ">
-      <!-- Preset Selector + Encoders -->
+        "
+      >
+        <!-- Encoders -->
+        <div
+          style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
+        >
+          <drum-knob
+            label="Drum"
+            init="100"
+            class="padA-volume"
+            data-id="slider1"
+            data-category="padA-1"
+            data-event-type="knob-change"
+            data-volume="1"
+          ></drum-knob>
+          <drum-knob
+            label="Bass"
+            init="100"
+            class="padA-volume"
+            data-id="slider2"
+            data-category="padA-2"
+            data-event-type="knob-change"
+            data-volume="1"
+          ></drum-knob>
+          <drum-knob
+            label="Pad"
+            init="100"
+            class="padA-volume"
+            data-id="slider3"
+            data-category="padA-3"
+            data-event-type="knob-change"
+            data-volume="1"
+          ></drum-knob>
+          <drum-knob
+            label="Synth"
+            init="100"
+            class="padA-volume"
+            data-id="slider4"
+            data-category="padA-4"
+            data-event-type="knob-change"
+            data-volume="1"
+          ></drum-knob>
 
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
-
-
-        <drum-knob label="Drum" init="100" class="knob" data-category="drumContainer"></drum-knob>
-       <drum-knob label="Bass" init="100" class="knob" data-category="bassContainer"></drum-knob>
-       <drum-knob label="Pad" init="100" class="knob" data-category="padContainer"></drum-knob>
-       <drum-knob label="Synth" init="100" class="knob" data-category="synthContainer"></drum-knob>
-       <!-- <drum-knob label="FX" init="100" class="knob" data-category="fxContainer"></drum-knob> -->
-        <!-- <midi-encoder label="Drum #" colour="#27ae60" data-category="drumContainer" init="100"></midi-encoder> -->
-        <!-- <midi-encoder label="Bass #" colour="#27ae60" data-category="bassContainer" init="100"></midi-encoder> -->
-        <!-- <midi-encoder label="Pad #" colour="#27ae60" data-category="padContainer" init="100"></midi-encoder> -->
-        <!-- <midi-encoder label="Synth #" colour="#27ae60" data-category="synthContainer" init="100"></midi-encoder> -->
-        <!-- <midi-encoder label="FX #" colour="#27ae60" data-category="fxContainer" init="100"></midi-encoder> -->
-      </div>
-
-      <!-- Beat Indicator + Stop All Button -->
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center">
-        <div id="beatIndicator" style="display: flex; gap: 6px; align-items: center">
-          <div class="beat" data-index="0"></div>
-          <div class="beat" data-index="1"></div>
-          <div class="beat" data-index="2"></div>
-          <div class="beat" data-index="3"></div>
+          <drum-knob
+            label="FX"
+            init="100"
+            class="padA-volume"
+            data-id="slider5"
+            data-category="padA-5"
+            data-event-type="knob-change"
+            data-volume="1"
+          ></drum-knob>
         </div>
-        <button id="stopAllBtn">🛑 Stop All</button>
+
+        <!-- Beat Indicator + Stop Button -->
+        <div
+          style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center"
+        >
+          <div
+            id="beatIndicatorA"
+            style="display: flex; gap: 6px; align-items: center"
+          >
+            <div class="beatA" data-index="0"></div>
+            <div class="beatA" data-index="1"></div>
+            <div class="beatA" data-index="2"></div>
+            <div class="beatA" data-index="3"></div>
+          </div>
+          <button id="stopAllBtnA">🛑 Stop All</button>
+        </div>
+      </div>
+
+      <!-- Spacer -->
+      <div style="height: 20px"></div>
+
+      <!-- Pads Grid -->
+      <div
+        style="
+          width: 100%;
+          margin: 0 auto;
+          background: #06381f;
+          border-radius: 20px;
+          padding: 20px;
+          font-family: sans-serif;
+        "
+      >
+        <div class="categoryA">
+          <div class="padContainer" id="padA-1"></div>
+        </div>
+        <div class="categoryA">
+          <div class="padContainer" id="padA-2"></div>
+        </div>
+        <div class="categoryA">
+          <div class="padContainer" id="padA-3"></div>
+        </div>
+        <div class="categoryA">
+          <div class="padContainer" id="padA-4"></div>
+        </div>
+
+        <!-- FX Section -->
+        <div
+          style="
+            height: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <p>FX</p>
+        </div>
+        <div class="category">
+          <div class="padContainer" id="padA-5"></div>
+        </div>
       </div>
     </div>
 
-    <div class="category">
-      <div class="padContainer" id="drumContainer"></div>
-    </div>
-    <div class="category">
-      <div class="padContainer" id="bassContainer"></div>
-    </div>
-
-    <div class="category">
-      <div class="padContainer" id="padContainer"></div>
-    </div>
-    <div class="category">
-      <div class="padContainer" id="synthContainer"></div>
-    </div>
-    <div style="
-          height: 50px;
-          width: 100%;
-          display: flex;
-          justify-content: center;
-        ">
-      <p>FX</p>
-    </div>
-    <div class="category">
-      <div class="padContainer" id="fxContainer"></div>
-    </div>
-  </div>
-
-  <!-- Pad B -->
-  <div id="padsContainerB" class="pads-container" style="
+    <!-- Pad B -->
+    <div
+      id="padsContainerB"
+      class="pads-container"
+      style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      ">
-    <div style="display: flex; flex-direction: column">
-      <div style="
+      "
+    >
+      <div style="display: flex; flex-direction: column">
+        <!-- Canvas animation -->
+        <div
+          style="
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <canvas
+            id="waveformCanvasB"
+            height="100"
+            style="width: 90%; height: 100px"
+          ></canvas>
+        </div>
+        <div
+          style="
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -179,60 +313,109 @@
             flex-wrap: wrap;
             align-items: center;
             padding: 1rem;
-          ">
-        <!-- Preset Selector + Sliders -->
-        <div style="
+          "
+        >
+          <!-- Preset Selector + Sliders -->
+          <div
+            style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            ">
-          <!-- <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="padB-1"
-            init="100"></midi-slider>
-
-          <midi-slider label="Bass #" colour="#A82BE8" type="vertical" data-id="slider2" data-category="padB-2"
-            init="100"></midi-slider>
-
-          <midi-slider label="Pad #" colour="#A82BE8" type="vertical" data-id="slider3" data-category="padB-3"
-            init="100"></midi-slider>
-
-          <midi-slider label="Synth #" colour="#A82BE8" type="vertical" data-id="slider4" data-category="padB-4"
-            init="100"></midi-slider>
-
-          <midi-slider label="FX #" colour="#A82BE8" type="vertical" data-id="slider5" data-category="padB-5"
+            "
+          >
+            <!-- <midi-slider label="Drum #" colour="#A82BE8" type="vertical" data-id="slider1" data-category="padB-1"
             init="100"></midi-slider> -->
 
-           
+            <midi-knob
+              label="Drum"
+              class="padB-volume"
+              type="metallic"
+              colour="#2C3930"
+              clock="#faffff"
+              init="100"
+              data-id="slider1"
+              data-category="padB-1"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="Bass"
+              class="padB-volume"
+              type="metallic"
+              colour="#754E1A"
+              clock="#A59D84"
+              init="100"
+              data-id="slider2"
+              data-category="padB-2"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="Pad"
+              class="padB-volume"
+              type="metallic"
+              colour="#123458"
+              clock="#A6AEBF"
+              init="100"
+              data-id="slider3"
+              data-category="padB-3"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="Synth"
+              class="padB-volume"
+              type="metallic"
+              colour="#077A7D"
+              clock="#A6AEBF"
+              init="100"
+              data-id="slider4"
+              data-category="padB-4"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="FX"
+              class="padB-volume"
+              type="metallic"
+              colour="#948979"
+              clock="#F79B72"
+              init="100"
+              data-id="slider5"
+              data-category="padB-5"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+          </div>
 
-          <midi-knob label="Drum" class="padB-volume" type="metallic" colour="#2C3930" clock="#faffff" init="100" data-id="slider1" data-category="padB-1"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-          <midi-knob label="Bass" class="padB-volume" type="metallic" colour="#754E1A" clock="#A59D84" init="100" data-id="slider2" data-category="padB-2"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-          <midi-knob label="Pad" class="padB-volume"  type="metallic" colour="#123458" clock="#A6AEBF" init="100" data-id="slider3" data-category="padB-3"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-          <midi-knob label="Synth" class="padB-volume"  type="metallic" colour="#077A7D" clock="#A6AEBF" init="100" data-id="slider4" data-category="padB-4"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-          <midi-knob label="FX" class="padB-volume" type="metallic" colour="#948979" clock="#F79B72" init="100" data-id="slider5" data-category="padB-5"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-        
-        </div>
-
-        <!-- Beat Indicator + Stop All Button -->
-        <div style="
+          <!-- Beat Indicator + Stop All Button -->
+          <div
+            style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            ">
-          <div id="beatIndicatorB" style="display: flex; gap: 6px; align-items: center">
-            <div class="beatB" data-index="0"></div>
-            <div class="beatB" data-index="1"></div>
-            <div class="beatB" data-index="2"></div>
-            <div class="beatB" data-index="3"></div>
+            "
+          >
+            <div
+              id="beatIndicatorB"
+              style="display: flex; gap: 6px; align-items: center"
+            >
+              <div class="beatB" data-index="0"></div>
+              <div class="beatB" data-index="1"></div>
+              <div class="beatB" data-index="2"></div>
+              <div class="beatB" data-index="3"></div>
+            </div>
+            <button id="stopAllBtnB">🛑 Stop All</button>
           </div>
-          <button id="stopAllBtnB">🛑 Stop All</button>
         </div>
-      </div>
 
-      <div style="height: 20px;"></div>
+        <div style="height: 20px"></div>
 
-      <!-- Grid Container -->
-      <div style="
+        <!-- Grid Container -->
+        <div
+          style="
             width: 100%;
 
             margin: 0 auto;
@@ -240,36 +423,57 @@
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
-          ">
-        <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
-        <div class="categoryB">
-          <div class="padContainer" id="padB-1"></div>
-        </div>
-        <div class="categoryB">
-          <div id="padB-2" class="padContainer"></div>
-        </div>
-        <div class="categoryB">
-          <div id="padB-3" class="padContainer"></div>
-        </div>
-        <div class="categoryB">
-          <div id="padB-4" class="padContainer"></div>
-        </div>
-        <div class="categoryB">
-          <div id="padB-5" class="padContainer"></div>
+          "
+        >
+          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+          <div class="categoryB">
+            <div class="padContainer" id="padB-1"></div>
+          </div>
+          <div class="categoryB">
+            <div id="padB-2" class="padContainer"></div>
+          </div>
+          <div class="categoryB">
+            <div id="padB-3" class="padContainer"></div>
+          </div>
+          <div class="categoryB">
+            <div id="padB-4" class="padContainer"></div>
+          </div>
+          <div class="categoryB">
+            <div id="padB-5" class="padContainer"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Pad C -->
-  <div id="padsContainerC" class="pads-container" style="
+    <!-- Pad C -->
+    <div
+      id="padsContainerC"
+      class="pads-container"
+      style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      ">
-    <div style="display: flex; flex-direction: column">
-      <div style="
+      "
+    >
+      <div style="display: flex; flex-direction: column">
+        <!-- Canvas animation -->
+        <div
+          style="
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <canvas
+            id="waveformCanvasC"
+            height="100"
+            style="width: 90%; height: 100px"
+          ></canvas>
+        </div>
+        <div
+          style="
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -277,93 +481,163 @@
             flex-wrap: wrap;
             align-items: center;
             padding: 1rem;
-          ">
-        <!-- Preset Selector + Sliders -->
-        <div style="
+          "
+        >
+          <!-- Preset Selector + Sliders -->
+          <div
+            style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            ">
-          <!-- <midi-encoder label="Drum #" colour="#a8dd77" data-id="slider1" data-category="padC-1"
-            init="100"></midi-encoder>
-          <midi-encoder label="Bass #" colour="#a8dd77" data-id="slider2" data-category="padC-2"
-            init="100"></midi-encoder>
-
-          <midi-encoder label="Pad #" colour="#a8dd77" data-id="slider3" data-category="padC-3"
-            init="100"></midi-encoder>
-
-          <midi-encoder label="Synth #" colour="#a8dd77" data-id="slider4" data-category="padC-4"
-            init="100"></midi-encoder>
-
-          <midi-encoder label="FX #" colour="#a8dd77" data-id="slider5" data-category="padC-5"
-            init="100"></midi-encoder> -->
-
-        <midi-knob label="Drum" class="padC-volume" type="fire" colour="#000" clock="#ffffff" init="100"  data-id="slider1" data-category="padC-1" data-event-type="knob-volume-change" data-volume="1"> </midi-knob>
-        <midi-knob label="Bass" class="padC-volume"  type="carbon" clock="#ffffff" init="100" data-id="slider2" data-category="padC-2" data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-        <midi-knob label="Pad" class="padC-volume"  type="metallic" colour="#000" clock="#ffffff" init="100" data-id="slider3" data-category="padC-3"  data-event-type="knob-volume-change" data-volume="1"></midi-knob>
-        <midi-knob label="Synth" class="padC-volume"  type="flat" colour="#000" clock="#ffffff" init="100" data-id="slider4" data-category="padC-4" data-event-type="knob-volume-change" data-volume="1" ></midi-knob>
-        <midi-knob label="FX" class="padC-volume"  type="threeD" colour="#000" clock="#ffffff" init="100" data-id="slider5" data-category="padC-5"  data-event-type="knob-volume-change"  data-volume="1"></midi-knob>
-        </div>
-
-        <!-- Beat Indicator + Stop All Button -->
-        <div style="
-              display: flex;
-              gap: 10px;
-              flex-wrap: wrap;
-              align-items: center;
-            ">
-          <div id="beatIndicatorC" style="display: flex; gap: 6px; align-items: center">
-            <div class="beatC" data-index="0"></div>
-            <div class="beatC" data-index="1"></div>
-            <div class="beatC" data-index="2"></div>
-            <div class="beatC" data-index="3"></div>
+            "
+          >
+            <midi-knob
+              label="Drum"
+              class="padC-volume"
+              type="fire"
+              colour="#000"
+              clock="#ffffff"
+              init="100"
+              data-id="slider1"
+              data-category="padC-1"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            >
+            </midi-knob>
+            <midi-knob
+              label="Bass"
+              class="padC-volume"
+              type="carbon"
+              clock="#ffffff"
+              init="100"
+              data-id="slider2"
+              data-category="padC-2"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="Pad"
+              class="padC-volume"
+              type="metallic"
+              colour="#000"
+              clock="#ffffff"
+              init="100"
+              data-id="slider3"
+              data-category="padC-3"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="Synth"
+              class="padC-volume"
+              type="flat"
+              colour="#000"
+              clock="#ffffff"
+              init="100"
+              data-id="slider4"
+              data-category="padC-4"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
+            <midi-knob
+              label="FX"
+              class="padC-volume"
+              type="threeD"
+              colour="#000"
+              clock="#ffffff"
+              init="100"
+              data-id="slider5"
+              data-category="padC-5"
+              data-event-type="knob-volume-change"
+              data-volume="1"
+            ></midi-knob>
           </div>
-          <button id="stopAllBtnC">🛑 Stop All</button>
+
+          <!-- Beat Indicator + Stop All Button -->
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              flex-wrap: wrap;
+              align-items: center;
+            "
+          >
+            <div
+              id="beatIndicatorC"
+              style="display: flex; gap: 6px; align-items: center"
+            >
+              <div class="beatC" data-index="0"></div>
+              <div class="beatC" data-index="1"></div>
+              <div class="beatC" data-index="2"></div>
+              <div class="beatC" data-index="3"></div>
+            </div>
+            <button id="stopAllBtnC">🛑 Stop All</button>
+          </div>
         </div>
-      </div>
 
-      <div style="height: 30px;"></div>
+        <div style="height: 30px"></div>
 
-      <!-- Grid Container -->
-      <div style="
+        <!-- Grid Container -->
+        <div
+          style="
             width: 80%;
             margin: 0 auto;
             background: #033f28;
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
-           
-          ">
-        <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
-        <div class="categoryC">
-          <div class="padContainer" id="padC-1"></div>
-        </div>
-        <div class="categoryC">
-          <div id="padC-2" class="padContainer"></div>
-        </div>
-        <div class="categoryC">
-          <div id="padC-3" class="padContainer"></div>
-        </div>
-        <div class="categoryC">
-          <div id="padC-4" class="padContainer"></div>
-        </div>
-        <div class="categoryC">
-          <div id="padC-5" class="padContainer"></div>
+          "
+        >
+          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+          <div class="categoryC">
+            <div class="padContainer" id="padC-1"></div>
+          </div>
+          <div class="categoryC">
+            <div id="padC-2" class="padContainer"></div>
+          </div>
+          <div class="categoryC">
+            <div id="padC-3" class="padContainer"></div>
+          </div>
+          <div class="categoryC">
+            <div id="padC-4" class="padContainer"></div>
+          </div>
+          <div class="categoryC">
+            <div id="padC-5" class="padContainer"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Pad D -->
-  <div id="padsContainerD" class="pads-container" style="
+    <!-- Pad D -->
+    <div
+      id="padsContainerD"
+      class="pads-container"
+      style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      ">
-    <div style="display: flex; flex-direction: column; width: 100%;">
-      <div style="
+      "
+    >
+      <div style="display: flex; flex-direction: column; width: 100%">
+        <!-- Canvas animation -->
+        <div
+          style="
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+          "
+        >
+          <canvas
+            id="waveformCanvasD"
+            height="100"
+            style="width: 90%; height: 100px"
+          ></canvas>
+        </div>
+        <div
+          style="
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -371,140 +645,200 @@
             flex-wrap: wrap;
             align-items: center;
             padding: 1rem;
-          ">
-        <!-- Preset Selector + Sliders -->
-        <div style="
+          "
+        >
+          <!-- Preset Selector + Sliders -->
+          <div
+            style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            ">
-         
-          <!-- <midi-encoder label="Drum #" colour="#ea8bb3" data-id="slider1" data-category="padD-1"
+            "
+          >
+            <!-- <midi-encoder label="Drum #" colour="#ea8bb3" data-id="slider1" data-category="padD-1"
             init="100"></midi-encoder>
+         -->
 
-          <midi-encoder label="Bass #" colour="#ea8bb3" data-id="slider2" data-category="padD-2"
-            init="100"></midi-encoder>
-
-          <midi-encoder label="Pad #" colour="#ea8bb3" data-id="slider3" data-category="padD-3"
-            init="100"></midi-encoder>
-
-          <midi-encoder label="Synth #" colour="#ea8bb3" data-id="slider4" data-category="padD-4"
-            init="100"></midi-encoder>
-
-          <midi-encoder label="FX #" colour="#ea8bb3" data-id="slider5" data-category="padD-5"
-            init="100"></midi-encoder> -->
-
-          <!-- <midi-volume label="Volume #" colour="#FF4500" class="volume"  init="100" data-category="drumContainer"></midi-volume> -->
-
-          <div style="padding: 25px 40px; border-radius: 20px; background: repeating-linear-gradient(45deg, rgb(43, 43, 43), rgb(43, 43, 43) 10px, rgb(105, 3, 63) 10px, rgb(105, 3, 63) 20px); display: flex;  gap: 10px;   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
-    border: 2px solid rgb(68, 68, 68);">
-            <midi-volume class="padD-volume" label="Drum" init="100" colour="#ffc2cd"  data-id="slider1" data-category="padD-1" data-event-type="volume-change" data-volume="1"></midi-volume>
-            <midi-volume class="padD-volume" label="Bass" init="100" colour="#ff93ac" data-id="slider2" data-category="padD-2" data-event-type="volume-change" data-volume="1"></midi-volume>
-            <midi-volume class="padD-volume" label="Pad" init="100" colour="#ff6289" data-id="slider3" data-category="padD-3" data-event-type="volume-change" data-volume="1"></midi-volume>
-            <midi-volume class="padD-volume" label="Synth" init="100" colour="#fc3468" data-id="slider4" data-category="padD-4" data-event-type="volume-change" data-volume="1"></midi-volume>
-            <midi-volume class="padD-volume" label="Fx" init="100" colour="#ff084a" data-id="slider5" data-category="padD-5" data-event-type="volume-change"  data-volume="1"></midi-volume>
-
+            <div
+              style="
+                padding: 25px 40px;
+                border-radius: 20px;
+                background: repeating-linear-gradient(
+                  45deg,
+                  rgb(43, 43, 43),
+                  rgb(43, 43, 43) 10px,
+                  rgb(105, 3, 63) 10px,
+                  rgb(105, 3, 63) 20px
+                );
+                display: flex;
+                gap: 10px;
+                box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 10px;
+                border: 2px solid rgb(68, 68, 68);
+              "
+            >
+              <midi-volume
+                class="padD-volume"
+                label="Drum"
+                init="100"
+                colour="#ffc2cd"
+                data-id="slider1"
+                data-category="padD-1"
+                data-event-type="volume-change"
+                data-volume="1"
+              ></midi-volume>
+              <midi-volume
+                class="padD-volume"
+                label="Bass"
+                init="100"
+                colour="#ff93ac"
+                data-id="slider2"
+                data-category="padD-2"
+                data-event-type="volume-change"
+                data-volume="1"
+              ></midi-volume>
+              <midi-volume
+                class="padD-volume"
+                label="Pad"
+                init="100"
+                colour="#ff6289"
+                data-id="slider3"
+                data-category="padD-3"
+                data-event-type="volume-change"
+                data-volume="1"
+              ></midi-volume>
+              <midi-volume
+                class="padD-volume"
+                label="Synth"
+                init="100"
+                colour="#fc3468"
+                data-id="slider4"
+                data-category="padD-4"
+                data-event-type="volume-change"
+                data-volume="1"
+              ></midi-volume>
+              <midi-volume
+                class="padD-volume"
+                label="Fx"
+                init="100"
+                colour="#ff084a"
+                data-id="slider5"
+                data-category="padD-5"
+                data-event-type="volume-change"
+                data-volume="1"
+              ></midi-volume>
+            </div>
           </div>
-        
-        
-        
-        
-        </div>
 
-        <!-- Beat Indicator + Stop All Button -->
-        <div style="
+          <!-- Beat Indicator + Stop All Button -->
+          <div
+            style="
               display: flex;
               gap: 10px;
               flex-wrap: wrap;
               align-items: center;
-            ">
-          <div id="beatIndicatorD" style="display: flex; gap: 6px; align-items: center">
-            <div class="beatD" data-index="0"></div>
-            <div class="beatD" data-index="1"></div>
-            <div class="beatD" data-index="2"></div>
-            <div class="beatD" data-index="3"></div>
+            "
+          >
+            <div
+              id="beatIndicatorD"
+              style="display: flex; gap: 6px; align-items: center"
+            >
+              <div class="beatD" data-index="0"></div>
+              <div class="beatD" data-index="1"></div>
+              <div class="beatD" data-index="2"></div>
+              <div class="beatD" data-index="3"></div>
+            </div>
+            <button id="stopAllBtnD">🛑 Stop All</button>
           </div>
-          <button id="stopAllBtnD">🛑 Stop All</button>
         </div>
-      </div>
 
-      <!-- Grid Container -->
-      <div style="
+        <!-- Grid Container -->
+        <div
+          style="
             width: 80%;
             margin: 0 auto;
             background: rgb(105, 3, 63);
             border-radius: 20px;
             padding: 20px;
             font-family: sans-serif;
-          ">
-        <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
-        <div class="categoryD">
-          <div class="padContainer" id="padD-1"></div>
-        </div>
-        <div class="categoryD">
-          <div id="padD-2" class="padContainer"></div>
-        </div>
-        <div class="categoryD">
-          <div id="padD-3" class="padContainer"></div>
-        </div>
-        <div class="categoryD">
-          <div id="padD-4" class="padContainer"></div>
-        </div>
-        <div class="categoryD">
-          <div id="padD-5" class="padContainer"></div>
+          "
+        >
+          <!-- ตัวอย่างแสดงกล่องหลายกล่องที่มาจาก loop -->
+          <div class="categoryD">
+            <div class="padContainer" id="padD-1"></div>
+          </div>
+          <div class="categoryD">
+            <div id="padD-2" class="padContainer"></div>
+          </div>
+          <div class="categoryD">
+            <div id="padD-3" class="padContainer"></div>
+          </div>
+          <div class="categoryD">
+            <div id="padD-4" class="padContainer"></div>
+          </div>
+          <div class="categoryD">
+            <div id="padD-5" class="padContainer"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!--  -->
+    <!--  -->
 
-  <!-- Pad E -->
+    <!-- Pad E -->
 
-  <div id="padsContainerE" class="pads-container" style="
+    <div
+      id="padsContainerE"
+      class="pads-container"
+      style="
         display: none;
         width: 100%;
         align-items: center;
         justify-content: center;
-      ">
-    <div
-      style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; background-color: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; width: 100%;  margin: auto;">
-      <div style="display: flex; gap: 10px; width: 50%; align-items: center;">
-        <div class="toolbar">
-          <button id="toggleEditBtn">🛠 เข้าสู่โหมดแก้ไข</button>
-          <button id="addButton">➕ เพิ่มปุ่ม</button>
-          <button id="clearButton">🗑 ล้างทั้งหมด</button>
-          <button id="saveButton">💾 บันทึก</button>
+      "
+    >
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+          padding: 20px;
+          background-color: #f7fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          width: 100%;
+          margin: auto;
+        "
+      >
+        <div style="display: flex; gap: 10px; width: 50%; align-items: center">
+          <div class="toolbar">
+            <button id="toggleEditBtn">🛠 เข้าสู่โหมดแก้ไข</button>
+            <button id="addButton">➕ เพิ่มปุ่ม</button>
+            <button id="clearButton">🗑 ล้างทั้งหมด</button>
+            <button id="saveButton">💾 บันทึก</button>
+          </div>
         </div>
 
-
-      </div>
-
-
-      <div id="canvasArea"
-        style="width: 100%; height: 400px; background-color: white; border: 2px dashed #cbd5e0; border-radius: 6px;">
-        <!-- พื้นที่สำหรับแสดงผล -->
+        <div
+          id="canvasArea"
+          style="
+            width: 100%;
+            height: 400px;
+            background-color: white;
+            border: 2px dashed #cbd5e0;
+            border-radius: 6px;
+          "
+        >
+          <!-- พื้นที่สำหรับแสดงผล -->
+        </div>
       </div>
     </div>
 
-  </div>
-  </div>
-  <!--  -->
-  <!-- <button onclick="toggleMuteGroup('bassContainer')">Toggle Bass Mute</button> -->
-
-
-  <script src="script.js"></script>
-  <script src="soundpad.js"></script>
-  <!-- <script src="soundpadB.js"></script> -->
-  <script src="genericPad.js"></script>
-  <script src="draggable.js"></script>
-
-  <script src="padsContainerC.js"></script>
-  <script src="API.js"></script>
-
-  <!-- <script>
- 
-</script> -->
-</body>
-
+    <script src="script.js"></script>
+    <script src="genericPad.js"></script>
+    <script src="draggable.js"></script>
+    <script src="waveAnimation.js"></script>
+    <script src="padsContainerC.js"></script>
+    <script src="API.js"></script>
+  </body>
 </html>

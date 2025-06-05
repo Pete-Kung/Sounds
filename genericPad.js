@@ -1,5 +1,131 @@
 // === CONFIGURABLE SECTION ===
 const allSounds = {
+  soundsA: [
+    {
+      name: "Drum 1",
+      file: "US_DTH_Drum_124_Bong_STRIPPED.wav",
+      container: "padA-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 2",
+      file: "US_DTH_Drum_124_Block_TOP.wav",
+      container: "padA-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 3",
+      file: "US_DTH_Drum_124_Bull_FULL.wav",
+      container: "padA-1",
+      btnButton: "default",
+    },
+    {
+      name: "Drum 4",
+      file: "US_DTH_Drum_124_Hotel_FULL.wav",
+      container: "padA-1",
+      btnButton: "default",
+    },
+
+    {
+      name: "Bass 1",
+      file: "US_DTH_Bass_124_May_Fm.wav",
+      container: "padA-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 2",
+      file: "US_DTH_Bass_124_Dark_Dm.wav",
+      container: "padA-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 3",
+      file: "US_DTH_Bass_124_Great_Em.wav",
+      container: "padA-2",
+      btnButton: "default",
+    },
+    {
+      name: "Bass 4",
+      file: "US_DTH_Bass_124_Marriage_Am.wav",
+      container: "padA-2",
+      btnButton: "default",
+    },
+
+    {
+      name: "Pad 1",
+      file: "US_DTH_Pad_124_Future.wav",
+      container: "padA-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 2",
+      file: "US_DTH_Pad_124_Gazzelle.wav",
+      container: "padA-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 3",
+      file: "US_DTH_Pad_124_Pray.wav",
+      container: "padA-3",
+      btnButton: "default",
+    },
+    {
+      name: "Pad 4",
+      file: "US_DTH_Pad_124_Remesh.wav",
+      container: "padA-3",
+      btnButton: "default",
+    },
+
+    {
+      name: "Synth 1",
+      file: "US_DTH_Synth_124_Again.wav",
+      container: "padA-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 2",
+      file: "US_DTH_Synth_124_Agree_G.wav",
+      container: "padA-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 3",
+      file: "US_DTH_Synth_124_Begin.wav",
+      container: "padA-4",
+      btnButton: "default",
+    },
+    {
+      name: "Synth 4",
+      file: "US_DTH_Synth_124_Brother_Fm.wav",
+      container: "padA-4",
+      btnButton: "default",
+    },
+
+    {
+      name: "FX 1",
+      file: "US_DTH_FX_Venice.wav",
+      container: "padA-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 2",
+      file: "US_DTH_FX_Result.wav",
+      container: "padA-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 3",
+      file: "US_DTH_FX_USA.wav",
+      container: "padA-5",
+      btnButton: "default",
+    },
+    {
+      name: "FX 4",
+      file: "US_DTH_FX_National.wav",
+      container: "padA-5",
+      btnButton: "default",
+    },
+  ],
   soundsB: [
     {
       name: "Drum 1",
@@ -388,6 +514,7 @@ function createSoundSet({
   beatClass,
   categoryClass,
   sliderSelector,
+  waveAnimateId,
   audioContext,
   bpm = 120,
   btnStopAll,
@@ -548,7 +675,6 @@ function createSoundSet({
       queueStartPad(pad);
       updatePadClick(pad.dataset.pad, pad.dataset.padType);
     }
-   
   }
 
   function queueStartPad(pad) {
@@ -606,12 +732,20 @@ function createSoundSet({
   ) {
     const actualStartTime = sync
       ? startTime ?? Math.ceil(lockedTime / barDuration) * barDuration
-      : lockedTime; // ถ้าไม่ sync → เริ่มทันที
+      : lockedTime;
 
     const currentBeat = Math.floor((lockedTime % barDuration) / beatDuration);
 
     const source = audioContext.createBufferSource();
     const gainNode = audioContext.createGain();
+
+    // Wave animation setup
+    const analyser = audioContext.createAnalyser();
+    analyser.fftSize = 256;
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    const canvas = document.getElementById(waveAnimateId);
+    const canvasCtx = canvas.getContext("2d");
 
     console.log(
       `[PAD START] startTime: ${actualStartTime.toFixed(
@@ -624,8 +758,21 @@ function createSoundSet({
     source.buffer = pad.buffer;
     source.loop = true;
 
+    // ✅ Correct signal chain
     source.connect(gainNode);
-    gainNode.connect(mainGainNode);
+    gainNode.connect(analyser);
+    analyser.connect(mainGainNode);
+
+    // ✅ Start drawing waveform
+    if (waveAnimateId === "waveformCanvasA") {
+      drawWavePeaks(analyser, canvas, canvasCtx, dataArray);
+    } else if (waveAnimateId === "waveformCanvasB") {
+      drawSoftBars(analyser, canvas, canvasCtx, dataArray);
+    } else if (waveAnimateId === "waveformCanvasC") {
+      drawCircularBars(analyser, canvas, canvasCtx, dataArray);
+    } else if (waveAnimateId === "waveformCanvasD") {
+      drawWaveformLine(analyser, canvas, canvasCtx, dataArray);
+    }
 
     pad.source = source;
     pad.gainNode = gainNode;
@@ -688,8 +835,8 @@ function createSoundSet({
     "encoder-change",
     "knob-volume-change",
     "volume-change",
+    "knob-change",
   ];
-
 
   // ✅ Main event handler
   function onSliderChange(e) {
@@ -732,6 +879,21 @@ function createSoundSet({
 window.addEventListener("DOMContentLoaded", () => {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
+  const padA = createSoundSet({
+    sounds: allSounds.soundsA.map((s) => ({
+      ...s,
+      url: `./sounds/${s.file}`,
+    })),
+    padPrefix: "padA",
+    beatClass: "beatA",
+    categoryClass: "categoryA",
+    sliderSelector: "knob-change",
+    waveAnimateId: "waveformCanvasA",
+    audioContext,
+    bpm: 120,
+    btnStopAll: "stopAllBtnA",
+  });
+
   const padB = createSoundSet({
     sounds: allSounds.soundsB.map((s) => ({
       ...s,
@@ -741,6 +903,7 @@ window.addEventListener("DOMContentLoaded", () => {
     beatClass: "beatB",
     categoryClass: "categoryB",
     sliderSelector: "midi-slider slider-change",
+    waveAnimateId: "waveformCanvasB",
     audioContext,
     bpm: 120,
     btnStopAll: "stopAllBtnB",
@@ -755,6 +918,7 @@ window.addEventListener("DOMContentLoaded", () => {
     beatClass: "beatC",
     categoryClass: "categoryC",
     sliderSelector: "midi-knob",
+    waveAnimateId: "waveformCanvasC",
     audioContext,
     bpm: 120,
     btnStopAll: "stopAllBtnC",
@@ -769,6 +933,7 @@ window.addEventListener("DOMContentLoaded", () => {
     beatClass: "beatD",
     categoryClass: "categoryD",
     sliderSelector: "midi-encoder",
+    waveAnimateId: "waveformCanvasD",
     audioContext,
     bpm: 120,
     btnStopAll: "stopAllBtnD",
