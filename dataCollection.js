@@ -69,7 +69,7 @@ function updateLogdataKnob(pad) {
     const volume = div.dataset.volume; // แปลงเป็นตัวเลข
 
     // เก็บไว้ใน knobValues โดยใช้ชื่อ category เป็น key
-    knobValues[category] = volume*100;
+    knobValues[category] = volume * 100;
   });
 
   if (pad == "A") {
@@ -87,7 +87,12 @@ function updateLogdataKnob(pad) {
     presetName: padStyle,
     mixerPad: pad,
     bpm: bpmValue.value,
-    knob_values: knobValues,
+    drumVolume: knobValues.Drum,
+    bassVolume: knobValues.Bass,
+    padVolume: knobValues.Pad,
+    synthVolume: knobValues.Synth,
+    fxVolume: knobValues.FX,
+
   };
 
   console.log(mData);
@@ -96,8 +101,8 @@ function updateLogdataKnob(pad) {
 
 function updateLogDataBpm(pad, bpm) {
   const mData = {
-    event_type: "BPM_ADJUST",
-    mixer_pad: pad,
+    eventType: "BPM_ADJUST",
+    mixerPad: pad,
     bpm: bpm,
   };
   Collect_Data(mData)
@@ -121,7 +126,7 @@ function updateSelectPreset(pad) {
     presetName: padStyle,
   };
   console.log(mData);
-    Collect_Data(mData)
+  Collect_Data(mData)
 
 }
 
@@ -129,10 +134,10 @@ function updatePadClick(pad, type) {
   const pad_type = type.slice(0, -2);
 
   const mData = {
-    event_type: "PAD_CLICK",
+    eventType: "PAD_CLICK",
     mixer_pad: pad,
-    pad_type: pad_type,
-    pad_id: type,
+    padType: pad_type,
+    padId: type,
   };
   console.log(mData);
   Collect_Data(mData)
@@ -142,23 +147,23 @@ function updateFxClick(pad, type) {
   const pad_type = type.slice(0, -2);
 
   const mData = {
-    event_type: "FX_CLICK",
+    eventType: "FX_CLICK",
     mixer_pad: pad,
-    pad_type: pad_type,
-    pad_id: type,
+    padType: pad_type,
+    padId: type,
   };
   console.log(mData);
-    Collect_Data(mData)
+  Collect_Data(mData)
 
 }
 
 function updateStopPad(pad) {
   const padName = pad.replace(/pad/i, "");
   const mData = {
-    event_type: "STOP_ALL",
-    mixer_pad: padName,
+    eventType: "STOP_ALL",
+    mixerPad: padName,
   };
   console.log(mData);
-    Collect_Data(mData)
+  Collect_Data(mData)
 
 }

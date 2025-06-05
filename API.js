@@ -39,7 +39,7 @@ function Collect_Data(DATA) {
   // ตรวจสอบว่าข้อมูลต้องใช้ eventType (camelCase) หรือไม่ แล้วแปลงชื่อ key ถ้าจำเป็น
   const mData = {
     ...DATA,
-    eventType: DATA.eventType || DATA.event_type, // รองรับทั้งสองแบบ
+    eventType: DATA.eventType , // รองรับทั้งสองแบบ
   };
 
   console.log(mData, "mData");
