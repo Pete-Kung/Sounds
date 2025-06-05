@@ -1,6 +1,7 @@
 # Navigation
 
 - [Navigation](#navigation)
+    - [Get Token](#get-token)
     - [Sound pattern](#sound-pattern)
     - [Sound id](#sound-id)
     - [Change btn pad](#change-btn-pad)
@@ -12,6 +13,28 @@
     - [AI generate theme](#ai-generate-theme)
     - [Collect data](#collect-data)
 
+
+### Get Token
+
+- request
+
+```http request
+GET /v1/auth/get-token
+```
+
+- response
+
+```json
+{
+  "data": {
+    "accessToken": "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI0Iiwicm9sZXMiOlsiVVNFUiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvdjEvYXV0aC9sb2dpbiIsImV4cCI6MTc0OTEwMjAxNCwiaWF0IjoxNzQ5MDk0ODE0LCJqdGkiOiJjODA4NDk4ZDA0NWQ0YTEzOWZmNThiNzgzYWQ2NzYwNiIsImVtYWlsIjoidXNlcjcxNjI1NEBlbWFpbC5jb20iLCJ1c2VybmFtZSI6InVzZXI3MTYyNTQifQ.JjxhTbY8-0loqPDBWUl_4N3zK3mEFi-MfQk8zvpyBk8DkolI9x8oXN-9Ylxw6KfW5iPjXA5W-mbA6qIUN0Wsrx4yLmDHR-wtZzmHC2a9hg9kpDShpPPvZNfofZ71c6gU-nr4zRpMAtgzZ1y6KvnX-ANJ_NySFbwE0F_Pj8yFp0dXt-dEULRNDWFPzmOgaLAyfscdujCK1zjqj43CYhR2d--xSuDDsEhUwylMbrJjfxaQJ3e7RKehiDbT1zjOVPSQRTZTl8Spxo4QjuH7b0_3aM45sY5QDEzcgYPv3g4w1jzUu8WH9anjJPQtJU-gZqHxJ5cDBIRhUsZjNaRph9tOAw",
+    "accessExpire": 1749102014,
+    "refreshToken": "c0300692-e67a-42b4-a82e-16d771027f2a",
+    "refreshExpire": 1749699614
+  },
+  "pagination": null
+}
+```
 
 ### Sound pattern
 
