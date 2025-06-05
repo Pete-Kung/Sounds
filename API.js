@@ -34,7 +34,7 @@ function GetToken() {
     });
 
 }
-//GetToken()
+GetToken()
 function Collect_Data(DATA) {
   // ตรวจสอบว่าข้อมูลต้องใช้ eventType (camelCase) หรือไม่ แล้วแปลงชื่อ key ถ้าจำเป็น
   const mData = {

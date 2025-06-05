@@ -83,9 +83,9 @@ function updateLogdataKnob(pad) {
   }
 
   const mData = {
-    event_type: "knob_adjust",
-    preset_name: padStyle,
-    mixer_pad: pad,
+    eventType: "VOLUME_ADJUST",
+    presetName: padStyle,
+    mixerPad: pad,
     bpm: bpmValue.value,
     knob_values: knobValues,
   };
@@ -96,7 +96,7 @@ function updateLogdataKnob(pad) {
 
 function updateLogDataBpm(pad, bpm) {
   const mData = {
-    event_type: "bpm_adjust",
+    event_type: "BPM_ADJUST",
     mixer_pad: pad,
     bpm: bpm,
   };
@@ -116,10 +116,9 @@ function updateSelectPreset(pad) {
   }
 
   const mData = {
-    event_type: "preset_select",
-    mixer_pad: pad,
-    preset_name: padStyle,
-    bpm: bpm,
+    eventType: "PRESET_SELECT",
+    mixerPad: pad,
+    presetName: padStyle,
   };
   console.log(mData);
     Collect_Data(mData)
@@ -130,7 +129,7 @@ function updatePadClick(pad, type) {
   const pad_type = type.slice(0, -2);
 
   const mData = {
-    event_type: "pad_click",
+    event_type: "PAD_CLICK",
     mixer_pad: pad,
     pad_type: pad_type,
     pad_id: type,
@@ -143,7 +142,7 @@ function updateFxClick(pad, type) {
   const pad_type = type.slice(0, -2);
 
   const mData = {
-    event_type: "fx_click",
+    event_type: "FX_CLICK",
     mixer_pad: pad,
     pad_type: pad_type,
     pad_id: type,
@@ -156,7 +155,7 @@ function updateFxClick(pad, type) {
 function updateStopPad(pad) {
   const padName = pad.replace(/pad/i, "");
   const mData = {
-    event_type: "stop_all",
+    event_type: "STOP_ALL",
     mixer_pad: padName,
   };
   console.log(mData);
