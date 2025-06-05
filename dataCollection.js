@@ -91,6 +91,7 @@ function updateLogdataKnob(pad) {
   };
 
   console.log(mData);
+  Collect_Data(mData)
 }
 
 function updateLogDataBpm(pad, bpm) {
@@ -99,7 +100,7 @@ function updateLogDataBpm(pad, bpm) {
     mixer_pad: pad,
     bpm: bpm,
   };
-  console.log(mData);
+  Collect_Data(mData)
 }
 
 function updateSelectPreset(pad) {
@@ -121,6 +122,8 @@ function updateSelectPreset(pad) {
     bpm: bpm,
   };
   console.log(mData);
+    Collect_Data(mData)
+
 }
 
 function updatePadClick(pad, type) {
@@ -133,6 +136,7 @@ function updatePadClick(pad, type) {
     pad_id: type,
   };
   console.log(mData);
+  Collect_Data(mData)
 }
 
 function updateFxClick(pad, type) {
@@ -145,6 +149,8 @@ function updateFxClick(pad, type) {
     pad_id: type,
   };
   console.log(mData);
+    Collect_Data(mData)
+
 }
 
 function updateStopPad(pad) {
@@ -154,4 +160,6 @@ function updateStopPad(pad) {
     mixer_pad: padName,
   };
   console.log(mData);
+    Collect_Data(mData)
+
 }

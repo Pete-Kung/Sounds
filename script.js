@@ -3,11 +3,11 @@ let beatsPerBar = 4;
 let beatDuration = 60 / bpm;
 let barDuration = beatDuration * beatsPerBar;
 let currentBeat = 0;
+var Collect_Data =  []
 const beatEls = document.querySelectorAll(".beat");
 const bpmSlider = document.getElementById("bpmSlider");
 const bpmValueLabel = document.getElementById("bpmValue");
 const confirmButton = document.getElementById("confirmBPM");
-
 let beatLoopTimeoutId;
 function beatLoop() {
   beatEls.forEach((el, i) => {
@@ -21,12 +21,12 @@ function beatLoop() {
 function updateBPM() {
   const getBpm = document.getElementById("confirmBPM");
   const tabSelect = getBpm.dataset.tab;
-  
+
 
   let newBpm = parseInt(bpmSlider.value);
   console.log("Input BPM:", newBpm);
 
-  
+
   updateLogDataBpm(tabSelect, newBpm);
 
   // ถ้าไม่ใช่ตัวเลข ให้ใช้ค่าเริ่มต้น 120
@@ -487,12 +487,12 @@ function changeTemplate(el, key) {
     key === "A"
       ? "padsContainer"
       : key === "B"
-      ? "padsContainerB"
-      : key === "C"
-      ? "padsContainerC"
-      : key === "D"
-      ? "padsContainerD"
-      : "padsContainerE"; // เพิ่มตรงนี้
+        ? "padsContainerB"
+        : key === "C"
+          ? "padsContainerC"
+          : key === "D"
+            ? "padsContainerD"
+            : "padsContainerE"; // เพิ่มตรงนี้
   const selectedContainer = document.getElementById(selectedId);
   if (selectedContainer) {
     selectedContainer.style.display = "flex";
