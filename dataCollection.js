@@ -69,7 +69,7 @@ function updateLogdataKnob(pad) {
     const volume = div.dataset.volume; // แปลงเป็นตัวเลข
 
     // เก็บไว้ใน knobValues โดยใช้ชื่อ category เป็น key
-    knobValues[category] = volume;
+    knobValues[category] = volume*100;
   });
 
   if (pad == "A") {
