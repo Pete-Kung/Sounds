@@ -508,12 +508,25 @@ const allSounds = {
   ],
 };
 
+
+getSounds("A", function (data) {
+  console.log(data);
+});
+getSounds("B", function (data) {
+  console.log(data);
+});
+getSounds("C", function (data) {
+  console.log(data);
+});
+getSounds("D", function (data) {
+  console.log(data);
+});
+
 function createSoundSet({
   sounds,
   padPrefix,
   beatClass,
   categoryClass,
-  sliderSelector,
   waveAnimateId,
   audioContext,
   bpm = 120,
@@ -882,12 +895,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const padA = createSoundSet({
     sounds: allSounds.soundsA.map((s) => ({
       ...s,
-      url: `./sounds/${s.file}`,
+      url: `./sounds/LoopA/${s.file}`,
     })),
     padPrefix: "padA",
     beatClass: "beatA",
     categoryClass: "categoryA",
-    sliderSelector: "knob-change",
     waveAnimateId: "waveformCanvasA",
     audioContext,
     bpm: 120,
@@ -897,12 +909,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const padB = createSoundSet({
     sounds: allSounds.soundsB.map((s) => ({
       ...s,
-      url: `./sounds/Loop2/${s.file}`,
+      url: `./sounds/LoopB/${s.file}`,
     })),
     padPrefix: "padB",
     beatClass: "beatB",
     categoryClass: "categoryB",
-    sliderSelector: "midi-slider slider-change",
     waveAnimateId: "waveformCanvasB",
     audioContext,
     bpm: 120,
@@ -912,12 +923,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const padC = createSoundSet({
     sounds: allSounds.soundsC.map((s) => ({
       ...s,
-      url: `./sounds/Loop3/${s.file}`,
+      url: `./sounds/LoopC/${s.file}`,
     })),
     padPrefix: "padC",
     beatClass: "beatC",
     categoryClass: "categoryC",
-    sliderSelector: "midi-knob",
     waveAnimateId: "waveformCanvasC",
     audioContext,
     bpm: 120,
@@ -927,12 +937,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const padD = createSoundSet({
     sounds: allSounds.soundsD.map((s) => ({
       ...s,
-      url: `./sounds/LoopPJ/${s.file}`,
+      url: `./sounds/LoopD/${s.file}`,
     })),
     padPrefix: "padD",
     beatClass: "beatD",
     categoryClass: "categoryD",
-    sliderSelector: "midi-encoder",
     waveAnimateId: "waveformCanvasD",
     audioContext,
     bpm: 120,

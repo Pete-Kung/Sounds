@@ -72,12 +72,38 @@ function getDataAnalyze() {
     },
     success: function (response) {
       console.log("Data analyze:", response.data);
-      document.getElementById("ai_analyze_data").innerHTML = response.data
+      document.getElementById("ai_analyze_data").innerHTML = response.data;
     },
     error: function (error) {
       console.error("Error sending mixer event:", error);
     },
   });
 }
-
 getDataAnalyze();
+
+function getSounds(pattern, callback) {
+  // $.ajax({
+  //   type: "POST",
+  //   url: API_SERVER + "/v1/sound/" + pattern,
+  //   contentType: "application/json",
+  //   dataType: "json",
+  //   headers: {
+  //     Authorization: "Bearer " + token,
+  //   },
+  //   success: function (response) {
+  //     console.log("Data sound:", response.data);
+  //     if (callback) {
+  //       callback(response.data); // เรียก callback พร้อมส่งข้อมูล
+  //     }
+  //   },
+  //   error: function (error) {
+  //     console.error("Error sending mixer event:", error);
+  //     if (callback) {
+  //       callback(null, error); // ส่ง error กลับด้วยถ้าต้องการ
+  //     }
+  //   },
+  // });
+  if (callback) {
+    callback("hello" + pattern);
+  }
+}
