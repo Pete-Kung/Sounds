@@ -12,6 +12,7 @@
     - [Search song to generate mixer sound](#search-song-to-generate-mixer-sound)
     - [AI generate theme](#ai-generate-theme)
     - [Collect data](#collect-data)
+    - [Analyze](#analyze)
 
 
 ### Get Token
@@ -1090,5 +1091,22 @@ POST /v1/mixer-logs/event
   "mixerPad": "C",
   "padId": "FX 4",
   "padType": "FX"
+}
+```
+
+### Analyze
+
+- request
+
+```http request
+POST /v1/mixer-logs/analyze
+```
+
+- response
+
+```http request
+{
+  "data": "…",
+  "pagination": null
 }
 ```

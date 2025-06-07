@@ -20,6 +20,7 @@
         justify-content: space-between;
         align-items: center;
         gap: 30px;
+        position: relative;
       "
     >
       <div
@@ -35,7 +36,6 @@
           font-family: sans-serif;
           color: white;
           font-size: 14px;
-          width: 50%;
           margin-left: 0;
           box-sizing: border-box;
         "
@@ -80,7 +80,7 @@
           </div>
         </div>
       </div>
-      <div style="width: 50%; display: flex; justify-content: flex-start">
+      <div style="display: flex; justify-content: flex-start">
         <div
           style="
             display: flex;
@@ -126,6 +126,40 @@
             E
           </button>
         </div>
+      </div>
+
+      <div
+        id="ai_analyze"
+        style="
+          display: flex;
+          gap: 10px;
+          background-color: #1a202c;
+          padding: 10px 15px;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: bold;
+        "
+        onclick="showAIAnalyze()"
+      >
+        <span>AI Analyze</span>
+      </div>
+
+      <div id="show_ai_analyze"  style="
+      display: none;
+      gap: 10px;
+      background-color: #232c3d;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      position: absolute;
+      top: 100px;
+      right: -30px;
+      height: auto;
+      width: 120px;
+      color: #cbd5e0;
+    ">
+        <span id="ai_analyze_data"></span>
+
       </div>
     </div>
 
