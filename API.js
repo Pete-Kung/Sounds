@@ -81,29 +81,27 @@ function getDataAnalyze() {
 }
 getDataAnalyze();
 
-function getSounds(pattern, callback) {
-  // $.ajax({
-  //   type: "POST",
-  //   url: API_SERVER + "/v1/sound/" + pattern,
-  //   contentType: "application/json",
-  //   dataType: "json",
-  //   headers: {
-  //     Authorization: "Bearer " + token,
-  //   },
-  //   success: function (response) {
-  //     console.log("Data sound:", response.data);
-  //     if (callback) {
-  //       callback(response.data); // เรียก callback พร้อมส่งข้อมูล
-  //     }
-  //   },
-  //   error: function (error) {
-  //     console.error("Error sending mixer event:", error);
-  //     if (callback) {
-  //       callback(null, error); // ส่ง error กลับด้วยถ้าต้องการ
-  //     }
-  //   },
-  // });
-  if (callback) {
-    callback("hello" + pattern);
-  }
+function getSounds(style, callback) {
+  $.ajax({
+    type: "GET",
+    url: API_SERVER + "/v1/api/sounds/" + style,
+    contentType: "application/json",
+    dataType: "json",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    success: function (response) {
+      console.log("Data sound:", response.data);
+      if (callback) {
+        callback(response.data); // เรียก callback พร้อมส่งข้อมูล
+      }
+    },
+    error: function (error) {
+      console.error("Error sending mixer event:", error);
+      if (callback) {
+        callback(null, error); // ส่ง error กลับด้วยถ้าต้องการ
+      }
+    },
+  });
+  
 }

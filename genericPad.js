@@ -509,18 +509,18 @@ const allSounds = {
 };
 
 
-getSounds("A", function (data) {
-  console.log(data);
-});
-getSounds("B", function (data) {
-  console.log(data);
-});
-getSounds("C", function (data) {
-  console.log(data);
-});
-getSounds("D", function (data) {
-  console.log(data);
-});
+// getSounds("deephouse", function (data) {
+//   console.log(data);
+// });
+// getSounds("B", function (data) {
+//   console.log(data);
+// });
+// getSounds("C", function (data) {
+//   console.log(data);
+// });
+// getSounds("D", function (data) {
+//   console.log(data);
+// });
 
 function createSoundSet({
   sounds,
