@@ -1,5 +1,5 @@
 // var API_SERVER = "http://192.168.1.99:8080";
-var API_SERVER = "http://172.20.10.3:8080";
+var API_SERVER = "http://192.168.253.192:8080";
 
 var token = localStorage.getItem("token");
 function GetToken() {
