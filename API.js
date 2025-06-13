@@ -1,4 +1,6 @@
-var API_SERVER = "http://192.168.1.99:8080";
+// var API_SERVER = "http://192.168.1.99:8080";
+var API_SERVER = "http://172.20.10.3:8080";
+
 var token = localStorage.getItem("token");
 function GetToken() {
   console.log("test");
@@ -33,7 +35,9 @@ function GetToken() {
     },
   });
 }
-GetToken();
+if (token == null) {
+  GetToken();
+}
 function Collect_Data(DATA) {
   // ตรวจสอบว่าข้อมูลต้องใช้ eventType (camelCase) หรือไม่ แล้วแปลงชื่อ key ถ้าจำเป็น
   const mData = {
@@ -61,6 +65,10 @@ function Collect_Data(DATA) {
 }
 
 function getDataAnalyze() {
+  const element = document.getElementById("show_ai_analyze");
+  element.style.display = "flex";
+
+
   $.ajax({
     type: "POST",
     url: API_SERVER + "/v1/mixer-logs/analyze",
@@ -73,13 +81,16 @@ function getDataAnalyze() {
     success: function (response) {
       console.log("Data analyze:", response.data);
       document.getElementById("ai_analyze_data").innerHTML = response.data;
+
+      setTimeout(() => {
+        element.style.display = "none";
+      }, 3000);
     },
     error: function (error) {
       console.error("Error sending mixer event:", error);
     },
   });
 }
-getDataAnalyze();
 
 function getSounds(style, callback) {
   $.ajax({
@@ -103,5 +114,4 @@ function getSounds(style, callback) {
       }
     },
   });
-  
 }

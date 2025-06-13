@@ -69,6 +69,7 @@
               cursor: pointer;
               flex-shrink: 0;
             "
+            onclick="updateBpm()"
           >
             Confirm
           </button>
@@ -139,7 +140,7 @@
           font-size: 12px;
           font-weight: bold;
         "
-        onclick="showAIAnalyze()"
+        onclick=" getDataAnalyze()"
       >
         <span>AI Analyze</span>
       </div>
@@ -155,10 +156,10 @@
       top: 100px;
       right: -30px;
       height: auto;
-      width: 120px;
+      width: 260px;
       color: #cbd5e0;
     ">
-        <span id="ai_analyze_data"></span>
+        <span id="ai_analyze_data">wait a minute data is coming</span>
 
       </div>
     </div>

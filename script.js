@@ -1,13 +1,5 @@
 
-function showAIAnalyze() {
-  const element = document.getElementById("show_ai_analyze");
-  element.style.display = "flex";
 
-  // ตั้งเวลาให้ซ่อน element หลังจาก 3 วินาที (3000 มิลลิวินาที)
-  setTimeout(() => {
-    element.style.display = "none";
-  }, 3000);
-}
 
 function savePreset() {
   const presetName = prompt("ตั้งชื่อ Preset:");

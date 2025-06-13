@@ -7,6 +7,14 @@ window.addEventListener("DOMContentLoaded", () => {
   controlVolume(); // เรียกทีเดียวพอ
 });
 
+function updateBpm () {
+  console.log("click");
+  const confirmBpm = document.getElementById("confirmBPM");
+  const bpmValue = document.getElementById("bpmSlider");
+  const getPadId = confirmBpm.dataset.tab;
+  updateLogDataBpm(getPadId, parseInt(bpmValue.value));
+}
+
 function debounce(fn, delay) {
   let timeoutId;
   return function (...args) {
@@ -14,6 +22,8 @@ function debounce(fn, delay) {
     timeoutId = setTimeout(() => fn.apply(this, args), delay);
   };
 }
+
+
 
 function controlVolume() {
   console.log("init control volume");
