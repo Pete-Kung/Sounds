@@ -7,7 +7,8 @@ body {
   background: #2c3e50;
   color: white;
   margin: 0;
-  overflow-y: auto; /* เพิ่มให้สามารถเลื่อนได้ */
+  overflow-y: auto;
+  /* เพิ่มให้สามารถเลื่อนได้ */
   box-sizing: border-box;
 
 }
@@ -17,6 +18,7 @@ h1 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   text-align: center;
 }
+
 #padB-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -25,7 +27,7 @@ h1 {
 }
 
 
- /* #canvasArea {
+/* #canvasArea {
       width: 100%;
       height: 80vh;
       border: 2px dashed #999;
@@ -45,34 +47,41 @@ h1 {
     } */
 
 #canvasArea {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      background: #f0f0f0;
-      border: 2px dashed #999; /* เพิ่มเพื่อเห็นขอบ canvas */
-   overflow: hidden; /* ✅ ปิด scroll ทั้งแนวตั้ง/แนวนอน */
-    }
-    #canvasArea {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #f0f0f0;
+  border: 2px dashed #999;
+  /* เพิ่มเพื่อเห็นขอบ canvas */
+  overflow: hidden;
+  /* ✅ ปิด scroll ทั้งแนวตั้ง/แนวนอน */
+}
+
+#canvasArea {
   overflow-y: hidden;
 }
-    #canvasArea {
-  overflow-x: hidden; /* ✅ ปิดแนวนอน */
+
+#canvasArea {
+  overflow-x: hidden;
+  /* ✅ ปิดแนวนอน */
 
 }
 
 .draggable-button {
-      cursor: move;
-         padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: move;
-      border-radius: 5px;
-    }
+  cursor: move;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: move;
+  border-radius: 5px;
+}
+
 #addButton {
-      /* margin: 10px; */
-      padding: 10px 20px;
-    }
+  /* margin: 10px; */
+  padding: 10px 20px;
+}
+
 .padContainerB {
   background: transparent;
   aspect-ratio: 1 / 1;
@@ -85,6 +94,7 @@ h1 {
   gap: 10px;
   flex-wrap: wrap;
 }
+
 #padsContainer {
   display: flex;
   flex-direction: column;
@@ -92,20 +102,23 @@ h1 {
   width: 100%;
   padding: 0 1rem;
   box-sizing: border-box;
-  height: auto; /* ปรับความสูงให้เหมาะสมกับเนื้อหา */
+  height: auto;
+  /* ปรับความสูงให้เหมาะสมกับเนื้อหา */
 }
 
-   .draggable {
+.draggable {
   position: absolute;
   cursor: move;
   user-select: none;
-  padding: 10px 30px 10px 10px; /* เผื่อที่ให้ปุ่ม close */
+  padding: 10px 30px 10px 10px;
+  /* เผื่อที่ให้ปุ่ม close */
   background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-weight: bold;
   /* ... */
-  position: relative; /* สำคัญ! */
+  position: relative;
+  /* สำคัญ! */
 }
 
 .close-btn {
@@ -123,15 +136,20 @@ h1 {
   line-height: 18px;
   text-align: center;
   padding: 0;
-  z-index: 10; /* ให้อยู่บนสุด */
+  z-index: 10;
+  /* ให้อยู่บนสุด */
 }
-    button {
-      margin: 5px;
-    }
- .popup-overlay {
+
+button {
+  margin: 5px;
+}
+
+.popup-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -196,24 +214,28 @@ button:hover {
   align-items: center;
   margin: 10px;
 }
+
 .categoryB {
   display: flex;
   gap: 1rem;
   align-items: center;
   margin: 10px;
 }
+
 .categoryC {
   display: flex;
   gap: 1rem;
   align-items: center;
   margin: 10px;
 }
+
 .categoryD {
   display: flex;
   gap: 1rem;
   align-items: center;
   margin: 10px;
 }
+
 .padContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -256,7 +278,8 @@ button:hover {
 }
 
 .padB.playing {
-  background-color: #ff4081; /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
+  background-color: #ff4081;
+  /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
   color: white;
   font-weight: bold;
   box-shadow: 0 0 10px #ff4081;
@@ -279,7 +302,8 @@ button:hover {
 
 
 .padC.playing {
-  background-color: #a8dd77; /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
+  background-color: #a8dd77;
+  /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
   color: white;
   font-weight: bold;
   box-shadow: 0 0 10px #a8dd77;
@@ -302,7 +326,8 @@ button:hover {
 
 
 .padD.playing {
-  background-color: #e184b4; /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
+  background-color: #e184b4;
+  /* สีชมพู หรือจะเปลี่ยนเป็นสีอื่นก็ได้ */
   color: white;
   font-weight: bold;
   box-shadow: 0 0 10px #e184b4;
@@ -327,7 +352,7 @@ button:hover {
   background-color: #636161;
   border-radius: 50%;
   transition: transform 0.2s ease, background-color 0.2s ease;
- 
+
 }
 
 .beatA.active {
@@ -340,6 +365,7 @@ button:hover {
   background-color: #06ad5a;
   box-shadow: 0 0 10px #06ad5a;
 }
+
 .beatB {
   width: 16px;
   height: 16px;
@@ -357,6 +383,7 @@ button:hover {
   background-color: #63b9eb;
   box-shadow: 0 0 10px #63b9eb;
 }
+
 .beatC {
   width: 16px;
   height: 16px;
@@ -432,9 +459,11 @@ button:hover {
   body {
     padding: 1rem;
     height: auto;
-    overflow-y: auto; /* เลื่อนเมื่อเนื้อหามากเกินไป */
+    overflow-y: auto;
+    /* เลื่อนเมื่อเนื้อหามากเกินไป */
   }
 }
+
 /* Responsive Design */
 
 @media (max-width: 1200px) {
@@ -446,7 +475,7 @@ button:hover {
     font-size: clamp(1.5rem, 4vw, 2.5rem);
   }
 
- 
+
 
   .pad {
     height: 130px;
@@ -536,7 +565,8 @@ button:hover {
     font-size: 14px;
   }
 
-  select, input[type="number"] {
+  select,
+  input[type="number"] {
     width: 60px;
     font-size: 14px;
   }
@@ -618,8 +648,9 @@ select {
   background-color: #e53935;
 }
 
-#loadPresetBtn, #deletePresetSelector, #savePreset {
-}
+#loadPresetBtn,
+#deletePresetSelector,
+#savePreset {}
 
 
 
@@ -656,3 +687,53 @@ div.style-flex button {
   width: auto;
 }
 
+/* Container หลักสำหรับผลลัพธ์จาก AI */
+.ai-analyze-container {
+  background-color: #e7e5e5;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  padding: 25px 30px;
+  max-width: 700px;
+  margin: 20px auto;
+  border-left: 15px solid #007bff;
+  color: #074979;
+}
+  /* สไตล์สำหรับหัวข้อหลักที่ได้จาก AI (เช่น **Insight / Pattern:**) */
+  .ai-analyze-container h3 {
+    font-size: 1.4em;
+    color: #0056b3;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e9ecef;
+  }
+
+  /* สไตล์สำหรับหัวข้อแรกสุด */
+  .ai-analyze-container h3:first-of-type {
+    margin-top: 0;
+  }
+
+  /* สไตล์สำหรับ Paragraph ทั่วไป */
+  .ai-analyze-container p {
+    margin-bottom: 15px;
+    color: #555;
+  }
+
+  /* สไตล์สำหรับรายการ (Ordered List) */
+  .ai-analyze-container ol {
+    padding-left: 25px;
+    /* ระยะห่างของ list จากขอบ */
+    margin-bottom: 20px;
+  }
+
+  /* สไตล์สำหรับแต่ละรายการ (List Item) */
+  .ai-analyze-container li {
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  /* เพิ่มความสวยงามให้ marker ของ list */
+  .ai-analyze-container li::marker {
+    color: #007bff;
+    font-weight: bold;
+  }

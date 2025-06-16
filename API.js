@@ -1,5 +1,5 @@
-// var API_SERVER = "http://192.168.1.99:8080";
-var API_SERVER = "http://192.168.253.192:8080";
+var API_SERVER = "http://192.168.1.99:8080";
+//var API_SERVER = "https://trusty-minnow-suited.ngrok-free.app";
 
 var token = localStorage.getItem("token");
 function GetToken() {
@@ -15,6 +15,8 @@ function GetToken() {
     async: true,
     timeout: 10000, // ปรับเวลาได้ตามต้องการ
     success: function (data) {
+      console.log(data, "token");
+
       if (data) {
         var token = data.data.accessToken; // หรือ key ตาม response จริง เช่น data.data.token
         console.log("Token ที่ได้:", token);
@@ -67,15 +69,16 @@ function Collect_Data(DATA) {
 function getDataAnalyze(el) {
   // หากถูก disable อยู่แล้ว อย่าให้ส่งซ้ำ
   if (el.disabled) return;
-
   // ตั้งให้ปุ่ม disable
   el.disabled = true;
   el.style.opacity = "0.5";
   el.style.cursor = "not-allowed";
-
   const element = document.getElementById("show_ai_analyze");
-  element.style.display = "flex";
-
+  const textAI = document.getElementById("ai_analyze_data_text");
+   const wait = document.getElementById("ai_analyze_data");
+  //element.style.display = "flex";
+  textAI.style.display = "none";
+  wait.style.display = "block";
   $.ajax({
     type: "POST",
     url: API_SERVER + "/v1/mixer-logs/analyze",
@@ -84,14 +87,17 @@ function getDataAnalyze(el) {
     headers: { Authorization: "Bearer " + token },
     success: function (response) {
       console.log("Data analyze:", response.data);
-      document.getElementById("ai_analyze_data").innerHTML = response.data;
-
+      wait.style.display = "none";
+      textAI.style.display = "block";
+      textAI.innerHTML = response.data;
       setTimeout(() => {
         element.style.display = "none";
       }, 10000);
     },
     error: function (error) {
       console.error("Error sending mixer event:", error);
+      textAI.style.display = "block";
+      textAI.innerHTML = "Error occurred while analyzing data.";
     },
     complete: function () {
       // ไม่ว่า success หรื error จะกลับมา enable
