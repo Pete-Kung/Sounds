@@ -98,7 +98,7 @@
           font-size: 12px;
           font-weight: bold; text-align: center;
         " onclick="getDataAnalyze(this)">
-      <span>AI Analyze</span>
+      <span>AI Analyzes And Recommends</span>
     </div>
 
     <div id="show_ai_analyze" style="
@@ -120,7 +120,14 @@
 
     </div>
   </div>
-  <span id="ai_analyze_data" style="display: none;">wait a minute data is coming</span>
+  <div id="ai_analyze_data"  class="ai-analyze-container" style="display: none; 
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 25px; height: 90px;">I'm analyzing the data, please wait a moment.
+      <span class="loader" ></span>
+
+  </div>
   <div id="ai_analyze_data_text" class="ai-analyze-container" style="display: none;">
 
 
