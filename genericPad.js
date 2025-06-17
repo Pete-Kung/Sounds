@@ -508,7 +508,6 @@ const allSounds = {
   ],
 };
 
-
 // getSounds("deephouse", function (data) {
 //   console.log(data);
 // });
@@ -851,25 +850,33 @@ function createSoundSet({
     "knob-change",
   ];
 
-  // ✅ Main event handler
-  function onSliderChange(e) {
-    const slider = e.currentTarget;
-    const category = slider.getAttribute("data-category");
-    const volume = parseFloat(e.detail.value) / 100;
-
-    // อัปเดตค่าใน DOM
+  function setVolumeFromAPI(slider, volume) {
+    // ตั้งค่าใน DOM
     slider.setAttribute("data-volume", volume.toString());
 
-    // ดึง container และตั้งค่า gain ถ้ากำลังเล่น
+    console.log("call setVolume", slider, volume);
+
+    // ดึง container และ ตั้งค่า Gain เช่นเดียวกับใน onSliderChange
+    const category = slider.getAttribute("data-category");
+
     const container = document.getElementById(category);
     if (container) {
       const pads = container.querySelectorAll(`.${padPrefix}`);
+
       pads.forEach((pad) => {
         if (pad.dataset.playing === "true" && pad.gainNode) {
           pad.gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
         }
       });
     }
+  }
+
+  function onSliderChange(e) {
+    const slider = e.currentTarget;
+    const volume = parseFloat(e.detail.value) / 100;
+    console.log(e.currentTarget);
+
+    setVolumeFromAPI(slider, volume);
   }
 
   // ✅ ผูก event ทุก slider
@@ -885,14 +892,18 @@ function createSoundSet({
   beatLoop();
 
   sounds.forEach((sound) => createPad(sound));
+
+  return { setVolumeFromAPI };
 }
 
 // === USAGE EXAMPLE ===
 
+let padA, padB, padC, padD;
+
 window.addEventListener("DOMContentLoaded", () => {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-  const padA = createSoundSet({
+  padA = createSoundSet({
     sounds: allSounds.soundsA.map((s) => ({
       ...s,
       url: `./sounds/LoopA/${s.file}`,
@@ -906,7 +917,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnStopAll: "stopAllBtnA",
   });
 
-  const padB = createSoundSet({
+  padB = createSoundSet({
     sounds: allSounds.soundsB.map((s) => ({
       ...s,
       url: `./sounds/LoopB/${s.file}`,
@@ -920,7 +931,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnStopAll: "stopAllBtnB",
   });
 
-  const padC = createSoundSet({
+  padC = createSoundSet({
     sounds: allSounds.soundsC.map((s) => ({
       ...s,
       url: `./sounds/LoopC/${s.file}`,
@@ -934,7 +945,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnStopAll: "stopAllBtnC",
   });
 
-  const padD = createSoundSet({
+  padD = createSoundSet({
     sounds: allSounds.soundsD.map((s) => ({
       ...s,
       url: `./sounds/LoopD/${s.file}`,
@@ -948,3 +959,37 @@ window.addEventListener("DOMContentLoaded", () => {
     btnStopAll: "stopAllBtnD",
   });
 });
+
+function setVolumeAI(padName) {
+  const sampleData = {
+    drumVolume: 0.5,
+    bassVolume: 0.5,
+    padVolume: 0.5,
+    synthVolume: 0.5,
+    fxVolume: 0.5,
+  };
+
+  // เลือก pad object ตามชื่อ padName
+  let padObj;
+  if (padName === "padA") padObj = padA;
+  else if (padName === "padB") padObj = padB;
+  else if (padName === "padC") padObj = padC;
+  else if (padName === "padD") padObj = padD;
+  else {
+    console.warn("Unknown pad:", padName);
+    return;
+  }
+
+  const volumepads = document.querySelectorAll(`.${padName}-volume`);
+
+  volumepads.forEach((volumeEl, index) => {
+    const volumeValue = sampleData[Object.keys(sampleData)[index]];
+
+    // ตั้งค่าใน DOM
+    volumeEl.setAttribute("data-volume", volumeValue);
+    volumeEl.setAttribute("init", (volumeValue * 100).toString());
+
+    console.log(volumeEl, volumeValue);
+    padObj.setVolumeFromAPI(volumeEl, volumeValue);
+  });
+}

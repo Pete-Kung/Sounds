@@ -1,6 +1,6 @@
 
 
-var API_SERVER = "http://192.168.1.99:8080";
+var API_SERVER = "http://192.168.1.29:8080";
 var AI_DATA = localStorage.getItem("ai_analyze_data");
 const element = document.getElementById("show_ai_analyze");
 const textAI = document.getElementById("ai_analyze_data_text");
@@ -89,7 +89,7 @@ function Collect_Data(DATA) {
 
 function getDataAnalyze(el) {
   var token = localStorage.getItem("token");
-
+  // setVolumeAI("padB" , 0.9);
   // หากถูก disable อยู่แล้ว อย่าให้ส่งซ้ำ
   if (el.disabled) return;
   // ตั้งให้ปุ่ม disable
