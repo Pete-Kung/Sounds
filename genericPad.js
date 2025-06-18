@@ -961,15 +961,11 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function setVolumeAI(padName, mData, bpm) {
-  // const sampleData = {
-  //   drumVolume: 0.5,
-  //   bassVolume: 0.5,
-  //   padVolume: 0.5,
-  //   synthVolume: 0.5,
-  //   fxVolume: 0.5,
-  // };
 
-  const sampleData = mData
+  console.log(padName);
+  console.log(mData);
+  console.log(bpm);
+  
 
   // เลือก pad object ตามชื่อ padName
   let padObj;
@@ -985,11 +981,11 @@ function setVolumeAI(padName, mData, bpm) {
   const volumepads = document.querySelectorAll(`.${padName}-volume`);
 
   volumepads.forEach((volumeEl, index) => {
-    const volumeValue = sampleData[Object.keys(sampleData)[index]];
+    const volumeValue = mData[Object.keys(mData)[index]];
 
     // ตั้งค่าใน DOM
-    volumeEl.setAttribute("data-volume", volumeValue);
-    volumeEl.setAttribute("init", (volumeValue * 100).toString());
+    volumeEl.setAttribute("data-volume", volumeValue/100);
+    volumeEl.setAttribute("init", (volumeValue).toString());
 
     const bpmValue = document.getElementById("bpmSlider");
     bpmValue.value = bpm

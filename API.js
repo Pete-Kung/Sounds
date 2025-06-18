@@ -1,4 +1,4 @@
-var API_SERVER = "https://trusty-minnow-suited.ngrok-free.app";
+var API_SERVER = "http://192.168.1.99:8080";
 var AI_DATA = localStorage.getItem("ai_analyze_data");
 const element = document.getElementById("show_ai_analyze");
 const textAI = document.getElementById("ai_analyze_data_text");
