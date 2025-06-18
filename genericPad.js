@@ -969,6 +969,8 @@ function setVolumeAI(padName, mData, bpm) {
     fxVolume: 0.5,
   };
 
+  // const sampleData = mData
+
   // เลือก pad object ตามชื่อ padName
   let padObj;
   if (padName === "padA") padObj = padA;
