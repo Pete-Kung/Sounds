@@ -1,6 +1,4 @@
-
-
-var API_SERVER = "http://192.168.1.99:8080";
+var API_SERVER = "https://trusty-minnow-suited.ngrok-free.app";
 var AI_DATA = localStorage.getItem("ai_analyze_data");
 const element = document.getElementById("show_ai_analyze");
 const textAI = document.getElementById("ai_analyze_data_text");
@@ -14,7 +12,16 @@ function displayAnalysisResult(AI_DATA, textAI) {
     textAI.style.display = "block";
     const formattedHtml = formatAIResponse(AI_DATA);
     // 2. นำ HTML ที่ได้ไปใส่ใน innerHTML ของ element เป้าหมาย
-    textAI.innerHTML = formattedHtml + "<br>" + " <div style=\"text-align: center;\"><button onclick=\"useAIAnalyzer()\">Use AI Analyser</button></div>";
+    textAI.innerHTML = formattedHtml +
+      '<br>' +
+      '<div style="text-align: center; display: flex; justify-content: center;">' +
+      '<button id="ai-analyzer-btn" onclick="useAIAnalyzer(this)">Use AI Analyser Volume</button>' +
+
+      // --- เพิ่ม Loader คลาส 'loader2' ตรงนี้ ---
+      '<div class="loader2" style="display: none;"></div>' +
+      '<div class="textAnalyser" style="display: none; flex-direction: column; justify-content: center; align-items: center; margin-top: 10px;">' +
+      '<div style="justify-content: center; align-items: center; padding: 10px; color: green; "> Analyser Success</div>' +
+      '</div>';
   }
 }
 function GetToken() {
@@ -130,30 +137,122 @@ function getDataAnalyze(el) {
 }
 
 function useAIAnalyzer() {
-    var token = localStorage.getItem("token");
+  // 1. เลือก Element แรกที่มีคลาส 'loader2'
+  const loader = document.getElementsByClassName('loader2')[0];
+  const buttonAI = document.getElementById("ai-analyzer-btn");
+  const textAnalyser = document.getElementsByClassName("textAnalyser")[0];
+  // ตรวจสอบก่อนว่าเจอ loader หรือไม่
+  if (!loader) {
+    console.error("ไม่พบ Element ที่มีคลาส 'loader2'");
+    return;
+  }
+
+  // 2. แสดง Loader
+  loader.style.display = 'block';
+  buttonAI.style.display = 'none';
+
+  var token = localStorage.getItem("token");
   console.log("Use AI Analyzer clicked");
   $.ajax({
     type: "POST",
-    url: API_SERVER + "/v1/mixer-logs/adjust-volume " ,
+    url: API_SERVER + "/v1/mixer-logs/adjust-volume", // 4. ลบช่องว่างท้าย URL
     contentType: "application/json",
     dataType: "json",
     headers: {
       Authorization: "Bearer " + token,
     },
     success: function (response) {
-      console.log("Data sound:", response.data);
-      if (callback) {
-        callback(response.data); // เรียก callback พร้อมส่งข้อมูล
+      console.log("Raw response:", response);
+
+      // 1. response.data คือ string → แปลงเป็น object ก่อน
+      let parsedData;
+      try {
+        parsedData = JSON.parse(response.data); // << สำคัญมาก
+      } catch (e) {
+        console.error("Error parsing response.data:", e);
+        return;
       }
+
+      updateAllKnobVolumes(parsedData.knobVolume);
     },
     error: function (error) {
-      console.error("Error sending mixer event:", error);
-      if (callback) {
-        callback(null, error); // ส่ง error กลับด้วยถ้าต้องการ
-      }
+      console.error("Error adjusting volume:", error);
+      // alert("Failed to adjust volume.");
     },
+    complete: function () {
+      // 2. (สำคัญ) ส่วนนี้จะทำงานเสมอไม่ว่า success หรือ error
+      // เพื่อซ่อน Loader และคืนค่า UI ให้เป็นปกติ
+      console.log("Request finished.");
+      loader.style.display = 'none';
+      buttonAI.style.display = 'none'; // คืนปุ่มให้แสดงอีกครั้ง
+      textAnalyser.style.display = "flex"; // แสดงข้อความ Analyser Success
+    }
   });
 }
+function updateAllKnobVolumes(knobData) {
+  const volumeMap = {
+    drumVolume: "slider1",
+    bassVolume: "slider2",
+    padVolume: "slider3",
+    synthVolume: "slider4",
+    fxVolume: "slider5",
+  };
+
+  const padLetters = ["A", "B", "C", "D"];
+
+  padLetters.forEach(pad => {
+    const padClass = `pad${pad}-volume`;
+
+    Object.entries(volumeMap).forEach(([key, sliderId]) => {
+      const selector = `.${padClass}[data-id="${sliderId}"]`;
+      const knobElement = document.querySelector(selector);
+
+      if (knobElement && knobData[key] !== undefined) {
+        const newValue = knobData[key];
+
+        if (pad === "A") {
+          // ถ้า drum-knob ไม่มี .value หรือ .setValue
+          knobElement.setAttribute("init", newValue);
+
+          // บางครั้งอาจต้องรีเซ็ต element หรือ trigger event เฉพาะ
+          knobElement.dispatchEvent(new CustomEvent('knob-change', {
+            detail: { id: sliderId, value: newValue, category: knobElement.getAttribute("data-category") },
+            bubbles: true,
+          }));
+
+          // หรือถ้า custom element มี method รีเฟรช อาจเรียกใช้ เช่น
+          if (typeof knobElement.refresh === 'function') {
+            knobElement.refresh();
+          }
+        } else {
+          // pad B, C, D แบบเดิม
+          if ('value' in knobElement) {
+            knobElement.value = newValue;
+          } else if (typeof knobElement.setValue === "function") {
+            knobElement.setValue(newValue);
+          } else {
+            knobElement.setAttribute("init", newValue);
+          }
+
+          const eventType = knobElement.getAttribute("data-event-type") || "knob-change";
+          knobElement.dispatchEvent(new CustomEvent(eventType, {
+            detail: { id: sliderId, value: newValue, category: knobElement.getAttribute("data-category") },
+            bubbles: true,
+          }));
+        }
+      }
+    });
+  });
+}
+
+
+
+
+
+
+
+
+
 function getSounds(style, callback) {
   $.ajax({
     type: "GET",
