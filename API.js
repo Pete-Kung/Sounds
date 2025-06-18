@@ -93,7 +93,7 @@ function Collect_Data(DATA) {
 
 function getDataAnalyze(el) {
   var token = localStorage.getItem("token");
-  // setVolumeAI("padC", "test", 100);
+
   // หากถูก disable อยู่แล้ว อย่าให้ส่งซ้ำ
   if (el.disabled) return;
   // ตั้งให้ปุ่ม disable
@@ -172,8 +172,9 @@ function useAIAnalyzer() {
         console.error("Error parsing response.data:", e);
         return;
       }
-
-      updateAllKnobVolumes(parsedData.knobVolume);
+      console.log(parsedData, "Parsed data");
+      setVolumeAI("pad" + parsedData.mixerPad, parsedData.knobVolume, 120);
+      // updateAllKnobVolumes(parsedData.knobVolume);
     },
     error: function (error) {
       console.error("Error adjusting volume:", error);
@@ -189,70 +190,6 @@ function useAIAnalyzer() {
     }
   });
 }
-function updateAllKnobVolumes(knobData) {
-  const volumeMap = {
-    drumVolume: "slider1",
-    bassVolume: "slider2",
-    padVolume: "slider3",
-    synthVolume: "slider4",
-    fxVolume: "slider5",
-  };
-
-  const padLetters = ["A", "B", "C", "D"];
-
-  padLetters.forEach(pad => {
-    const padClass = `pad${pad}-volume`;
-
-    Object.entries(volumeMap).forEach(([key, sliderId]) => {
-      const selector = `.${padClass}[data-id="${sliderId}"]`;
-      const knobElement = document.querySelector(selector);
-
-      if (knobElement && knobData[key] !== undefined) {
-        const newValue = knobData[key];
-
-        if (pad === "A") {
-          // ถ้า drum-knob ไม่มี .value หรือ .setValue
-          knobElement.setAttribute("init", newValue);
-
-          // บางครั้งอาจต้องรีเซ็ต element หรือ trigger event เฉพาะ
-          knobElement.dispatchEvent(new CustomEvent('knob-change', {
-            detail: { id: sliderId, value: newValue, category: knobElement.getAttribute("data-category") },
-            bubbles: true,
-          }));
-
-          // หรือถ้า custom element มี method รีเฟรช อาจเรียกใช้ เช่น
-          if (typeof knobElement.refresh === 'function') {
-            knobElement.refresh();
-          }
-        } else {
-          // pad B, C, D แบบเดิม
-          if ('value' in knobElement) {
-            knobElement.value = newValue;
-          } else if (typeof knobElement.setValue === "function") {
-            knobElement.setValue(newValue);
-          } else {
-            knobElement.setAttribute("init", newValue);
-          }
-
-          const eventType = knobElement.getAttribute("data-event-type") || "knob-change";
-          knobElement.dispatchEvent(new CustomEvent(eventType, {
-            detail: { id: sliderId, value: newValue, category: knobElement.getAttribute("data-category") },
-            bubbles: true,
-          }));
-        }
-      }
-    });
-  });
-}
-
-
-
-
-
-
-
-
-
 function getSounds(style, callback) {
   $.ajax({
     type: "GET",

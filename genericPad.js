@@ -961,15 +961,15 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function setVolumeAI(padName, mData, bpm) {
-  const sampleData = {
-    drumVolume: 0.5,
-    bassVolume: 0.5,
-    padVolume: 0.5,
-    synthVolume: 0.5,
-    fxVolume: 0.5,
-  };
+  // const sampleData = {
+  //   drumVolume: 0.5,
+  //   bassVolume: 0.5,
+  //   padVolume: 0.5,
+  //   synthVolume: 0.5,
+  //   fxVolume: 0.5,
+  // };
 
-  // const sampleData = mData
+  const sampleData = mData
 
   // เลือก pad object ตามชื่อ padName
   let padObj;
