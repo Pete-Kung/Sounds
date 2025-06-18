@@ -1,14 +1,11 @@
 
 
-var API_SERVER = "http://192.168.1.29:8080";
+var API_SERVER = "http://192.168.1.99:8080";
 var AI_DATA = localStorage.getItem("ai_analyze_data");
 const element = document.getElementById("show_ai_analyze");
 const textAI = document.getElementById("ai_analyze_data_text");
 const wait = document.getElementById("ai_analyze_data");
 var token = localStorage.getItem("token");
-
-
-
 function displayAnalysisResult(AI_DATA, textAI) {
   if (!AI_DATA) {
     textAI.style.display = "none"; // แสดงผลเพื่อให้เห็นข้อความ "No data"
@@ -130,11 +127,32 @@ function getDataAnalyze(el) {
       el.style.cursor = "pointer";
     },
   });
-} 
+}
 
-function useAIAnalyzer(params) {
+function useAIAnalyzer() {
+    var token = localStorage.getItem("token");
   console.log("Use AI Analyzer clicked");
-  
+  $.ajax({
+    type: "POST",
+    url: API_SERVER + "/v1/mixer-logs/adjust-volume " ,
+    contentType: "application/json",
+    dataType: "json",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    success: function (response) {
+      console.log("Data sound:", response.data);
+      if (callback) {
+        callback(response.data); // เรียก callback พร้อมส่งข้อมูล
+      }
+    },
+    error: function (error) {
+      console.error("Error sending mixer event:", error);
+      if (callback) {
+        callback(null, error); // ส่ง error กลับด้วยถ้าต้องการ
+      }
+    },
+  });
 }
 function getSounds(style, callback) {
   $.ajax({
