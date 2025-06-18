@@ -17,7 +17,7 @@ function displayAnalysisResult(AI_DATA, textAI) {
     textAI.style.display = "block";
     const formattedHtml = formatAIResponse(AI_DATA);
     // 2. นำ HTML ที่ได้ไปใส่ใน innerHTML ของ element เป้าหมาย
-    textAI.innerHTML = formattedHtml;
+    textAI.innerHTML = formattedHtml + "<br>" + " <div style=\"text-align: center;\"><button onclick=\"useAIAnalyzer()\">Use AI Analyser</button></div>";
   }
 }
 function GetToken() {
@@ -89,7 +89,7 @@ function Collect_Data(DATA) {
 
 function getDataAnalyze(el) {
   var token = localStorage.getItem("token");
-  setVolumeAI("padC" , "test", 100);
+  setVolumeAI("padC", "test", 100);
   // หากถูก disable อยู่แล้ว อย่าให้ส่งซ้ำ
   if (el.disabled) return;
   // ตั้งให้ปุ่ม disable
@@ -130,8 +130,12 @@ function getDataAnalyze(el) {
       el.style.cursor = "pointer";
     },
   });
-}
+} 
 
+function useAIAnalyzer(params) {
+  console.log("Use AI Analyzer clicked");
+  
+}
 function getSounds(style, callback) {
   $.ajax({
     type: "GET",
