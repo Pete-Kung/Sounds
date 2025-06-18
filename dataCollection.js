@@ -95,12 +95,12 @@ function updateLogdataKnob(pad) {
     eventType: "VOLUME_ADJUST",
     presetName: padStyle,
     mixerPad: pad,
-    bpm: bpmValue.value,
-    drumVolume: knobValues.Drum,
-    bassVolume: knobValues.Bass,
-    padVolume: knobValues.Pad,
-    synthVolume: knobValues.Synth,
-    fxVolume: knobValues.FX,
+    bpm: Math.round(bpmValue.value),
+    drumVolume: Math.round(knobValues.Drum),
+    bassVolume: Math.round(knobValues.Bass),
+    padVolume: Math.round(knobValues.Pad),
+    synthVolume: Math.round(knobValues.Synth),
+    fxVolume: Math.round(knobValues.FX),
   };
 
   console.log(mData);
