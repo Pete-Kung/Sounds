@@ -89,7 +89,7 @@ function Collect_Data(DATA) {
 
 function getDataAnalyze(el) {
   var token = localStorage.getItem("token");
-  // setVolumeAI("padB" , 0.9);
+  setVolumeAI("padC" , "test", 100);
   // หากถูก disable อยู่แล้ว อย่าให้ส่งซ้ำ
   if (el.disabled) return;
   // ตั้งให้ปุ่ม disable

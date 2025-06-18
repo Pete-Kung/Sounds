@@ -7,12 +7,15 @@ window.addEventListener("DOMContentLoaded", () => {
   controlVolume(); // เรียกทีเดียวพอ
 });
 
-function updateBpm () {
+function updateBpm() {
   console.log("click");
   const confirmBpm = document.getElementById("confirmBPM");
   const bpmValue = document.getElementById("bpmSlider");
+  const bpmValueText = document.getElementById("bpmValue");
+
   const getPadId = confirmBpm.dataset.tab;
   updateLogDataBpm(getPadId, parseInt(bpmValue.value));
+  bpmValueText.innerHTML = bpmValue.value;
 }
 
 function debounce(fn, delay) {
@@ -22,8 +25,6 @@ function debounce(fn, delay) {
     timeoutId = setTimeout(() => fn.apply(this, args), delay);
   };
 }
-
-
 
 function controlVolume() {
   console.log("init control volume");
@@ -66,8 +67,6 @@ function controlVolume() {
   });
 }
 
-
-
 function updateLogdataKnob(pad) {
   const volumeControll = document.querySelectorAll(`.pad${pad}-volume`);
   const bpmValue = document.getElementById("bpmSlider");
@@ -102,11 +101,10 @@ function updateLogdataKnob(pad) {
     padVolume: knobValues.Pad,
     synthVolume: knobValues.Synth,
     fxVolume: knobValues.FX,
-
   };
 
   console.log(mData);
-  Collect_Data(mData)
+  Collect_Data(mData);
 }
 
 function updateLogDataBpm(pad, bpm) {
@@ -115,7 +113,7 @@ function updateLogDataBpm(pad, bpm) {
     mixerPad: pad,
     bpm: bpm,
   };
-  Collect_Data(mData)
+  Collect_Data(mData);
 }
 
 function updateSelectPreset(pad) {
@@ -136,8 +134,7 @@ function updateSelectPreset(pad) {
     presetName: padStyle,
   };
   console.log(mData);
-  Collect_Data(mData)
-
+  Collect_Data(mData);
 }
 
 function updatePadClick(pad, type) {
@@ -150,7 +147,7 @@ function updatePadClick(pad, type) {
     padId: type,
   };
   console.log(mData);
-  Collect_Data(mData)
+  Collect_Data(mData);
 }
 
 function updateFxClick(pad, type) {
@@ -163,8 +160,7 @@ function updateFxClick(pad, type) {
     padId: type,
   };
   console.log(mData);
-  Collect_Data(mData)
-
+  Collect_Data(mData);
 }
 
 function updateStopPad(pad) {
@@ -174,6 +170,5 @@ function updateStopPad(pad) {
     mixerPad: padName,
   };
   console.log(mData);
-  Collect_Data(mData)
-
+  Collect_Data(mData);
 }

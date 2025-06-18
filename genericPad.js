@@ -960,7 +960,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function setVolumeAI(padName) {
+function setVolumeAI(padName, mData, bpm) {
   const sampleData = {
     drumVolume: 0.5,
     bassVolume: 0.5,
@@ -989,7 +989,11 @@ function setVolumeAI(padName) {
     volumeEl.setAttribute("data-volume", volumeValue);
     volumeEl.setAttribute("init", (volumeValue * 100).toString());
 
+    const bpmValue = document.getElementById("bpmSlider");
+    bpmValue.value = bpm
+
     console.log(volumeEl, volumeValue);
     padObj.setVolumeFromAPI(volumeEl, volumeValue);
+    updateBpm();
   });
 }
