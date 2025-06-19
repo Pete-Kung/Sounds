@@ -874,7 +874,7 @@ function createSoundSet({
   function onSliderChange(e) {
     const slider = e.currentTarget;
     const volume = parseFloat(e.detail.value) / 100;
-    console.log(e.currentTarget);
+    // console.log(e.currentTarget);
 
     setVolumeFromAPI(slider, volume);
   }
@@ -961,11 +961,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function setVolumeAI(padName, mData, bpm) {
-
   console.log(padName);
   console.log(mData);
   console.log(bpm);
-  
 
   // เลือก pad object ตามชื่อ padName
   let padObj;
@@ -981,17 +979,21 @@ function setVolumeAI(padName, mData, bpm) {
   const volumepads = document.querySelectorAll(`.${padName}-volume`);
 
   volumepads.forEach((volumeEl, index) => {
-    const volumeValue = mData[Object.keys(mData)[index]];
+    const volumeValue = mData[Object.keys(mData)[index]] / 100;
 
     // ตั้งค่าใน DOM
-    volumeEl.setAttribute("data-volume", volumeValue/100);
-    volumeEl.setAttribute("init", (volumeValue).toString());
+    volumeEl.setAttribute("data-volume", volumeValue );
+    volumeEl.setAttribute("init", volumeValue * 100);
 
     const bpmValue = document.getElementById("bpmSlider");
-    bpmValue.value = bpm
+    bpmValue.value = bpm;
+    console.log("setVolume API");
 
-    console.log(volumeEl, volumeValue);
-    padObj.setVolumeFromAPI(volumeEl, volumeValue);
-    updateBpm();
+    // console.log(volumeEl, volumeValue);
+
+    setTimeout(() => {
+      padObj.setVolumeFromAPI(volumeEl, volumeValue);
+      updateBpm();
+    }, 300);
   });
 }
