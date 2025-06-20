@@ -995,3 +995,32 @@ function setVolumeAI(padName, mData, bpm) {
     updateBpm();
   }, 300);
 }
+
+function padPresetAI(padName, mData) {
+  console.log(mData);
+
+  const padSelection = {
+    drum: "Drum 3",
+    bass: "Bass 2",
+    synth: "Synth 1",
+    pad: "Pad 4",
+    fx: "Fx 3",
+  };
+
+  const padClick = document.querySelectorAll(`.${padName}`);
+
+  padClick.forEach((el) => {
+    const padType = el.getAttribute("data-pad-type");
+
+    // ถ้า padType ตรงกับค่าใน padSelection ใด ๆ → ให้คลิก
+    if (Object.values(padSelection).includes(padType)) {
+      console.log("test" , padType);
+      
+      el.click();
+    }
+  });
+}
+
+
+
+

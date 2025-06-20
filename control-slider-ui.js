@@ -399,7 +399,7 @@ class MidiKnobElement extends HTMLElement {
     const ratio = (this._value - this.min) / (this.max - this.min);
     const angle = this.startAngle + ratio * this.angleRange;
     this.pointer.style.transform = `rotate(${angle}deg)`;
-    this.valueDisplay.innerText = this._value;
+    this.valueDisplay.innerText = Math.round(this._value);
     this.dispatchEvent(
       new CustomEvent("knob-volume-change", { detail: { value: this._value } })
     );

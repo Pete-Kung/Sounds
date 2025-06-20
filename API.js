@@ -5,7 +5,6 @@ const textAI = document.getElementById("ai_analyze_data_text");
 const wait = document.getElementById("ai_analyze_data");
 var token = localStorage.getItem("token");
 
-
 function displayAnalysisResult(AI_DATA, textAI) {
   if (!AI_DATA) {
     textAI.style.display = "none"; // แสดงผลเพื่อให้เห็นข้อความ "No data"
@@ -24,7 +23,6 @@ function displayAnalysisResult(AI_DATA, textAI) {
       '<div class="textAnalyser" style="display: none; flex-direction: column; justify-content: center; align-items: center; margin-top: 10px;">' +
       '<div style="justify-content: center; align-items: center; padding: 10px; color: green; "> Analyser Success</div>' +
       "</div>";
-
   }
 }
 function GetToken() {
@@ -168,6 +166,8 @@ function useAIAnalyzer() {
     parsedData.knobVolume,
     parsedData.bpm
   );
+
+  // padPresetAI("padA", null);
 
   setTimeout(() => {
     loader.style.display = "none";
