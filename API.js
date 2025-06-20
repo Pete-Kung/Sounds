@@ -161,13 +161,14 @@ function useAIAnalyzer() {
 
   parsedData = JSON.parse(getData);
 
+  // volume set
   setVolumeAI(
     "pad" + parsedData.mixerPad,
     parsedData.knobVolume,
     parsedData.bpm
   );
-
-  // padPresetAI("padA", null);
+  // pad click set
+  padPresetAI("pad" + parsedData.mixerPad, parsedData.padSelection);
 
   setTimeout(() => {
     loader.style.display = "none";

@@ -997,28 +997,35 @@ function setVolumeAI(padName, mData, bpm) {
 }
 
 function padPresetAI(padName, mData) {
-  console.log(mData);
 
-  const padSelection = {
-    drum: "Drum 3",
-    bass: "Bass 2",
-    synth: "Synth 1",
-    pad: "Pad 4",
-    fx: "Fx 3",
-  };
 
-  const padClick = document.querySelectorAll(`.${padName}`);
+  const formattedPadSelection = Object.fromEntries(
+    Object.entries(mData).map(([key, value]) => {
+      // แยกตัวอักษรกับตัวเลข แล้วทำตัวหน้าให้เป็นตัวพิมพ์ใหญ่ + ช่องว่าง
+      const match = value.match(/^([a-zA-Z]+)(\d+)$/);
+      if (!match) return [key, value]; // fallback ถ้า format ไม่ตรง
+      const [_, text, number] = match;
+      const formatted = `${text.charAt(0).toUpperCase()}${text.slice(
+        1
+      )} ${number}`;
+      return [key, formatted];
+    })
+  );
 
-  padClick.forEach((el) => {
-    const padType = el.getAttribute("data-pad-type");
+  console.log(padName, formattedPadSelection);
 
-    // ถ้า padType ตรงกับค่าใน padSelection ใด ๆ → ให้คลิก
-    if (Object.values(padSelection).includes(padType)) {
-      console.log("test" , padType);
-      
-      el.click();
-    }
-  });
+  // const padClick = document.querySelectorAll(`.${padName}`);
+
+  // padClick.forEach((el) => {
+  //   const padType = el.getAttribute("data-pad-type");
+
+  //   // ถ้า padType ตรงกับค่าใน padSelection ใด ๆ → ให้คลิก
+  //   if (Object.values(formattedPadSelection).includes(padType)) {
+  //     console.log("test", padType);
+
+  //     el.click();
+  //   }
+  // });
 }
 
 
