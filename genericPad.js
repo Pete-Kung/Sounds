@@ -961,10 +961,6 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function setVolumeAI(padName, mData, bpm) {
-  console.log(padName);
-  console.log(mData);
-  console.log(bpm);
-
   // เลือก pad object ตามชื่อ padName
   let padObj;
   if (padName === "padA") padObj = padA;
@@ -976,24 +972,26 @@ function setVolumeAI(padName, mData, bpm) {
     return;
   }
 
+  console.log(mData);
+  
+
   const volumepads = document.querySelectorAll(`.${padName}-volume`);
 
   volumepads.forEach((volumeEl, index) => {
     const volumeValue = mData[Object.keys(mData)[index]] / 100;
 
+    console.log(volumeValue);
     // ตั้งค่าใน DOM
-    volumeEl.setAttribute("data-volume", volumeValue );
-    volumeEl.setAttribute("init", volumeValue * 100);
-
-    const bpmValue = document.getElementById("bpmSlider");
-    bpmValue.value = bpm;
-    console.log("setVolume API");
-
-    // console.log(volumeEl, volumeValue);
-
+    volumeEl.setAttribute("init", volumeValue * 100 || 0);
     setTimeout(() => {
-      padObj.setVolumeFromAPI(volumeEl, volumeValue);
-      updateBpm();
+      volumeEl.setAttribute("data-volume", volumeValue);
     }, 300);
   });
+
+  const bpmValue = document.getElementById("bpmSlider");
+  bpmValue.value = bpm;
+  setTimeout(() => {
+    // padObj.setVolumeFromAPI(volumeEl, volumeValue);
+    updateBpm();
+  }, 300);
 }

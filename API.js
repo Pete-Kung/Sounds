@@ -5,7 +5,6 @@ const textAI = document.getElementById("ai_analyze_data_text");
 const wait = document.getElementById("ai_analyze_data");
 var token = localStorage.getItem("token");
 
-let collectDataAnalyze = [];
 
 function displayAnalysisResult(AI_DATA, textAI) {
   if (!AI_DATA) {
@@ -26,7 +25,6 @@ function displayAnalysisResult(AI_DATA, textAI) {
       '<div style="justify-content: center; align-items: center; padding: 10px; color: green; "> Analyser Success</div>' +
       "</div>";
 
-    collectDataAnalyze.push(JSON.parse(AI_DATA));
   }
 }
 function GetToken() {
@@ -118,13 +116,12 @@ function getDataAnalyze(el) {
     success: function (response) {
       console.log("Data analyze:", response.data);
 
-      collectDataAnalyze.push(JSON.parse(response.data));
       wait.style.display = "none";
 
       textAI.style.display = "block";
       // textAI.innerHTML = response.data;
-      displayAnalysisResult(response.data, textAI);
       localStorage.setItem("ai_analyze_data", response.data);
+      displayAnalysisResult(response.data, textAI);
       setTimeout(() => {
         element.style.display = "none";
       }, 10000);
@@ -161,9 +158,10 @@ function useAIAnalyzer() {
 
   var token = localStorage.getItem("token");
   console.log("Use AI Analyzer clicked");
-  console.log(collectDataAnalyze);
 
-  parsedData = collectDataAnalyze[0];
+  const getData = localStorage.getItem("ai_analyze_data");
+
+  parsedData = JSON.parse(getData);
 
   setVolumeAI(
     "pad" + parsedData.mixerPad,

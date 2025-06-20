@@ -204,33 +204,65 @@ class MidiVolumeElement extends HTMLElement {
   constructor() {
     super();
     this.slider = null;
+    this._value = 0; // สำหรับเก็บค่า value แยกต่างหาก
+  }
+
+  static get observedAttributes() {
+    return ["label", "init"];
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === "label") {
+      this.label = newValue;
+      if (this.labelDiv) {
+        this.labelDiv.textContent = `${this.label} ${this._value}`;
+      }
+    }
+
+    if (name === "init") {
+      const parsed = parseInt(newValue);
+      if (!isNaN(parsed)) {
+        this._value = parsed;
+        if (this.slider) {
+          this.slider.value = parsed; // ถ้ามี slider แล้ว → ตั้งค่าเลย
+        }
+      }
+    }
+
+    console.log("attributeCallback:", name, newValue);
   }
 
   connectedCallback() {
     const label = this.getAttribute("label") || "Volume #";
     const colour = this.getAttribute("colour") || "#A82BE8";
-    const init = parseInt(this.getAttribute("init"), 10) || 0;
+
+    // อ่านค่าจาก attribute อีกครั้ง (ใช้ _value ถ้า attributeChanged เคยโดนเรียก)
+    const init = !isNaN(this._value)
+      ? this._value
+      : parseInt(this.getAttribute("init")) || 0;
 
     this.style.display = "inline-block";
     this.style.width = "40px";
-    this.style.height = "150px"; // เพิ่มความสูงให้ครอบคลุม label และ margin
+    this.style.height = "150px";
     this.style.position = "relative";
     this.style.display = "flex";
     this.style.flexDirection = "column";
     this.style.alignItems = "center";
 
     this.slider = new VerticalSlider(this, colour, label);
+
     requestAnimationFrame(() => {
-      this.slider.value = init;
-      this.slider.resize(); // รีขนาดหลัง DOM เสร็จ
+      this.slider.value = init; // ✅ ใช้ค่าที่เก็บไว้
+      this.slider.resize();
     });
   }
 
   get value() {
-    return this.slider ? this.slider.value : 0;
+    return this.slider ? this.slider.value : this._value;
   }
 
   set value(newVal) {
+    this._value = newVal;
     if (this.slider) {
       this.slider.value = newVal;
     }

@@ -66,15 +66,18 @@ class DrumKnob extends HTMLElement {
       }
     }
     if (name === "init") {
-      this.init = parseInt(newValue) || 100;
+      this.init = parseInt(newValue) ;
       this.value = this.init;
       this.redraw();
     }
+
+    console.log("attributeCallBack", name,newValue);
+    
   }
 
   connectedCallback() {
-    this.label = this.getAttribute("label") || "Drum";
-    this.init = parseInt(this.getAttribute("init")) || 100;
+    this.label = this.getAttribute("label");
+    this.init = parseInt(this.getAttribute("init"));
     this.value = this.init;
 
     this.labelDiv = this.shadowRoot.querySelector(".label");

@@ -272,6 +272,8 @@ class MidiKnobElement extends HTMLElement {
       this._value = Math.max(this.min, Math.min(this.max, this._value));
       this.updateRotation();
     }
+
+    console.log("attributeCallBack", name, newVal);
   }
 
   render() {
