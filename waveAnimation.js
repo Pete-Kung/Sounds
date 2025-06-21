@@ -1,4 +1,3 @@
-
 let waveformAnimationId = null;
 
 let sparkleParticles = [];
@@ -6,106 +5,50 @@ let sparkleHue = 0;
 
 // ตั้งค่าขนาด canvas ให้ตรงกับ DOM
 function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
 }
 resizeCanvas(); // เรียกครั้งแรก
 // รองรับการ resize หน้าจอ
 window.addEventListener("resize", () => {
-    resizeCanvas();
+  resizeCanvas();
 });
 // ฟังก์ชันวาดแท่งเสียง
 function drawWaveformLine(analyser, canvas, canvasCtx, dataArray) {
-  if (waveformAnimationId !== null) {
-    cancelAnimationFrame(waveformAnimationId);
-  }
-
-  // สร้างประกายระยิบระยับ particle ใหม่ๆ
-  function createSparkles(x, y) {
-    const count = 5;
-    for (let i = 0; i < count; i++) {
-      sparkleParticles.push({
-        x: x + (Math.random() - 0.5) * 10,
-        y: y + (Math.random() - 0.5) * 10,
-        alpha: 1,
-        size: Math.random() * 2 + 1,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5,
-      });
-    }
-  }
-
-  function drawSparkles() {
-    for (let i = sparkleParticles.length - 1; i >= 0; i--) {
-      const p = sparkleParticles[i];
-      p.x += p.dx;
-      p.y += p.dy;
-      p.alpha -= 0.02;
-      if (p.alpha <= 0) {
-        sparkleParticles.splice(i, 1);
-        continue;
-      }
-      canvasCtx.beginPath();
-      const gradient = canvasCtx.createRadialGradient(
-        p.x,
-        p.y,
-        0,
-        p.x,
-        p.y,
-        p.size
-      );
-      gradient.addColorStop(0, `rgba(252, 52, 104, ${p.alpha})`);
-      gradient.addColorStop(1, `rgba(0, 255, 255, 0)`);
-      canvasCtx.fillStyle = gradient;
-      canvasCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      canvasCtx.fill();
-    }
-  }
+  const bufferLength = analyser.frequencyBinCount;
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  const radius = Math.min(centerX, centerY) * 0.6;
 
   function draw() {
-    waveformAnimationId = requestAnimationFrame(draw);
-    analyser.getByteTimeDomainData(dataArray);
-
+    requestAnimationFrame(draw);
+    analyser.getByteFrequencyData(dataArray);
     canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
-    canvasCtx.lineWidth = 2;
 
-    // Gradient สีแบบไล่โทน
-    const gradient = canvasCtx.createLinearGradient(0, 0, canvas.width, 0);
-    gradient.addColorStop(0, "#00FFFF");
-    gradient.addColorStop(0.5, "#FF00FF");
-    gradient.addColorStop(1, "#00FFFF");
-    canvasCtx.strokeStyle = gradient;
+    for (let i = 0; i < bufferLength; i++) {
+      const value = dataArray[i];
+      const percent = value / 255;
+      const barLength = percent * radius;
+      const angle = (i / bufferLength) * Math.PI * 2;
 
-    canvasCtx.beginPath();
+      const x = centerX + Math.cos(angle) * radius;
+      const y = centerY + Math.sin(angle) * radius;
+      const xEnd = centerX + Math.cos(angle) * (radius + barLength);
+      const yEnd = centerY + Math.sin(angle) * (radius + barLength);
 
-    const sliceWidth = canvas.width / dataArray.length;
-    let x = 0;
-    for (let i = 0; i < dataArray.length; i++) {
-      const v = dataArray[i] / 128.0;
-      const y = (v * canvas.height) / 2;
-      if (i === 0) {
-        canvasCtx.moveTo(x, y);
-      } else {
-        canvasCtx.lineTo(x, y);
-      }
-
-      // สร้างประกายที่บางจุดของเส้น (เช่น ทุก 10 ตัว)
-      if (i % 10 === 0) {
-        createSparkles(x, y);
-      }
-      x += sliceWidth;
+      const hue = (i / bufferLength) * 360;
+      canvasCtx.strokeStyle = `hsl(${hue}, 100%, 70%)`;
+      canvasCtx.lineWidth = 2;
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(x, y);
+      canvasCtx.lineTo(xEnd, yEnd);
+      canvasCtx.stroke();
     }
-
-    canvasCtx.lineTo(canvas.width, canvas.height / 2);
-    canvasCtx.stroke();
-
-    drawSparkles();
   }
 
   draw();
 }
-  
-  
+
 function drawSoftBars(analyser, canvas, canvasCtx, dataArray) {
   const bufferLength = analyser.frequencyBinCount;
 
@@ -128,7 +71,7 @@ function drawSoftBars(analyser, canvas, canvasCtx, dataArray) {
 
   draw();
 }
-  
+
 function drawCircularBars(analyser, canvas, canvasCtx, dataArray) {
   const bufferLength = analyser.frequencyBinCount;
 
@@ -181,7 +124,6 @@ function drawCircularBars(analyser, canvas, canvasCtx, dataArray) {
 
   draw();
 }
-  
 
 function drawWavePeaks(analyser, canvas, canvasCtx, dataArray) {
   const bufferLength = analyser.frequencyBinCount;
@@ -225,14 +167,3 @@ function drawWavePeaks(analyser, canvas, canvasCtx, dataArray) {
 
   draw();
 }
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  

@@ -104,10 +104,18 @@ function getDataAnalyze(el) {
   //element.style.display = "flex";
   textAI.style.display = "none";
   wait.style.display = "flex  ";
+
+  const confirmBpm = document.getElementById("confirmBPM");
+  const getPadId = confirmBpm.dataset.tab;
+
+  console.log(getPadId);
+  
   $.ajax({
     type: "POST",
     // url: API_SERVER + "/v1/mixer-logs/analyze",
-    url: API_SERVER + "/v1/mixer-logs/adjust-volume",
+    // url: API_SERVER + "/v1/mixer-logs/adjust-volume",
+    url: API_SERVER + "/v1/mixer-logs/ai-recommend?mixerPad=" + getPadId,
+
     contentType: "application/json",
     dataType: "json",
     headers: { Authorization: "Bearer " + token },
@@ -174,6 +182,9 @@ function useAIAnalyzer() {
     loader.style.display = "none";
     buttonAI.style.display = "none"; // คืนปุ่มให้แสดงอีกครั้ง
     textAnalyser.style.display = "flex"; // แสดงข้อความ Analyser Success
+    setTimeout(() => {
+      textAI.style.display = "none";
+    }, 1000);
   }, 500);
 
   // $.ajax({

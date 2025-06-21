@@ -893,7 +893,7 @@ function createSoundSet({
 
   sounds.forEach((sound) => createPad(sound));
 
-  return { setVolumeFromAPI };
+  return { setVolumeFromAPI, stopAllPads };
 }
 
 // === USAGE EXAMPLE ===
@@ -973,19 +973,19 @@ function setVolumeAI(padName, mData, bpm) {
   }
 
   console.log(mData);
-  
 
   const volumepads = document.querySelectorAll(`.${padName}-volume`);
 
   volumepads.forEach((volumeEl, index) => {
-    const volumeValue = mData[Object.keys(mData)[index]] / 100;
+    const rawValue = mData[Object.keys(mData)[index]];
+    const volumeValue = parseFloat((rawValue / 100).toFixed(2)); // แก้เรื่องจุดทศนิยม
 
-    console.log(volumeValue);
-    // ตั้งค่าใน DOM
-    volumeEl.setAttribute("init", volumeValue * 100 || 0);
+    console.log(typeof volumeValue, volumeValue);
+
+    volumeEl.setAttribute("init", (volumeValue * 100).toFixed(0)); // ไม่เอาทศนิยม
     setTimeout(() => {
       volumeEl.setAttribute("data-volume", volumeValue);
-    }, 300);
+    }, 500);
   });
 
   const bpmValue = document.getElementById("bpmSlider");
@@ -997,7 +997,17 @@ function setVolumeAI(padName, mData, bpm) {
 }
 
 function padPresetAI(padName, mData) {
+  let padObj;
+  if (padName === "padA") padObj = padA;
+  else if (padName === "padB") padObj = padB;
+  else if (padName === "padC") padObj = padC;
+  else if (padName === "padD") padObj = padD;
+  else {
+    console.warn("Unknown pad:", padName);
+    return;
+  }
 
+  padObj.stopAllPads();
 
   const formattedPadSelection = Object.fromEntries(
     Object.entries(mData).map(([key, value]) => {
@@ -1014,20 +1024,14 @@ function padPresetAI(padName, mData) {
 
   console.log(padName, formattedPadSelection);
 
-  // const padClick = document.querySelectorAll(`.${padName}`);
+  const padClick = document.querySelectorAll(`.${padName}`);
 
-  // padClick.forEach((el) => {
-  //   const padType = el.getAttribute("data-pad-type");
+  padClick.forEach((el) => {
+    const padType = el.getAttribute("data-pad-type");
 
-  //   // ถ้า padType ตรงกับค่าใน padSelection ใด ๆ → ให้คลิก
-  //   if (Object.values(formattedPadSelection).includes(padType)) {
-  //     console.log("test", padType);
-
-  //     el.click();
-  //   }
-  // });
+    // ถ้า padType ตรงกับค่าใน padSelection ใด ๆ → ให้คลิก
+    if (Object.values(formattedPadSelection).includes(padType)) {
+      el.click();
+    }
+  });
 }
-
-
-
-

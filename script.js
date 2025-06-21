@@ -1,6 +1,3 @@
-
-
-
 function savePreset() {
   const presetName = prompt("ตั้งชื่อ Preset:");
   if (!presetName) return;
@@ -216,17 +213,19 @@ function changeTemplate(el, key) {
     c.style.display = "none";
   });
 
+  // const textAI = document.getElementById("ai_analyze_data_text");
+  // textAI.style.display = "none";
   // แสดงเฉพาะ container ที่ตรงกับ key
   const selectedId =
     key === "A"
       ? "padsContainer"
       : key === "B"
-        ? "padsContainerB"
-        : key === "C"
-          ? "padsContainerC"
-          : key === "D"
-            ? "padsContainerD"
-            : "padsContainerE"; // เพิ่มตรงนี้
+      ? "padsContainerB"
+      : key === "C"
+      ? "padsContainerC"
+      : key === "D"
+      ? "padsContainerD"
+      : "padsContainerE"; // เพิ่มตรงนี้
   const selectedContainer = document.getElementById(selectedId);
   if (selectedContainer) {
     selectedContainer.style.display = "flex";
@@ -246,8 +245,5 @@ function changeTemplate(el, key) {
   bpmSelect.dataset.tab = key;
 }
 
-
-
 window.addEventListener("load", updatePresetDropdown());
 window.addEventListener("DOMContentLoaded", updateDeletePreset());
-
