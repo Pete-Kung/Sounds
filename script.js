@@ -213,8 +213,8 @@ function changeTemplate(el, key) {
     c.style.display = "none";
   });
 
-  // const textAI = document.getElementById("ai_analyze_data_text");
-  // textAI.style.display = "none";
+  const textAI = document.getElementById("ai_analyze_data_text");
+  textAI.style.display = "none";
   // แสดงเฉพาะ container ที่ตรงกับ key
   const selectedId =
     key === "A"
